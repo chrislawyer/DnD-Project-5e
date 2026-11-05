@@ -1,0 +1,9 @@
+Max Loot Roll,Items,,,,,,,,,,,,,,,,,,,,,,,
+0,Nothing,,,,,,,,,,,,,,,,,,,,,,,
+24,Nothing,Nothing,crap,Gold,,,,,,,,,,,,,,,,,,,,
+49,crap,Gold,Gold,,,,,,,,,,,,,,,,,,,,,
+74,gemT1,artT1,magicitemT1,weapon,weapon,weapon,weapon,armor,armor,armor,,,,,,,,,,,,,,
+89,gemT2,artT2,magicitemT2,"weapon,enchant","weapon,magicT1","weapon,enhanced","weapon,enchant","weapon,enhanced","weapon,magicT1","armor,enchant","armor,magicT0","armor,enchant","armor,magicT0",,,,,,,,,,,
+99,gemT3,artT3,magicitemT3,"armor,magicT1","armor,magicT1","armor,magicT0,enchant","armor,magicT0,enchant","weapon,magicT2","weapon,enhanced,magicT1","weapon,enhanced,enchant","weapon,magicT1,enchant","Amulet,skill","Amulet,enchant","Ring,skill","Ring,enchant",,,,,,,,,
+100,magicitemT4,"weapon,enhanced,magicT1,enchant","weapon,enhanced,magicT2","weapon,magicT2,enchant","weapon,magicT3","armor,magicT2","armor,magicT1,enchant","armor,magicT2","armor,magicT1,enchant","weapon,enhanced,magicT1,enchant","weapon,enhanced,magicT2","weapon,magicT2,enchant","weapon,magicT3","armor,magicT2","armor,magicT1,enchant","Ring,skill,skill","Ring,skill,enchant","Ring,enchant,enchant","Amulet,skill,skill","Amulet,skill,enchant","Amulet,enchant,enchant","Tome,skill","Tome,feat","Tome,stat"
+Potion,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,potionT0,potionT0,potionT0,potionT0,potionT0,potionT1,potionT1,potionT1,potionT1,potionT2,potionT2,potionT2,potionT3,potionT3,maxpotion,,,

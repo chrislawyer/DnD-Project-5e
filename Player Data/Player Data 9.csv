@@ -1,0 +1,5 @@
+Name,Level,Size,Type,Move,AC,Immunities,Vulnerabilities,Resistances,Atk,Damage,On Hit Abilities,Weapon Types,Spell Atk,Spell DC,Use Abilities,Str Save,Dex Save,Con Save,Int Save,Wis Save,Cha Save,Advantages,Disadvantages,Init,Misc
+magi,3,medium,"elf,humanoid",30,12,sleep,,,4|4,1d4+2|1d4+2,,piercing/piercing,6,14,firebolt|tollthedead|shockinggrasp|burninghands|magearmor|iceknife|magicmissile|causefear|chromaticorb|holdperson|earthbind|invisibility|blur|rayofsickness,0,2,1,6,2,0,charm,,6,spmod-4;ad
+wu,3,medium,"tortle,humanoid",30,17,,,,"5,5|3","1d6+3,1d6+3|1d8+1",,slashing;piercing/piercing,0,0,"shelldefense|crimsonrite|crimsonriteOHlightning-damage,1d4,lightning|crimsonriteOHradiant-damage,1d4,radiant",5,1,2,0,4,1,,,1,bcss-1d4
+ent,3,medium,"hybrid,humanoid","30,0,30",16,,,,4;1,1d8+2;1d4+-1,,"bludgeoning,magic|bludgeoning",4,12,thunderclap|healingword|curewounds|entangle|faeriefire|fogcloud|thunderwave|absorbelements|earthtremor|iceknife|rayofsickness|bearspirittotem|heatmetal|gustofwind,-1,3,5,2,4,0,,,3,spmod-2
+dave,3,medium,"goliath,humanoid",30,16,,,,7|7,2d6+5|1d6+5,,slashing/piercing,0,0,,7,3,5,0,1,1,,,3,rage-2;dfn

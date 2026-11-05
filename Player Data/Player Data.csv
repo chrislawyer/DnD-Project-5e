@@ -1,0 +1,7 @@
+Name,Level,Size,Type,Move,AC,Immunities,Vulnerabilities,Resistances,Atk,Damage,On Hit Abilities,Weapon Types,Spell Atk,Spell DC,Use Abilities,Str Save,Dex Save,Con Save,Int Save,Wis Save,Cha Save,Advantages,Disadvantages,Init,Misc
+crim,5,medium,human,30,18,,,,"1,2;3,4,5;6|7,8,9;10;11,12;13",1d1;1d2;1d3|1d4;1d5;1d6;1d7,,,6,14,"fb|test-cc,test,1;bonusattack",0,0,0,0,0,0,fire,,1000,sa-2d6+1;cs;ohcritc-19;ohcritd-3;ham
+dobby,5,small,gnome,30,21,,,,"1,2","1d1+1,1d2+2",,,0,0,,2,7,1,0,1,0,,fire,3,
+gaybert,5,medium,elf,30,21,,,,"0,0|3","1d1+1,1d2+2,1d3+3|1d6+6",,,0,0,,1,6,1,0,1,0,,,4,
+zinode,5,medium,human,30,21,,,,"1,2,3","1d1+1,1d2+2",,,0,0,,4,2,5,0,5,0,,,2,
+paul,3,medium,human,30,13,,,,5|5,1d8+2|1d8+2,,piercing/piercing,5,13,vm|cw|charm|twave|suggestion|holdperson,1,4,1,2,3,5,,,2,mdex
+fin,3,medium,goliath,30,15,,,,5|5,1d8+3|1d6+3,,bludgeoning/piercing,0,0,,5,2,6,0,1,1,dexsaves,,7,ievasion;rage-2;rstr

@@ -1,0 +1,15 @@
+Name,Base AC,AC Mod,Class,Value,Str Req,Stealth,Min Level,Max Level
+Robe,10,+Dex,robe,1,0,,1,20
+Padded Armor,11,+Dex,light,5,0,Disadvantage,1,5
+Leather Armor,11,+Dex,light,10,0,,1,10
+Studded Leather,12,+Dex,light,45,0,,1,20
+Hide Armor,12,+Dex(max 2),medium,10,0,,1,5
+Chain Shirt,13,+Dex(max 2),medium,50,0,,1,10
+Scale Mail,14,+Dex(max 2),medium,50,0,Disadvantage,1,20
+Breastplate,14,+Dex(max 2),medium,400,0,,5,20
+Half Plate Armor,15,+Dex(max 2),medium,750,0,Disadvantage,5,20
+Ring Mail,14,,heavy,30,0,Disadvantage,1,5
+Chain Mail,16,,heavy,75,13,Disadvantage,1,20
+Splint Armor,17,,heavy,200,15,Disadvantage,3,20
+Plate Armor,18,,heavy,1500,15,Disadvantage,5,20
+Shield,2,,shield,10,0,,1,20

@@ -1,0 +1,2 @@
+Name,Level,Size,Type,Move,AC,Immunities,Vulnerabilities,Resistances,Atk,Damage,On Hit Abilities,Weapon Types,Spell Atk,Spell DC,Use Abilities,Str Save,Dex Save,Con Save,Int Save,Wis Save,Cha Save,Advantages,Disadvantages,Init,Misc,Notes
+leon,5,medium,"elf,humanoid",30,19,"sleep,disease,crit",,,"7,7|4,4",1d8+6|1d10+1,,slashing/piercing,4,12,dsmite|wrathfulsmite|thunderoussmite|command|heroism|shieldoffaith|bless|natureswrath|ensnaringstrike|curewounds|moonbeam|brandingsmite,4,1,2,1,4,6,"charm,init",,1,ham;spmod-1, +2 melee damage from fighting style

@@ -1,0 +1,41 @@
+Simple Weapons:
+201 gp - Deadly Dagger (1d4 piercing|Crit: x3.0|Finesse|Light|Thrown (20/60))
+1 gp - Spear (1d6 piercing|Thrown (range 20/60)|Versatile (1d8))
+753 gp - +2 Handaxe (+2 to hit|1d6+2 slashing|Light|Thrown (20/60))
+25 gp - Shortbow (1d6 piercing|Ranged (80/320)|Two-Handed)
+5 gp - Handaxe (1d6 slashing|Light|Thrown (20/60))
+2 gp - Dagger (1d4 piercing|Finesse|Light|Thrown (20/60))
+25 gp - Shortbow (1d6 piercing|Ranged (80/320)|Two-Handed)
+25 gp - Light Crossbow (1d8 piercing|Ranged (80/320)|Loading|Two-Handed)
+2 gp - Light Hammer (1d4 bludgeoning|Light|Thrown (20/60))
+199 gp - Accurate Light Hammer (+1 to hit|1d4 bludgeoning|Light|Thrown (20/60))
+
+Martial Weapons:
+172 gp - +1 Morningstar (+1 to hit|1d8+1 piercing)
+15 gp - Morningstar (1d8 piercing)
+5 gp - Pike (1d10 piercing|Heavy|Reach|Two-Handed)
+20 gp - Glaive (1d10 slashing|Heavy|Reach|Two-Handed)
+10 gp - Battleaxe (1d8 slashing|Versatile (1d10))
+785 gp - +2 Glaive (+2 to hit|1d10+2 slashing|Heavy|Reach|Two-Handed)
+195 gp - Strong Maul (2d6+1 bludgeoning|Heavy|Two-Handed)
+
+Armors and Shields:
+50 gp - Scale Mail (Medium|14+Dex(max 2) AC|Stealth: Disadvantage)
+200 gp - Splint Armor (Heavy|17 AC|Str Req: 15|Stealth: Disadvantage)
+11735 gp - Studded Leather (Light|12+Dex AC) of Superior Shapeshifting (A) - once per day, you may use your action to transform into any nonhumanoid creature with which you are familiar that has a maximum CR of 8 for 1 hour
+42508 gp - +3 Shield (Shield|5 AC)
+
+Weapon Upgrades (250gp):
+NOTE: A weapon can have up to 3 upgrades, but stacking the same upgrade costs double!
+Strong (increases damage by 1)
+Deadly (increases crit damage multiplier by 1)
+Accurate (increases atk bonus by 1)
+Keen (increases crit chance by 1)
+
+Armor Upgrades (500gp):
+NOTE: An armor can only have 1 upgrade!
+Adamantine (heavy armor only, immune to being crit)
+Quiet (medium armor only, removes stealth disadvantage)
+Mithril (any armor without an upgrade, makes the armor one class lighter: heavy->medium->light->robe)
+Swift (robe only, +10 move speed)
+Agile (light armor only, immune to being flanked)

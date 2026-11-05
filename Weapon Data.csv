@@ -1,0 +1,35 @@
+Name,Class,Damage,Damage Type,Traits,Value,Min Level,Max Level
+Club,simple,1d4,bludgeoning,Light,0.1,1,20
+Dagger,simple,1d4,piercing,Finesse|Light|Thrown (20/60),2,1,20
+Greatclub,simple,1d8,bludgeoning,Two-Handed,0.2,1,20
+Handaxe,simple,1d6,slashing,Light|Thrown (20/60),5,1,20
+Javelin,simple,1d6,piercing,Thrown (30/120),0.5,1,20
+Light Hammer,simple,1d4,bludgeoning,Light|Thrown (20/60),2,1,20
+Mace,simple,1d6,bludgeoning,,5,1,20
+Quarterstaff,simple,1d6,bludgeoning,Versatile (1d8),0.2,1,20
+Sickle,simple,1d4,slashing,Light,1,1,20
+Spear,simple,1d6,piercing,Thrown (range 20/60)|Versatile (1d8),1,1,20
+Light Crossbow,simple,1d8,piercing,Ranged (80/320)|Loading|Two-Handed,25,1,20
+Shortbow,simple,1d6,piercing,Ranged (80/320)|Two-Handed,25,1,20
+Sling,simple,1d4,bludgeoning,Ranged (30/120),0.1,1,5
+Battleaxe,martial,1d8,slashing,Versatile (1d10),10,1,20
+Flail,martial,1d8,bludgeoning,,10,1,20
+Glaive,martial,1d10,slashing,Heavy|Reach|Two-Handed,20,1,20
+Greataxe,martial,1d12,slashing,Heavy|Two-Handed,30,1,20
+Greatsword,martial,2d6,slashing,Heavy|Two-Handed,50,1,20
+Halberd,martial,1d10,slashing,Heavy|Reach|Two-Handed,20,1,20
+Lance,martial,1d12,piercing,Reach|Two-Handed|Disadvantage when attacking within 5 ft,10,1,20
+Longsword,martial,1d8,slashing,Versatile (1d10),15,1,20
+Maul,martial,2d6,bludgeoning,Heavy|Two-Handed,10,1,20
+Morningstar,martial,1d8,piercing,,15,1,20
+Pike,martial,1d10,piercing,Heavy|Reach|Two-Handed,5,1,20
+Rapier,martial,1d8,piercing,Finesse,25,1,20
+Scimitar,martial,1d6,slashing,Finesse|Light,25,1,20
+Shortsword,martial,1d6,piercing,Finesse|Light,10,1,20
+Trident,martial,1d6,piercing,Thrown (20/60)|Versatile (1d8),5,1,20
+War Pick,martial,1d8,piercing,,5,1,20
+Warhammer,martial,1d8,bludgeoning,Versatile (1d10),15,1,20
+Whip,martial,1d4,slashing,Finesse|Reach,2,1,20
+Hand Crossbow,martial,1d6,piercing,Ranged (30/120)|Light|Loading,75,1,20
+Heavy Crossbow,martial,1d10,piercing,Ranged (100/400)|Heavy|Loading|Two-Handed,50,1,20
+Longbow,martial,1d8,piercing,Ranged (150/600)|Heavy|Two-Handed,50,1,20

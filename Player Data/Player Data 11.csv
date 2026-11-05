@@ -1,0 +1,6 @@
+Name,Level,Size,Type,Move,AC,Immunities,Vulnerabilities,Resistances,Atk,Damage,On Hit Abilities,Weapon Types,Spell DC,Use Abilities,Advantages,Disadvantages,Misc
+neema,4,medium,"humanoid,dragonborn",30,16,,,thunder,0|0,2d6|1d6,,bludgeoning/piercing,0,"rage-cc,rage,10;adv,str,strsaves;resist,slashing,piercing,bludgeoning,fire,acid,cold,lightning,thunder,poison,necrotic,force,radiant|thunderbreath-13:damage,1d10,thunder",dexsaves,stealth,
+vrael,4,medium,"humanoid,yuanti",30,12,,,poison,"0,0|0",1d4|1d8,,piercing/piercing,14,"magearmor-buff,ac,3|mindsliver|firebolt|rayoffrost|shockinggrasp|chilltouch|tashashideouslaughter|dissonantwhispers|shield|absorbelements|suggestion|invisibility|tashasmindwhip|holdperson|web|scorchingray","spell,poison",,passive-magearmor;spmod
+fff,4,small,ooze,20,20,,,"acid,poison",0|0,1d6|1d6,,bludgeoning/piercing,14,tollthedead|bane|bless|guidingbolt|healingword|curewounds|spiritualweapon|aid|command|protectionfromevilandgood|auraofvitality|spiritguardians|holdperson|masshealingword|auraoflife|inflictwounds|shieldoffaith,poison,,spmod
+gah,4,small,"humanoid,tabaxi",30,15,,,,"0,0|0",1d6|1d8,,piercing/piercing,13,huntersmark|curewounds|absorbelements,,,spmod
+born,4,small,dragon,40,16,,,,0,1d6,,piercing,0,,,,pet

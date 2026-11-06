@@ -6,14 +6,14 @@ try:
 except ImportError:
     pass
 
-def getInt(input):
+def getInt(rawInput):
 
     while (True):
         try:
-            return int(input)
+            return int(rawInput)
         except ValueError:
-            print("Illegal input", '\''+input+'\'', "- input must be an integer!")
-            input = getInput("Try Again: ")
+            print("Illegal input", '\''+rawInput+'\'', "- input must be an integer!")
+            rawInput = input("Try Again: ")
 
 def mySplit(string,parseChar):
 
@@ -79,9 +79,9 @@ def diceRolls(numDice,diceValue,output):
 
 def getAnswer(question):
 
-    answer = getInput(question+" (y/n)? ")
+    answer = input(question+" (y/n)? ")
     while (answer != 'y' and answer != 'n'):
-        answer = getInput(question+" (y/n)? ")
+        answer = input(question+" (y/n)? ")
 
     return answer
 
@@ -103,7 +103,7 @@ def chooseOption(choosePrompt,options,allowNone=False):
     print("--------------------------")
     choice = 0
     while (choice < 1 or choice > numOptions):
-        choice = getInput(choosePrompt+': ')
+        choice = input(choosePrompt+': ')
         # giving no input while "None" is an option will automatically select the "None" option
         if (allowNone and choice == ''):
             choice = numOptions

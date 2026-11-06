@@ -25,7 +25,7 @@ def applyBlessBane(actor,actorData,curResult,targetResult):
             roll = random.randint(1,4)
             print(actor, "rolls a", roll, "for bless bonus")
         else:
-            roll = DnDUtil.getInt(getInput('Roll for bless bonus (1d4): '))
+            roll = DnDUtil.getInt(input('Roll for bless bonus (1d4): '))
         return curResult + roll
     if (hasBane and targetDiff < 4 and targetDiff >= 0):
         if (targetDiff == 0):
@@ -35,7 +35,7 @@ def applyBlessBane(actor,actorData,curResult,targetResult):
             roll = random.randint(1,4)
             print(actor, "rolls a", roll, "for bane penalty")
         else:
-            roll = DnDUtil.getInt(getInput('Roll for bane penalty (1d4): '))
+            roll = DnDUtil.getInt(input('Roll for bane penalty (1d4): '))
         return curResult - roll
     return curResult
 
@@ -107,7 +107,7 @@ def makeCheck(actor,actorData,playerActor,checkType,checkAdvantage=False,checkDi
                 bonusString = ' (+'+str(actorData[checkStat.capitalize()+'Save'])+' '+checkStat+' save)'
             else:
                 bonusString = ''
-            checkBonus = DnDUtil.getInt(getInput('What is '+actor+'\'s '+checkType+' bonus'+bonusString+'? '))
+            checkBonus = DnDUtil.getInt(input('What is '+actor+'\'s '+checkType+' bonus'+bonusString+'? '))
         checkArgs[-1].append(checkBonus)
 
     # for players, decide if it matters which check is chosen, and if it does, ask the user which check is being made
@@ -184,7 +184,7 @@ def makeRoll(actor,playerActor,advantage,disadvantage,rollBonus=-100,returnTotal
         advantageDisadvantageText += ' (with disadvantage)'
 
     if (playerActor):
-        roll = DnDUtil.getInt(getInput(rollPrompt+advantageDisadvantageText+': '))
+        roll = DnDUtil.getInt(input(rollPrompt+advantageDisadvantageText+': '))
         if (rollBonus == -100 or not(returnTotal)):
             return roll
         else:

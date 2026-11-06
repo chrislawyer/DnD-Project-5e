@@ -368,7 +368,7 @@ def addPartyMember(name):
             for i in range(0,len(header)):
                 rawCreatureData[header[i]] = row[i]
             # input level in case it is different from CR
-            rawCreatureData['CR'] = DnDUtil.getInt(getInput('What is '+name+'\'s level (CR +'+str(rawCreatureData['CR'])+')? '))
+            rawCreatureData['CR'] = DnDUtil.getInt(input('What is '+name+'\'s level (CR +'+str(rawCreatureData['CR'])+')? '))
             print(name+"'s", "HP is", DnDUtil.calculate(rawCreatureData['HP'],False), '('+rawCreatureData['HP']+')')
             # if this is not a humanoid, ask if it should be treated as a pet to avoid soaking exp and altering the party's average level
             if (not('humanoid' in rawCreatureData['Type']) and DnDUtil.getAnswer('Treat '+name+' as a pet') == 'y'):
@@ -900,7 +900,7 @@ def convertData(data):
             if ('spmod' in data['Misc']):
                 data['Misc']['spmod'] = 0
     else:
-        hp = DnDUtil.calculate(getInput("Input HP: "))
+        hp = DnDUtil.calculate(input("Input HP: "))
         # add stats that creatures should have
         data['HP'] = hp
         data['MaxHP'] = hp
@@ -1551,7 +1551,7 @@ def getLoot(lootRoll):
         lootRoll = DnDUtil.getInt(lootRoll)
         while (lootRoll > 100):
             print("Loot roll cannot be higher than 100!")
-            lootRoll = DnDUtil.getInt(getInput("Enter a loot roll no higher than 100: "))
+            lootRoll = DnDUtil.getInt(input("Enter a loot roll no higher than 100: "))
         for row in csvLootReader:
             if (lootRoll <= int(row[0])):
                 break
@@ -1560,7 +1560,7 @@ def getLoot(lootRoll):
             if (lootRoll == row[0]):
                 break
         if (lootRoll != row[0]):
-            lootRoll = getInput("Loot table not found, try again: ")
+            lootRoll = input("Loot table not found, try again: ")
             getLoot(lootRoll)
             return
 
@@ -1598,7 +1598,7 @@ def lcmm(*args):
 
 def getTargets(actor,playerActor,targetPrompt):
 
-    targets = DnDUtil.mySplit(getInput(targetPrompt+': '),',')
+    targets = DnDUtil.mySplit(input(targetPrompt+': '),',')
     i = 0
     while (i < len(targets)):
         target = targets[i]
@@ -1758,7 +1758,7 @@ def applyActorDot(actor,actorData,target,targetData,dotEffect,dotTiming):
             if (dotDamageCalculation.isdigit()):
                 damage = int(dotDamageCalculation)
             elif (playerDot):
-                damage = DnDUtil.getInt(getInput('Roll for DoT damage ('+dotDamageCalculation+'): '))
+                damage = DnDUtil.getInt(input('Roll for DoT damage ('+dotDamageCalculation+'): '))
             else:
                 damage = DnDUtil.calculate(dotDamageCalculation)
 
@@ -2116,7 +2116,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     if (playerAttack):
                         attackCommand.append(' '+str(random.randint(1,20)))
                 else:
-                    attackCommand = DnDUtil.mySplit(getInput('Input command for attack '+str(atkCount+1)+'/'+str(maxAtks)+' (default - '+attackType+' '+defaultTarget+'): '),' ')
+                    attackCommand = DnDUtil.mySplit(input('Input command for attack '+str(atkCount+1)+'/'+str(maxAtks)+' (default - '+attackType+' '+defaultTarget+'): '),' ')
                 if (attackCommand == ['done']):
                     return damageSummary
                 numArgs = len(attackCommand)
@@ -2303,7 +2303,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     cleave = True
                 if ('bc' in actorData['Misc'] and rangeIndex == 0):
                     if (playerAttack and not(autoBattle)):
-                        dmgBonus += DnDUtil.getInt(getInput("Roll for brutal critical ("+actorData['Misc']['bc']+"): "))
+                        dmgBonus += DnDUtil.getInt(input("Roll for brutal critical ("+actorData['Misc']['bc']+"): "))
                     else:
                         bcBonus = DnDUtil.calculate(actorData['Misc']['bc'])
                         print(actor, "deals", bcBonus, "extra damage from brutal critical!")
@@ -2318,7 +2318,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
             if (playerAttack and not(autoBattle)):
                 done = False
                 while (not(done)):
-                    damage = getInput("Roll for weapon damage "+"("+damageData+"): ")
+                    damage = input("Roll for weapon damage "+"("+damageData+"): ")
                     if (damage in ['dsmite','sstrike','logtoss']):
                         if (rangeIndex != 0 and damage in ['dsmite','sstrike']):
                             print("You can only activate", damage, "on melee attacks!")
@@ -2340,7 +2340,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
 
             if (ActorUtil.hasStatus(targetData,['huntersmark']) and any(effect[0] == target and effect[1] == 'cc' and effect[2] == 'huntersmark' and effect[-1] == -1 for effect in actorData['Effects'])):
                 if (playerAttack and not(autoBattle)):
-                    damage += DnDUtil.getInt(getInput('Roll for hunter\'s mark damage (1d6): '))
+                    damage += DnDUtil.getInt(input('Roll for hunter\'s mark damage (1d6): '))
                 else:
                     huntersMarkDamage = DnDUtil.calculate('1d6')
                     damage += huntersMarkDamage
@@ -2354,7 +2354,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                 elif (dmgBonus.isdigit()):
                     damage += int(dmgBonus)
                 elif (playerAttack and not(autoBattle)):
-                    damage += int(DnDUtil.getInt(getInput('Roll for bonus damage ('+dmgBonus+'): '))*critMultiplier)
+                    damage += int(DnDUtil.getInt(input('Roll for bonus damage ('+dmgBonus+'): '))*critMultiplier)
                 else:
                     damage += int(DnDUtil.calculate(dmgBonus)*critMultiplier)
 
@@ -2368,7 +2368,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     if (actorData['Misc'][type].isdigit()):
                         damage += actorData['Misc'][type]
                     elif (playerAttack and not(autoBattle)):
-                        damage += int(critMultiplier*DnDUtil.getInt(getInput('Roll for bonus damage since '+target+' is '+type+' ('+actorData['Misc'][type]+'): ')))
+                        damage += int(critMultiplier*DnDUtil.getInt(input('Roll for bonus damage since '+target+' is '+type+' ('+actorData['Misc'][type]+'): ')))
                     else:
                         damage += int(critMultiplier*DnDUtil.calculate(actorData['Misc'][type]))
 
@@ -2379,7 +2379,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                 if (playerAttack and PLAYERS_ADD_BONUS):
                     sneakAttackDamage = 0
                 elif (playerAttack and not(autoBattle)):
-                    sneakAttackDamage = int(critMultiplier*DnDUtil.getInt(getInput("Roll for sneak attack damage "+"("+parsedSneakAttackDamage[0]+"): "))) + parsedSneakAttackDamage[1]
+                    sneakAttackDamage = int(critMultiplier*DnDUtil.getInt(input("Roll for sneak attack damage "+"("+parsedSneakAttackDamage[0]+"): "))) + parsedSneakAttackDamage[1]
                 else:
                     sneakAttackDamage = int(critMultiplier*DnDUtil.calculate(parsedSneakAttackDamage[0])) + parsedSneakAttackDamage[1]
                     print(target, "takes", sneakAttackDamage, "extra damage from sneak attack!")
@@ -2388,7 +2388,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
             if (not('lightningLauncher' in usedAbilities) and rangeIndex != 0 and 'lightning' in weaponTypeData and 'll' in actorData['Misc']):
                 usedAbilities.append('lightningLauncher')
                 if (playerAttack and not(autoBattle)):
-                    lightningLauncherDamage = int(critMultiplier*DnDUtil.getInt(getInput("Roll for lightning launcher damage (1d6): ")))
+                    lightningLauncherDamage = int(critMultiplier*DnDUtil.getInt(input("Roll for lightning launcher damage (1d6): ")))
                 else:
                     lightningLauncherDamage = int(critMultiplier*DnDutil.calculate('1d6'))
                     print(target, "takes", lightningLauncherDamage, "extra damage from lightning launcher!")
@@ -2404,7 +2404,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
 
             if (ActorUtil.hasStatus(targetData,['hex']) and any(effect[0] == target and effect[1] == 'cc' and effect[2] == 'hex' and effect[-1] == -1 for effect in actorData['Effects'])):
                 if (playerAttack and not(autoBattle)):
-                    hexDamage = DnDUtil.getInt(getInput('Roll for hex damage (1d6): '))
+                    hexDamage = DnDUtil.getInt(input('Roll for hex damage (1d6): '))
                 else:
                     hexDamage = DnDUtil.calculate('1d6')
                 hexDamage = int(getNetDamage(hexDamage,actorData,target,targetData,['necrotic'],'hex',False)*critMultiplier)
@@ -2419,7 +2419,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     DnDUtil.printWarning("Missing spiritshrouddamage misc data in "+actor)
                 else:
                     if (playerAttack and not(autoBattle)):
-                        spiritShroudDamage = DnDUtil.getInt(getInput('Roll for spirit shroud damage ('+actorData['Misc']['spiritshrouddamage']+'): '))
+                        spiritShroudDamage = DnDUtil.getInt(input('Roll for spirit shroud damage ('+actorData['Misc']['spiritshrouddamage']+'): '))
                     else:
                         spiritShroudDamage = DnDUtil.calculate(actorData['Misc']['spiritshrouddamage'])
                     spiritShroudDamage = int(getNetDamage(spiritShroudDamage,actorData,target,targetData,[actorData['Misc']['spiritshroudtype']],'spritshroud',False)*critMultiplier)
@@ -2438,7 +2438,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     dfKey = 'dfr'
                     damageType = 'radiant'
                 if (playerAttack and not(autoBattle)):
-                    dfDamage = DnDUtil.getInt(getInput('Roll for divine fury damage (1d6): '))
+                    dfDamage = DnDUtil.getInt(input('Roll for divine fury damage (1d6): '))
                 else:
                     dfDamage = DnDUtil.calculate('1d6')
                 if (not(playerTurn) or not(PLAYERS_ADD_BONUS)):
@@ -2458,7 +2458,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                 targetData['Reaction'] = False
                 if (damage > 0):
                     if (playerTarget and not(autoBattle)):
-                        deflectRoll = DnDUtil.getInt(getInput('Roll for damage reduction (1d10): '))
+                        deflectRoll = DnDUtil.getInt(input('Roll for damage reduction (1d10): '))
                     else:
                         deflectRoll = random.randint(1,10)
                         print(target, "rolls a", deflectRoll, "for damage reduction")
@@ -2474,7 +2474,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                         if (autoBattle):
                             deflectAttackTarget = getRandomTarget(target)
                         else:
-                            deflectAttackTarget = getInput('Choose a target for this attack: ')
+                            deflectAttackTarget = input('Choose a target for this attack: ')
                         if (deflectAttackTarget == ''):
                             finished = True
                         else:
@@ -2483,7 +2483,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                                 finished = True
                     if (deflectAttackTarget):
                         if (playerTarget and not(autoBattle)):
-                            deflectAttackRoll = DnDUtil.getInt(getInput('Roll for deflect attack: '))
+                            deflectAttackRoll = DnDUtil.getInt(input('Roll for deflect attack: '))
                         else:
                             deflectAttackRoll = -1
                         deflectDamageSummary = attack(target,targetData,deflectAttackTarget,'r',1,0,deflectAttackRoll,True)
@@ -2663,7 +2663,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     if (thornsDamageString.isdigit()):
                         thornsDamage = int(thornsDamageString)
                     elif (playerTarget and not(autoBattle)):
-                        thornsDamage = DnDUtil.getInt(getInput('Roll for thorns damage ('+thornsDamageString+'): '))
+                        thornsDamage = DnDUtil.getInt(input('Roll for thorns damage ('+thornsDamageString+'): '))
                     else:
                         thornsDamage = DnDUtil.calculate(thornsDamageString)
 
@@ -2725,19 +2725,19 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
         shoveTarget = ''
         while (shoveTarget == ''):
             if (autoBattle):
-                input = ''
+                rawInput = ''
             else:
-                input = getInput('Input shove target for shield master (default - '+defaultTarget+'): ')
-            if (input == 'done'):
+                rawInput = input('Input shove target for shield master (default - '+defaultTarget+'): ')
+            if (rawInput == 'done'):
                 return damageSummary
-            elif (input == ''):
-                input = defaultTarget
+            elif (rawInput == ''):
+                rawInput = defaultTarget
 
-            shoveTarget = autoComplete(input,False)
+            shoveTarget = autoComplete(rawInput,False)
             if (shoveTarget):
                 shove(actor,actorData,playerAttack,shoveTarget,getData(shoveTarget),playerTarget)
             else:
-                print("Invalid target -", input)
+                print("Invalid target -", rawInput)
 
     return damageSummary
 
@@ -2967,7 +2967,7 @@ def makeSave(actor,actorData,saveType,dc,abilityTypes,saveAdvantage=False,saveDi
             mindSliverRoll = random.randint(1,4)
             print(actor, "rolls a", mindSliverRoll, "for mind sliver penalty")
         else:
-            mindSliverRoll = DnDUtil.getInt(getInput('Roll for mind sliver penalty (1d4): '))
+            mindSliverRoll = DnDUtil.getInt(input('Roll for mind sliver penalty (1d4): '))
         result -= mindSliverRoll
         # remove all mind sliver effects on this actor
         i = 0
@@ -3249,7 +3249,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                     if (action[1].isdigit()):
                         baseDamage = int(action[1])
                     elif (playerTurn):
-                        baseDamage = DnDUtil.getInt(getInput("Roll for "+abilityName+" damage ("+parsedDamage[0]+"): "))
+                        baseDamage = DnDUtil.getInt(input("Roll for "+abilityName+" damage ("+parsedDamage[0]+"): "))
                     else:
                         baseDamage = DnDUtil.calculate(parsedDamage[0])
                     if (damageTypes):
@@ -3349,7 +3349,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                     elif ('heal' in savedDamageRolls):
                         amount = savedDamageRolls['heal']
                     elif (playerTurn):
-                        amount = DnDUtil.getInt(getInput("Roll for healing ("+action[1]+"): ")) + healBonus
+                        amount = DnDUtil.getInt(input("Roll for healing ("+action[1]+"): ")) + healBonus
                         savedDamageRolls['heal'] = amount
                     else:
                         amount = DnDUtil.calculate(action[1]) + healBonus
@@ -3364,7 +3364,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                 if (action[1].isdigit()):
                     tempHP = int(action[1])
                 elif (playerTurn):
-                    tempHP = DnDUtil.getInt(getInput("Roll for temporary hp ("+action[1]+"): "))
+                    tempHP = DnDUtil.getInt(input("Roll for temporary hp ("+action[1]+"): "))
                 else:
                     tempHP = DnDUtil.calculate(action[1])
 
@@ -3407,7 +3407,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                             else:
                                 clearCondition = clearTiming
                         elif (playerTurn):
-                            duration = DnDUtil.getInt(getInput("Roll for duration ("+action[2]+"): "))
+                            duration = DnDUtil.getInt(input("Roll for duration ("+action[2]+"): "))
                         else:
                             duration = DnDUtil.calculate(action[2])
                         if (abilityDuration and abilityDuration != duration):
@@ -3450,7 +3450,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                             else:
                                 clearCondition = clearTiming
                         elif (playerTurn):
-                            duration = DnDUtil.getInt(getInput("Roll for duration ("+action[3]+"): "))
+                            duration = DnDUtil.getInt(input("Roll for duration ("+action[3]+"): "))
                         else:
                             duration = DnDUtil.calculate(action[3])
                         if (abilityDuration and abilityDuration != duration):
@@ -3492,7 +3492,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                 if (action[2].isdigit()):
                     amount = int(action[2])
                 elif (playerTurn):
-                    amount = DnDUtil.getInt(getInput("Roll for amount: ("+action[2]+"): "))
+                    amount = DnDUtil.getInt(input("Roll for amount: ("+action[2]+"): "))
                 else:
                     amount = DnDUtil.calculate(action[2])
 
@@ -3618,7 +3618,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                 atkIndex = int(action[2])
                 atkType = 'm' if rangeIndex == 0 else 'r'
                 if (playerTurn):
-                    roll = DnDUtil.getInt(getInput('Roll for attack: '))
+                    roll = DnDUtil.getInt(input('Roll for attack: '))
                 else:
                     roll = -1
                 attackDamageSummary = attack(actor,actorData,target,atkType,rangeIndex,atkIndex,roll,True)
@@ -3634,7 +3634,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                     if (action[2].isdigit()):
                         number = int(action[2])
                     elif (playerTurn):
-                        number = DnDUtil.getInt(getInput("Roll for number of summons ("+action[2]+"): "))
+                        number = DnDUtil.getInt(input("Roll for number of summons ("+action[2]+"): "))
                     else:
                         number = DnDUtil.calculate(action[2])
                 elif (creatureType != 'input'):
@@ -3646,7 +3646,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                 else:
                     done = False
                     while (not(done)):
-                        summonInput = getInput('Enter the creature to summon followed by the number (press enter to exit): ').split()
+                        summonInput = input('Enter the creature to summon followed by the number (press enter to exit): ').split()
                         if (len(summonInput) == 2):
                             creatureTypes.append([summonInput[0],DnDUtil.getInt(summonInput[1])])
                         elif (len(summonInput) == 0):
@@ -3664,7 +3664,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                                 goaRoll = random.randint(1,8)
                                 print(name, "rolls a", goaRoll, "for gift of alacrity bonus")
                             else:
-                                goaRoll = DnDUtil.getInt(getInput('Roll for gift of alacrity bonus (1d8): '))
+                                goaRoll = DnDUtil.getInt(input('Roll for gift of alacrity bonus (1d8): '))
                             initRoll += goaRoll
                         newCreatureData['InitRoll'] = initRoll
                         insertNewActor(name,newCreatureData)
@@ -3699,7 +3699,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
             if (numArgs == 2):
                 oldType = targetData['Base']
                 if (action[1] == 'input'):
-                    newType = getInput('What will '+target+' shapeshift into? ')
+                    newType = input('What will '+target+' shapeshift into? ')
                 else:
                     newType = action[1]
                 shapeShift(target,targetData,newType)
@@ -4033,7 +4033,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                     if ('magic' in targetData['WeaponTypes'][rangeIndex][0][0]):
                         currentMagicBonus = -1
                         while (currentMagicBonus < 0 or currentMagicBonus > 3):
-                            currentMagicBonus = DnDUtil.getInt(getInput('What is this weapon\'s current magic bonus? '))
+                            currentMagicBonus = DnDUtil.getInt(input('What is this weapon\'s current magic bonus? '))
                         bonusDelta = magicBonus - currentMagicBonus
                     else:
                         bonusDelta = magicBonus
@@ -4111,14 +4111,14 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                 for j in range(0,numExtraTargets):
                     validTarget = False
                     while (not(validTarget)):
-                        input = getInput('Input additional target for '+abilityName+': ')
-                        if (input):
-                            newTarget = autoComplete(input,False)
+                        rawInput = input('Input additional target for '+abilityName+': ')
+                        if (rawInput):
+                            newTarget = autoComplete(rawInput,False)
                             if (newTarget):
                                 validTarget = True
                                 targets.append(newTarget)
                             else:
-                                print("Invalid target -", input)
+                                print("Invalid target -", rawInput)
                         else:
                             validTarget = True
             else:
@@ -4186,18 +4186,18 @@ def add(type,number,addEnemy):
         if (addEnemy):
             name = type+'1'
         else:
-            name = getInput("What would you like to name your "+type+"? ")
+            name = input("What would you like to name your "+type+"? ")
         while (name in turnOrder):
-            name = getInput("This name already exists! Choose a new name for "+name+": ")
+            name = input("This name already exists! Choose a new name for "+name+": ")
         data[name] = data.pop(type)
         turnOrder[turnOrder.index(type)] += '1'
         for j in range(2,number+2):
             if (addEnemy):
                 name = type+str(j)
             else:
-                name = getInput("What would you like to name your "+type+"? ")
+                name = input("What would you like to name your "+type+"? ")
             while (name in turnOrder):
-                name = getInput("This name already exists! Choose a new name for "+name+": ")
+                name = input("This name already exists! Choose a new name for "+name+": ")
             creatureData = getCreatureData(type)
             if (not(creatureData)):
                 print("Creature not found.")
@@ -4214,10 +4214,10 @@ def add(type,number,addEnemy):
             if (addEnemy):
                 name = type+str(j)
             else:
-                name = getInput("What would you like to name your "+type+"? ")
+                name = input("What would you like to name your "+type+"? ")
             if (not(name in data)):
                 while (name in turnOrder):
-                    name = getInput("This name already exists! Choose a new name for "+name+": ")
+                    name = input("This name already exists! Choose a new name for "+name+": ")
                 creatureData = getCreatureData(type)
                 if (not(creatureData)):
                     print("Creature not found.")
@@ -4378,13 +4378,13 @@ def chooseAttackTarget(actor,actorData,defaultTarget,rangeIndex,atkIndex1,atkInd
                 option = DnDUtil.chooseOption('Which grappled opponent to attack?',currentGrabTargets)
             return currentGrabTargets[option-1]
         elif (defaultTarget in currentGrabTargets):
-            newTarget = getInput('Choose a new target for '+actor+' to grab with this attack (press enter to attack the grappled target): ')
+            newTarget = input('Choose a new target for '+actor+' to grab with this attack (press enter to attack the grappled target): ')
             if (newTarget):
                 while (True):
                     newTarget = autoComplete(newTarget,False)
                     if (newTarget):
                         return newTarget
-                    newTarget = getInput('Choose a new target for '+actor+' to grab with this attack (press enter to attack the grappled target): ')
+                    newTarget = input('Choose a new target for '+actor+' to grab with this attack (press enter to attack the grappled target): ')
                     if (newTarget == ''):
                         return defaultTarget
         else:
@@ -5050,7 +5050,7 @@ def shapeShift(target,targetData,newType):
     if (newData == {}):
         newData = getCreatureData(newType,False)
     while (newData == {}):
-        newType = getInput("Creature "+newType+" not found, try again: ")
+        newType = input("Creature "+newType+" not found, try again: ")
         newData = getPlayerData(newType)
         if (newData == {}):
             newData = getCreatureData(newType,False)
@@ -5094,7 +5094,7 @@ def applyMirrorImage(attackRoll,attack,defender,defenderData,playerDefender):
                     else:
                         roll = 1
                 else:
-                    roll = DnDUtil.getInt(getInput('Roll for Mirror Image: '))
+                    roll = DnDUtil.getInt(input('Roll for Mirror Image: '))
             else:
                 roll = random.randint(1,20)
                 print(defender, "rolls a", roll, "for mirror image")
@@ -5109,7 +5109,7 @@ def applyMirrorImage(attackRoll,attack,defender,defenderData,playerDefender):
             if ((not(playerDefender) or not(PLAYERS_ADD_BONUS)) and initValue <= 5):
                 defense = 10 + initValue
             else:
-                dexMod = DnDUtil.getInt(getInput('What is '+defender+'\'s dex mod? '))
+                dexMod = DnDUtil.getInt(input('What is '+defender+'\'s dex mod? '))
                 defense = 10 + dexMod
             if (attackRoll == 20 or attackRoll != 1 and attack >= defense):
                 print(defender+'\'s', "mirror image was", DnDUtil.getPassText('hit')+'!')
@@ -5459,18 +5459,18 @@ def getAdvantageDisadvantageRoll(roll,advantage,disadvantage):
     if (advantage == disadvantage):
         return roll
     elif (advantage):
-        input = getInput("Make a second roll for advantage (skip if you already have): ")
-        if (input == ''):
+        rawInput = input("Make a second roll for advantage (skip if you already have): ")
+        if (rawInput == ''):
             return roll
         else:
-            roll2 = DnDUtil.getInt(input)
+            roll2 = DnDUtil.getInt(rawInput)
             return max(roll,roll2)
     else:
-        input = getInput("Make a second roll for disadvantage (skip if you already have): ")
-        if (input == ''):
+        rawInput = input("Make a second roll for disadvantage (skip if you already have): ")
+        if (rawInput == ''):
             return roll
         else:
-            roll2 = DnDUtil.getInt(input)
+            roll2 = DnDUtil.getInt(rawInput)
             return min(roll,roll2)
 
 def getCritStat(actorData,rangeIndex,atkIndex1,atkIndex2,critType):
@@ -5668,26 +5668,26 @@ def loadCreaturesFromDict(creatureDict):
 def loadCreaturesFromInput():
 
     print("Creating a new encounter...")
-    input = ''
-    while input != 'done':
-        input = getInput("Enter creature type and number: ")
-        command = input.split()
+    rawInput = ''
+    while rawInput != 'done':
+        rawInput = input("Enter creature type and number: ")
+        command = rawInput.split()
         numArgs = len(command)
 
         if (numArgs == 0):
-            input = 'done'
+            rawInput = 'done'
 
-        if (input != 'done'):
+        if (rawInput != 'done'):
             while (numArgs != 2):
-                input = getInput("Must be a creature type followed by a number: ")
-                command = input.split()
+                rawInput = input("Must be a creature type followed by a number: ")
+                command = rawInput.split()
                 numArgs = len(command)
             type = command[0]
             number = DnDUtil.getInt(command[1])
             if (number == 1):
                 result = getCreatureData(type)
                 while (result == {}):
-                    type = getInput("Creature not found, try again: ")
+                    type = input("Creature not found, try again: ")
                     if (len(type) >= 2):
                         type = type.split()
                         type = type[0]
@@ -5696,7 +5696,7 @@ def loadCreaturesFromInput():
             else:
                 result = getCreatureData(type)
                 while (result == {}):
-                    type = getInput("Creature not found, try again: ")
+                    type = input("Creature not found, try again: ")
                     if (len(type) >= 2):
                         type = type.split()
                         type = type[0]
@@ -5723,7 +5723,7 @@ def initializeTurnOrder(rollForInitiative):
                         goaRoll = random.randint(1,8)
                         print(actor, "rolls a", goaRoll, "for gift of alacrity bonus")
                     else:
-                        goaRoll = DnDUtil.getInt(getInput('Roll for gift of alacrity bonus (1d8): '))
+                        goaRoll = DnDUtil.getInt(input('Roll for gift of alacrity bonus (1d8): '))
                     initRoll += goaRoll
                 actorData['InitRoll'] = initRoll
             else:
@@ -6809,7 +6809,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
 
                     if ('recharge' in actorData['Misc']):
                         if (playerTurn):
-                            roll = DnDUtil.getInt(getInput("Roll for recharge (1d6): "))
+                            roll = DnDUtil.getInt(input("Roll for recharge (1d6): "))
                         else:
                             roll = random.randint(1,6)
                             print(actor, "rolls a", roll, "for recharge")
@@ -6880,7 +6880,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                 if (dotDamageCalculation.isdigit()):
                                     damage = int(dotDamageCalculation)
                                 elif (playerDot):
-                                    damage = DnDUtil.getInt(getInput('Roll for DoT damage ('+dotDamageCalculation+'): '))
+                                    damage = DnDUtil.getInt(input('Roll for DoT damage ('+dotDamageCalculation+'): '))
                                 else:
                                     damage = DnDUtil.calculate(dotDamageCalculation)
 
@@ -6919,7 +6919,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                         if (woundDamageCalculation.isdigit()):
                             damage = int(woundDamageCalculation)
                         elif (playerWound and not(autoBattle)):
-                            damage = DnDUtil.getInt(getInput('Roll for wound damage ('+woundDamageCalculation+'): '))
+                            damage = DnDUtil.getInt(input('Roll for wound damage ('+woundDamageCalculation+'): '))
                         else:
                             damage = DnDUtil.calculate(woundDamageCalculation)
 
@@ -7106,11 +7106,11 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
             while (not(takenAction)):
                 updateEncounterFile()
                 if (autoBattle):
-                    input = 'm '+getRandomTarget(actor)
+                    rawInput = 'm '+getRandomTarget(actor)
                     actorData['Prone'] = False
                 else:
-                    input = getInput(actor+': ')
-                command = input.split()
+                    rawInput = input(actor+': ')
+                command = rawInput.split()
                 numArgs = len(command)
 
                 if (numArgs == 0):
@@ -7135,8 +7135,8 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                         if (initCommand == 'react'):
                             actorData['Reaction'] = False
                         playerTurn = actor in playerData
-                        input = getInput(actor+': ')
-                        command = input.split()
+                        rawInput = input(actor+': ')
+                        command = rawInput.split()
                         numArgs = len(command)
                         if (numArgs == 0):
                             initCommand = 'skip'
@@ -7157,7 +7157,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                             if (newRoll):
                                 command[-1] = newRoll
                             else:
-                                command[-1] = getInput('Input new roll for this command: ')
+                                command[-1] = input('Input new roll for this command: ')
                     else:
                         print("No previous action stored!")
                         initCommand = 'none'
@@ -7506,7 +7506,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                                     targetData['Reaction'] = False
                                                     reflectTarget = ''
                                                     while (reflectTarget == ''):
-                                                        reflectTarget = autoComplete(getInput('Input the target for the reflected spell: '),False)
+                                                        reflectTarget = autoComplete(input('Input the target for the reflected spell: '),False)
                                                     targets.append(reflectTarget)
                                                 elif (actionData2 and not(ability['Save'])):
                                                     success = True
@@ -7556,7 +7556,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                                         targetData['Reaction'] = False
                                                         reflectTarget = ''
                                                         while (reflectTarget == ''):
-                                                            reflectTarget = autoComplete(getInput('Input the target for the reflected spell: '),False)
+                                                            reflectTarget = autoComplete(input('Input the target for the reflected spell: '),False)
                                                         targets.append(reflectTarget)
                                                         success = False
                                                     elif (ability['Save Result'] == 'negates'):
@@ -7688,7 +7688,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                         targetData['Reaction'] = False
                                         reflectTarget = ''
                                         while (reflectTarget == ''):
-                                            reflectTarget = autoComplete(getInput('Input the target for the reflected spell: '),False)
+                                            reflectTarget = autoComplete(input('Input the target for the reflected spell: '),False)
                                         targets.append(reflectTarget)
                                     elif ('Actions2' in ability and not(ability['Save'])):
                                         hit = True
@@ -7714,7 +7714,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                                     targetData['Reaction'] = False
                                                     reflectTarget = ''
                                                     while (reflectTarget == ''):
-                                                        reflectTarget = autoComplete(getInput('Input the target for the reflected spell: '),False)
+                                                        reflectTarget = autoComplete(input('Input the target for the reflected spell: '),False)
                                                     targets.append(reflectTarget)
                                                     success = False
                                                 elif (ability['Save Result'] == 'negates'):
@@ -7976,7 +7976,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                     elif ('rage' in actorData['Misc']):
                         rageBonus = actorData['Misc']['rage']
                     else:
-                        rageBonus = DnDUtil.getInt(getInput('Input rage damage bonus: '))
+                        rageBonus = DnDUtil.getInt(input('Input rage damage bonus: '))
                     buff(actor,actorData,'dmg',rageBonus)
                     rageEffects.append([actor,'buff','dmg',rageBonus])
                     for resistance in ['slashing','bludgeoning','piercing']:
@@ -8301,7 +8301,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                     if (initCommand == 'add'):
                         response = ''
                         while (response != 'ally' and response != 'enemy'):
-                            response = getInput("Do you want to add an enemy or an ally? ")
+                            response = input("Do you want to add an enemy or an ally? ")
                         if (response == 'enemy'):
                             addEnemy = True
                         else:
@@ -8320,7 +8320,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                 goaRoll = random.randint(1,8)
                                 print(name, "rolls a", goaRoll, "for gift of alacrity bonus")
                             else:
-                                goaRoll = DnDUtil.getInt(getInput('Roll for gift of alacrity bonus (1d8): '))
+                                goaRoll = DnDUtil.getInt(input('Roll for gift of alacrity bonus (1d8): '))
                             initRoll += goaRoll
                         newCreatureData['InitRoll'] = initRoll
                         insertNewActor(name,newCreatureData)
@@ -8484,7 +8484,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                 if (not(actor in turnOrder)):
                     takenAction = True
                 if (not(initCommand in ['skip','s','same','b','back'])):
-                    actorData['LastAction'] = input
+                    actorData['LastAction'] = rawInput
 
             if (not(tempTurn) and initCommand != 'b' and initCommand != 'back'):
                 # at the end of the turn, check for cc effects that should expire or allow a save
@@ -8511,7 +8511,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                 if (dotDamageCalculation.isdigit()):
                                     damage = int(dotDamageCalculation)
                                 elif (playerDot and not(autoBattle)):
-                                    damage = DnDUtil.getInt(getInput('Roll for DoT damage ('+dotDamageCalculation+'): '))
+                                    damage = DnDUtil.getInt(input('Roll for DoT damage ('+dotDamageCalculation+'): '))
                                 else:
                                     damage = DnDUtil.calculate(dotDamageCalculation)
 
@@ -8650,7 +8650,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
     if (autoBattle):
         rating = random.randint(1,5)
     else:
-        rating = DnDUtil.getInt(getInput("Enter the difficulty rating for this encounter (1-5): "))
+        rating = DnDUtil.getInt(input("Enter the difficulty rating for this encounter (1-5): "))
 
     if (rating == 1):
         lootRoll = random.randint(1,74)
@@ -8698,13 +8698,13 @@ def formatHelp(section):
     print("There are 3 main sections: character, misc, and ability")
 
     if (section == ''):
-        section = getInput('Which help section would you like to go to? ')
+        section = input('Which help section would you like to go to? ')
 
     while (section != 'done'):
         if (section == 'character'):
             print("Welcome to the character help section!")
             print("This section details the various fields present in the creature data and player data files.")
-            field = getInput('What field would you like to learn about? ')
+            field = input('What field would you like to learn about? ')
             while (field != 'done'):
                 if (field == '' or field == 'layout'):
                     if (DnDUtil.getAnswer('Would you like to see the layout for Player Data') == 'y'):
@@ -8886,7 +8886,7 @@ def formatHelp(section):
                     print("Note: see the misc help section to learn about each valid stat")
                 else:
                     print("Invalid field! Type layout to see a list of all valid fields.")
-                field = getInput('What field would you like to learn about? ')
+                field = input('What field would you like to learn about? ')
         elif (section == 'misc'):
             print("Welcome to the misc help section!")
             print("misc is a field located in both the player and creature data files.")
@@ -8897,7 +8897,7 @@ def formatHelp(section):
             print("The current list of all valid misc stats is:")
             print("bane|oh|critc|critd|thorns|cleave|icleave|regen|evasion|avoidance|iflank|mobility|grab|turn|sa|rage|bc|pr|ham|mdex|rstr|dm|oht|igrapple|uf|parry|spmod|splvl|relentless|bfrenzy|db|lresist|idsmite|pet|passive|reactive|spellreflect|lactions|indomitable|ud|survivor|deathsave|dol|bh|sm|gwm|aop|ad|dfn|dfr|lair|ll|fi|conc")
             print("Type done to return to the main format help section.")
-            stat = getInput('What stat would you like to learn about? ')
+            stat = input('What stat would you like to learn about? ')
             while (stat != 'done'):
                 if (stat == 'stats' or stat == 'layout'):
                     print("The current list of all valid misc stats is:")
@@ -9165,13 +9165,13 @@ def formatHelp(section):
                     print("Argument: The saving throw bonus")
                 else:
                     print("Invalid stat! Type stats to see a list of all valid stats.")
-                stat = getInput('What stat would you like to learn about? ')
+                stat = input('What stat would you like to learn about? ')
         elif (section == 'ability'):
             print("Welcome to the ability help section!")
             print("Here you will learn how to format abilities both in the ability data file and within various character fields that hold abilities.")
             print("The valid search terms in this section are layout|name|savetype|dc|saveresult|ut|sd|trigger|type|actions|prereqs|actions2|damage|heal|cc|buff|debuff|drain|grapple|summon|immunity|mc|ss|dot|resist|examples")
             print("Type done to return to the main help section.")
-            field = getInput('What would you like to learn about? ')
+            field = input('What would you like to learn about? ')
             while (field != 'done'):
                 if (field == 'layout'):
                     print("The current layout for ability data is:")
@@ -9276,10 +9276,10 @@ def formatHelp(section):
                 else:
                     print("Invalid search term!")
                     print("The valid search terms in this section are layout|name|savetype|dc|saveresult|ut|sd|trigger|type|actions|prereqs|actions2|damage|heal|cc|buff|debuff|drain|grapple|summon|immunity|mc|ss|dot|resist|examples")
-                field = getInput('What would you like to learn about? ')
+                field = input('What would you like to learn about? ')
         else:
             print("Invalid section! The valid sections are character, misc, and ability.")
-        section = getInput('Which help section would you like to go to? ')
+        section = input('Which help section would you like to go to? ')
 
 def help(str,combat):
     
@@ -9644,16 +9644,16 @@ def help(str,combat):
 
 def startRollMode():
     
-    roll = getInput("Input roll: ")
+    roll = input("Input roll: ")
 
     while (len(roll) > 0 and roll[0]):
         print(DnDUtil.calculate(roll))
-        roll = getInput("Input roll: ")
+        roll = input("Input roll: ")
 
 def startPlayerMode(players):
 
     if (not(players)):
-        players = DnDUtil.mySplit(getInput('Which characters do you want to load data for? '),',')
+        players = DnDUtil.mySplit(input('Which characters do you want to load data for? '),',')
     characterData = {}
     for player in players:
         playerCharacterData = Player.getCharacterData(player)
@@ -9688,77 +9688,77 @@ onProgramStart()
 
 while True:
 
-    input = getInput("What would you like to do? (type \'help\' for help)\n")
-    input = input.split()
+    rawInput = input("What would you like to do? (type \'help\' for help)\n")
+    rawInput = rawInput.split()
 
-    while (len(input) == 0):
-        input = getInput()
-        input = input.split()
+    while (len(rawInput) == 0):
+        rawInput = input()
+        rawInput = rawInput.split()
 
-    numArgs = len(input)
+    numArgs = len(rawInput)
 
-    if (input[0] == 'roll' and (numArgs == 1 or numArgs == 2)):
+    if (rawInput[0] == 'roll' and (numArgs == 1 or numArgs == 2)):
         if (numArgs == 1):
             rollString = '1d20'
         else:
-            rollString = input[1]
+            rollString = rawInput[1]
         if (rollString == 'mode'):
             startRollMode()
         else:
             print(DnDUtil.calculate(rollString))
 
-    elif (input[0] == 'test' and numArgs == 1):
+    elif (rawInput[0] == 'test' and numArgs == 1):
         testEncounter()
 
-    elif (input[0] == 'test' and numArgs == 2):
-        if (input[1] == 'test'):
+    elif (rawInput[0] == 'test' and numArgs == 2):
+        if (rawInput[1] == 'test'):
             test()
-        elif (input[1] == 'encounter'):
+        elif (rawInput[1] == 'encounter'):
             testEncounter()
-        elif (input[1] == 'creatures'):
+        elif (rawInput[1] == 'creatures'):
             testCreatures()
         else:
             print("Unknown test! Valid tests are: encounter/creatures/test")
 
-    elif (input[0] == 'player' and (numArgs == 1 or numArgs == 2)):
+    elif (rawInput[0] == 'player' and (numArgs == 1 or numArgs == 2)):
         if (numArgs == 2):
-            players = DnDUtil.mySplit(input[1],',')
+            players = DnDUtil.mySplit(rawInput[1],',')
         else:
             players = []
         startPlayerMode(players)
 
-    elif (input[0] == 'casino' and numArgs == 1):
+    elif (rawInput[0] == 'casino' and numArgs == 1):
         startCasinoMode()
 
-    elif (input[0] == 'go' or input[0] == 'fight'):
+    elif (rawInput[0] == 'go' or rawInput[0] == 'fight'):
         createEncounter()
 
-    elif (input[0] == 'load' and numArgs == 2):
-        if (input[1] == 'encounter'):
+    elif (rawInput[0] == 'load' and numArgs == 2):
+        if (rawInput[1] == 'encounter'):
             createEncounter(ENCOUNTER_FILE)
-        elif (input[1] == 'br' or input[1] == 'battleroyale'):
+        elif (rawInput[1] == 'br' or rawInput[1] == 'battleroyale'):
             createEncounter(ENCOUNTER_FILE,None,True)
 
-    elif (input[0] == 'create' and (numArgs == 2 or numArgs == 3)):
-        if (input[1] == 'encounter' and numArgs == 2):
+    elif (rawInput[0] == 'create' and (numArgs == 2 or numArgs == 3)):
+        if (rawInput[1] == 'encounter' and numArgs == 2):
             createEncounter()
-        elif ((input[1] == 'blacksmith' or input[1] == 'magicshop') and numArgs == 3 and input[2] in ['small','medium','large']):
-            if (input[1] == 'blacksmith'):
-                createBlacksmith(input[2])
+        elif ((rawInput[1] == 'blacksmith' or rawInput[1] == 'magicshop') and numArgs == 3 and rawInput[2] in ['small','medium','large']):
+            if (rawInput[1] == 'blacksmith'):
+                createBlacksmith(rawInput[2])
             else:
-                createMagicShop(input[2])
+                createMagicShop(rawInput[2])
 
-    elif ((input[0] == 'br' or input[0] == 'battleroyale') and numArgs == 1):
+    elif ((rawInput[0] == 'br' or rawInput[0] == 'battleroyale') and numArgs == 1):
         createEncounter('',None,True)
 
-    elif ((input[0] == 'o' or input[0] == 'open') and numArgs == 2):
-        PDFUtil.openBookmark(input[1])
+    elif ((rawInput[0] == 'o' or rawInput[0] == 'open') and numArgs == 2):
+        PDFUtil.openBookmark(rawInput[1])
 
-    elif ((input[0] == 'd' or input[0] == 'display') and numArgs == 3):
-        player = input[2]
+    elif ((rawInput[0] == 'd' or rawInput[0] == 'display') and numArgs == 3):
+        player = rawInput[2]
         if (player in playerData):
             data = playerData[player]
-            stat = input[1]
+            stat = rawInput[1]
             if (stat == 'stats'):
                 displayStats(data)
             else:
@@ -9770,12 +9770,12 @@ while True:
                     if (stat in data):
                         print(data[stat])
                     else:
-                        print("Invalid stat -", input[1])
+                        print("Invalid stat -", rawInput[1])
         else:
             print("Invalid target -", player)
 
-    elif (input[0] == 'random' and numArgs == 2):
-        if (input[1] == 'npc'):
+    elif (rawInput[0] == 'random' and numArgs == 2):
+        if (rawInput[1] == 'npc'):
             gender = randomItem(['gender'])
             race = randomItem(['race'])
             alignment = randomItem(['alignment'])
@@ -9783,11 +9783,11 @@ while True:
             print(gender, race, "-", alignment)
             print(trait)
         else:
-            item = randomItem(input[1].split(','))
+            item = randomItem(rawInput[1].split(','))
             print(item)
 
-    elif ((input[0] == 'e' or input[0] == 'encounter') and numArgs == 2):
-        if (input[1] == 'urban'):
+    elif ((rawInput[0] == 'e' or rawInput[0] == 'encounter') and numArgs == 2):
+        if (rawInput[1] == 'urban'):
             roll = random.randint(1,20)
             if (DnDUtil.getAnswer('Is this a small city') == 'y'):
                 bonus1 = 1
@@ -9823,7 +9823,7 @@ while True:
             else:
                 minCR = DnDUtil.divide((maxCR), (4.0))
 
-            environmentList = ['environments',input[1],'any']
+            environmentList = ['environments',rawInput[1],'any']
             if (DnDUtil.getAnswer('Include creatures from other planes') == 'y'):
                 environmentList.append('plane')
             # get the list of all creatures in this environment that are between the min and max CR
@@ -9859,33 +9859,33 @@ while True:
                         createEncounter('',{creature[1]: number})
                         break
 
-    elif (input[0] == 'auto' and numArgs == 2):
-        autoGenerateEncounter(input[1].split(','))
+    elif (rawInput[0] == 'auto' and numArgs == 2):
+        autoGenerateEncounter(rawInput[1].split(','))
 
-    elif (input[0] == 'loot' and numArgs == 2):
-        getLoot(input[1])
+    elif (rawInput[0] == 'loot' and numArgs == 2):
+        getLoot(rawInput[1])
 
-    elif (input[0] == 'info' and numArgs >= 2):
-        input[1] = input[1].capitalize()
+    elif (rawInput[0] == 'info' and numArgs >= 2):
+        rawInput[1] = rawInput[1].capitalize()
         for i in range(2,numArgs):
-            input[1] += ' ' + input[i].capitalize()
-        item = input[1]
+            rawInput[1] += ' ' + rawInput[i].capitalize()
+        item = rawInput[1]
         printEquipmentInfo(item)
 
-    elif (input[0] == 'spell' and numArgs == 2):
-        SpellUtil.spellInfo(input[1])
+    elif (rawInput[0] == 'spell' and numArgs == 2):
+        SpellUtil.spellInfo(rawInput[1])
 
-    elif ((input[0] == 'sl' or input[0] == 'spl' or input[0] == 'spelllist') and (numArgs == 2 or numArgs == 3)):
-        SpellUtil.printSpellList(input[1].split(','),DnDUtil.getInt(input[2]) if numArgs == 3 else -1)
+    elif ((rawInput[0] == 'sl' or rawInput[0] == 'spl' or rawInput[0] == 'spelllist') and (numArgs == 2 or numArgs == 3)):
+        SpellUtil.printSpellList(rawInput[1].split(','),DnDUtil.getInt(rawInput[2]) if numArgs == 3 else -1)
 
-    elif (input[0] == 'hit' and numArgs == 2 and input[1] == 'box'):
+    elif (rawInput[0] == 'hit' and numArgs == 2 and rawInput[1] == 'box'):
         hitBox()
 
-    elif (input[0] == 'weather'):
+    elif (rawInput[0] == 'weather'):
         generateWeather()
 
-    elif (input[0] == 'setlvls' and numArgs == 2):
-        playerLevels = DnDUtil.mySplit(input[1],',')
+    elif (rawInput[0] == 'setlvls' and numArgs == 2):
+        playerLevels = DnDUtil.mySplit(rawInput[1],',')
         try:
             for i in range(0,len(playerLevels)):
                 playerLevels[i] = int(playerLevels[i])
@@ -9907,10 +9907,10 @@ while True:
         except ValueError:
             print("Invalid argument for levels! Must be any number of integers separated by ,")
 
-    elif ((input[0] == 'find' or input[0] == 'search') and numArgs >= 2):
+    elif ((rawInput[0] == 'find' or rawInput[0] == 'search') and numArgs >= 2):
         arguments = []
-        for i in range(1,len(input)):
-            argument = input[i].split(',')
+        for i in range(1,len(rawInput)):
+            argument = rawInput[i].split(',')
             if (len(argument) == 1):
                 print("No matching argument given for", argument[0])
             else:
@@ -9928,16 +9928,16 @@ while True:
                 else:
                     print(creature[0], "(CR", creature[1]+')')
 
-    elif ((input[0] == 'addparty' or input[0] == 'addp') and numArgs == 2):
-        addPartyMember(input[1])
+    elif ((rawInput[0] == 'addparty' or rawInput[0] == 'addp') and numArgs == 2):
+        addPartyMember(rawInput[1])
 
-    elif ((input[0] == 'u' or input[0] == 'use' or input[0] == 'scroll') and numArgs == 3):
-        if (input[0] == 'scroll'):
+    elif ((rawInput[0] == 'u' or rawInput[0] == 'use' or rawInput[0] == 'scroll') and numArgs == 3):
+        if (rawInput[0] == 'scroll'):
             scroll = True
         else:
             scroll = False
-        abilityName = input[1]
-        targets = input[2].split(',')
+        abilityName = rawInput[1]
+        targets = rawInput[2].split(',')
         actor = ''
         if (scroll):
             playerList = list(playerData.keys())
@@ -10020,8 +10020,8 @@ while True:
                                 print("Invalid target -", target)
                     printDamageSummary(abilityDamageSummary)
 
-    elif (input[0] == 'duel' and numArgs == 2):
-        duelistList = DnDUtil.mySplit(input[1],',')
+    elif (rawInput[0] == 'duel' and numArgs == 2):
+        duelistList = DnDUtil.mySplit(rawInput[1],',')
         if (len(duelistList) < 2):
             print("There must be at least two creatures to duel!")
         else:
@@ -10037,16 +10037,16 @@ while True:
             autoBattle = True
             createEncounter('',encounterDict)
 
-    elif (input[0] == 'format' and numArgs <= 2):
+    elif (rawInput[0] == 'format' and numArgs <= 2):
         if (numArgs == 2):
-            field = input[1]
+            field = rawInput[1]
         else:
             field = ''
         formatHelp(field)
 
-    elif (input[0] == 'h' or input[0] == 'help'):
+    elif (rawInput[0] == 'h' or rawInput[0] == 'help'):
         if (numArgs > 1):
-            help(input[1],False)
+            help(rawInput[1],False)
         else:
             help('',False)
 

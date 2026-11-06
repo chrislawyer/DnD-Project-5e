@@ -7,11 +7,11 @@ SPELL_LIST_FILE = 'Spell List Data.csv'
 def inputSpellLevel(spellName,baseLevel):
 
     while True:
-        input = getInput("Input spell level for "+spellName+" (skip to cast at base level of "+str(baseLevel)+"): ")
-        if (len(input) == 0):
+        rawInput = input("Input spell level for "+spellName+" (skip to cast at base level of "+str(baseLevel)+"): ")
+        if (len(rawInput) == 0):
             return baseLevel
         else:
-            spellLevel = DnDUtil.getInt(input)
+            spellLevel = DnDUtil.getInt(rawInput)
             if (spellLevel < 1):
                 print("Spells cannot be cast at a level lower than 1! Try again.")
             elif (spellLevel > 9):
@@ -62,7 +62,7 @@ def replaceSpellMod(actions,actorData):
                     promptString = 'What is this actor\'s spellcasting ability modifier? '
                     if (spModString != 'spmod'):
                         promptString += '('+spModString+') '
-                    spellMod = DnDUtil.getInt(getInput(promptString))
+                    spellMod = DnDUtil.getInt(input(promptString))
                 returnAction.append(actionParameter.replace(spModString,str(spellMod)))
             else:
                 returnAction.append(actionParameter)

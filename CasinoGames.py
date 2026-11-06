@@ -11,10 +11,10 @@ def main():
     
     while True:
 
-        input = getInput('What game would you like to play? ')
-        if (input == '' or input == 'done' or input == 'leave'):
+        rawInput = input('What game would you like to play? ')
+        if (rawInput == '' or rawInput == 'done' or rawInput == 'leave'):
             return
-        command = input.split()
+        command = rawInput.split()
         initCommand = command[0]
         numArgs = len(command)
 
@@ -55,13 +55,13 @@ def playRoulette():
         bets = []
         # generate the roulette spin ahead of time to optimize code
         result = random.randint(-1,36)
-        input = 'input'
-        while (input != '' and input != 'done'):
+        rawInput = 'input'
+        while (rawInput != '' and rawInput != 'done'):
 
-            input = getInput('Place your bets: ')
-            if (input != '' and input != 'done'):
+            rawInput = input('Place your bets: ')
+            if (rawInput != '' and rawInput != 'done'):
 
-                betInput = input.split()
+                betInput = rawInput.split()
                 if (betInput == ['help']):
                     print("Valid bet types are: a single number, high, low, red, black, green, even, odd, or dozen1/2/3")
                 elif (len(betInput) != 2):
@@ -135,10 +135,10 @@ def playHighLow():
     while (answer == 'y'):
         firstRoll = random.randint(1,20)
         print("First roll is a", firstRoll)
-        input = getInput('Will the next roll be high or low? ')
-        while (input != 'high' and input != 'low'):
+        rawInput = input('Will the next roll be high or low? ')
+        while (rawInput != 'high' and rawInput != 'low'):
             print("Invalid input! Valid inputs are high and low.")
-            input = getInput('Will the next roll be high or low? ')
+            rawInput = input('Will the next roll be high or low? ')
         secondRoll = random.randint(1,20)
         if (secondRoll > firstRoll):
             compareText = 'high'
@@ -147,7 +147,7 @@ def playHighLow():
         else:
             compareText = 'even'
         print("Second roll is a", secondRoll, '('+compareText+')')
-        if (input == compareText):
+        if (rawInput == compareText):
             print(DnDUtil.getPassText("You win!"))
         else:
             print(DnDUtil.getFailText("You lose."))
@@ -197,7 +197,7 @@ def playTwentyOne():
         roll2 = getTwentyOneFaceValue(random.randint(1,12))
         rolls = [roll1, roll2]
         print("The dealer is showing a", roll1)
-        getInput('Press Enter after player have finished hitting. ')
+        input('Press Enter after player have finished hitting. ')
         print("The dealer reveals a", roll2)
         total = sum(rolls)
         while (total <= 16 and (not(1 in rolls) or 1 in rolls and (total+10 <= 17 or total+10 > 21))):
@@ -237,8 +237,8 @@ def playTableGame(maxBettingRounds,initFunc,perRoundFunc,getBestHandFunc):
     buyIn = tableData['BuyIn']
     while (True):
 
-        input = getInput('Press Enter to play (type help to see commands): ')
-        tableCommand = input.split()
+        rawInput = input('Press Enter to play (type help to see commands): ')
+        tableCommand = rawInput.split()
         numArgs = len(tableCommand)
         if (numArgs == 0):
             pot = numActors * buyIn
@@ -281,8 +281,8 @@ def playTableGame(maxBettingRounds,initFunc,perRoundFunc,getBestHandFunc):
                         promptString += ' ('+str(highestBet-currentBet)+' to call)'
                         promptString += ': '
                         while (not(takenTurn)):
-                            input = getInput(promptString)
-                            command = input.split()
+                            rawInput = input(promptString)
+                            command = rawInput.split()
                             numArgs = len(command)
                             if (numArgs >= 1):
                                 initCommand = command[0]
@@ -336,11 +336,11 @@ def playTableGame(maxBettingRounds,initFunc,perRoundFunc,getBestHandFunc):
 
                                 if (targetActor in currentHandTurnOrder):
                                     if (playerTurn):
-                                        insight = DnDUtil.getInt(getInput('Make an insight check: '))
+                                        insight = DnDUtil.getInt(input('Make an insight check: '))
                                     else:
                                         insight = random.randint(1,20)+actorData['Insight']
                                     if (playerTarget):
-                                        deception = DnDUtil.getInt(getInput('Make a deception check: '))
+                                        deception = DnDUtil.getInt(input('Make a deception check: '))
                                     else:
                                         deception = random.randint(1,20)+tableData['NPCData'][targetActor]['Deception']
                                     print("Insight:", insight, "Deception:", deception)
@@ -469,7 +469,7 @@ def playTableGame(maxBettingRounds,initFunc,perRoundFunc,getBestHandFunc):
 
         elif (tableCommand[0] == 'add' and numArgs == 2 and (tableCommand[1] == 'p' or tableCommand[1] == 'player' or tableCommand[1] == 'n' or tableCommand[1] == 'npc')):
             if (tableCommand[1][0] == 'p'):
-                actorName = getInput('What is the player''\'s name? ')
+                actorName = input('What is the player''\'s name? ')
                 tableData['PlayerData'][actorName] = {'HasBet': False, 'Bet': 0}
             else:
                 actorName = 'NPC'+str(len(tableData['NPCData'])+1)
@@ -533,7 +533,7 @@ def getBestHandSum(actors,tableData):
     bestHand = 0
     for actor in actors:
         if (actor in tableData['PlayerData']):
-            hand = DnDUtil.getInt(getInput('What is '+actor+'\'s hand total? '))
+            hand = DnDUtil.getInt(input('What is '+actor+'\'s hand total? '))
             tableData['PlayerData'][actor]['Hand'] = hand
         else:
             hand = sum(tableData['NPCData'][actor]['Hand'])
@@ -556,10 +556,10 @@ def getBestHandPoker(actors,tableData):
     for actor in actors:
         if (actor in tableData['PlayerData']):
             dataKey = 'PlayerData'
-            privateHand = getInput('What is '+actor+'\'s private hand? ').split(',')
+            privateHand = input('What is '+actor+'\'s private hand? ').split(',')
             while (len(privateHand) != 2 or not(privateHand[0].isdigit()) or not(privateHand[1].isdigit())):
                 print("Hand must be 2 digits separated by a comma!")
-                privateHand = getInput('What is '+actor+'\'s private hand? ').split(',')
+                privateHand = input('What is '+actor+'\'s private hand? ').split(',')
             privateHand[0] = int(privateHand[0])
             privateHand[1] = int(privateHand[1])
         else:
@@ -668,7 +668,7 @@ def dragonsHoardInit(tableData):
     # roll NPC's starting hands
     for NPC in tableData['NPCData']:
         tableData['NPCData'][NPC]['Hand'] = [random.randint(1,6), random.randint(1,6), random.randint(1,6), random.randint(1,6)]
-    getInput('Press Enter after players have rolled their dice. (4d6) ')
+    input('Press Enter after players have rolled their dice. (4d6) ')
 
 def dragonsHoardPerRound(bettingRound,tableData):
 
@@ -700,7 +700,7 @@ def handOfFatePerRound(bettingRound,tableData):
         die = 4
     for NPC in tableData['NPCData']:
         tableData['NPCData'][NPC]['Hand'].append(random.randint(1,die))
-    getInput('Press Enter after players have rolled their dice. (1d'+str(die)+') ')
+    input('Press Enter after players have rolled their dice. (1d'+str(die)+') ')
 
 def playFaeruneKeepEm():
 
@@ -712,7 +712,7 @@ def faeruneKeepEmInit(tableData):
     # roll NPC's starting hands
     for NPC in tableData['NPCData']:
         tableData['NPCData'][NPC]['Hand'] = [random.randint(1,12), random.randint(1,12)]
-    getInput('Press Enter after players have rolled their dice. (2d12) ')
+    input('Press Enter after players have rolled their dice. (2d12) ')
 
 def faeruneKeepEmPerRound(bettingRound,tableData):
 
@@ -736,8 +736,8 @@ def generateTableData():
 
     tableData = {}
     tableData['PublicHand'] = []
-    tableData['BuyIn'] = DnDUtil.getInt(getInput('What is the buy-in? '))
-    numNPCs = DnDUtil.getInt(getInput('How many NPCs are playing? '))
+    tableData['BuyIn'] = DnDUtil.getInt(input('What is the buy-in? '))
+    numNPCs = DnDUtil.getInt(input('How many NPCs are playing? '))
     tableData['NPCData'] = {}
     tableData['TurnOrder'] = []
     for i in range(0,numNPCs):
@@ -746,10 +746,10 @@ def generateTableData():
         tableData['TurnOrder'].append(NPCName)
     displayTableData(tableData)
 
-    numPlayers = DnDUtil.getInt(getInput('How many players are playing? '))
+    numPlayers = DnDUtil.getInt(input('How many players are playing? '))
     tableData['PlayerData'] = {}
     for i in range(0,numPlayers):
-        playerName = getInput('What is player'+str(i+1)+'\'s name? ')
+        playerName = input('What is player'+str(i+1)+'\'s name? ')
         tableData['PlayerData'][playerName] = {'HasBet': False, 'Bet': 0}
         tableData['TurnOrder'].append(playerName)
     tableData['FirstBetIndex'] = random.randint(0,len(tableData['TurnOrder'])-1)

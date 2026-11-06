@@ -216,10 +216,10 @@ def main(playerData):
             Player = player
             PlayerData = playerData[player]
             while (not(takenAction)):
-                input = getInput(Player+': ')
-                if (not(input)):
-                    input = 'skip'
-                command = input.split()
+                rawInput = input(Player+': ')
+                if (not(rawInput)):
+                    rawInput = 'skip'
+                command = rawInput.split()
                 initCommand = command[0]
                 numArgs = len(command)
 
@@ -360,7 +360,7 @@ def main(playerData):
 
                         if (baseLevel > 0):
                             while (spellLevel < 1 or spellLevel > 9 or spellLevel < baseLevel):
-                                spellLevel = DnDUtil.getInt(getInput("Invalid spell level! Try again (base level "+str(baseLevel)+"): "))
+                                spellLevel = DnDUtil.getInt(input("Invalid spell level! Try again (base level "+str(baseLevel)+"): "))
                             if (spellLevel > baseLevel and 'Scaled Actions' in ability):
                                 actionKey = 'Scaled Actions'
                         elif (spellLevel == 0 and 'Scaled Actions' in ability):
@@ -426,7 +426,7 @@ def main(playerData):
                         elif (maxHits > 1):
                             numHits = -1
                             while (numHits < 0 or numHits > maxHits-numMisses):
-                                numHits = DnDUtil.getInt(getInput("How many times did "+abilityName+" hit the target? (max "+str(maxHits-numMisses)+") "))
+                                numHits = DnDUtil.getInt(input("How many times did "+abilityName+" hit the target? (max "+str(maxHits-numMisses)+") "))
                             print("---------------------------------------------------")
                         else:
                             numHits = 1-numMisses
@@ -525,7 +525,7 @@ def main(playerData):
                     else:
                         damage = int(command[1])
                     while (damage < 0):
-                        damageString = getInput('How much damage was taken? ')
+                        damageString = input('How much damage was taken? ')
                         if (damageString):
                             damage = DnDUtil.getInt(damageString)
                         else:
@@ -1054,7 +1054,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                             creatureType = 'input'
 
                     if (creatureType == 'input'):
-                        creatureType = getInput('Enter a creature to summon: ')
+                        creatureType = input('Enter a creature to summon: ')
                         number = 1
 
                     newCharacterData = getCharacterData(creatureType)

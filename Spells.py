@@ -178,12 +178,12 @@ def colorspray():
     else:
         blindPointCalculation = str(6+2*(SpellLevel-BaseLevel))+'d10'
         if (PlayerTurn):
-            blindPoints = DnDUtil.getInt(getInput('Roll for blind points ('+blindPointCalculation+'): '))
+            blindPoints = DnDUtil.getInt(input('Roll for blind points ('+blindPointCalculation+'): '))
         else:
             blindPoints = DnDUtil.calculate(blindPointCalculation)
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -294,7 +294,7 @@ def divineword():
         Actions.append(['msg','target is forced back to its plane of origin!'])
     else:
         if (PlayerTarget):
-            hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+            hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
         else:
             hp = TargetData['HP']
 
@@ -410,7 +410,7 @@ def magearmor():
     if (initValue <= 5):
         newAC = 13 + initValue
     else:
-        dexMod = DnDUtil.getInt(getInput('What is '+Target+'\'s dex mod? '))
+        dexMod = DnDUtil.getInt(input('What is '+Target+'\'s dex mod? '))
         newAC = 13 + dexMod
     
     diff = newAC - TargetData['AC']
@@ -425,7 +425,7 @@ def magearmor():
 def powerwordkill():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -438,7 +438,7 @@ def powerwordkill():
 def powerwordstun():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -458,7 +458,7 @@ def prismaticspray():
     if (PlayerTurn):
         rayID = 0
         while (rayID < 1 or rayID > 8):
-            rayID = DnDUtil.getInt(getInput('Roll for which ray hits '+Target+' (1d8): '))
+            rayID = DnDUtil.getInt(input('Roll for which ray hits '+Target+' (1d8): '))
         if (rayID != 8):
             rayIDs.append(rayID)
         else:
@@ -466,9 +466,9 @@ def prismaticspray():
             rayID1 = 0
             rayID2 = 0
             while (rayID1 < 1 or rayID1 > 7):
-                rayID1 = DnDUtil.getInt(getInput('Roll for the first ray, rerolling any 8s (1d8): '))
+                rayID1 = DnDUtil.getInt(input('Roll for the first ray, rerolling any 8s (1d8): '))
             while (rayID2 < 1 or rayID2 > 7 or rayID2 == rayID1):
-                rayID2 = DnDUtil.getInt(getInput('Roll for the second ray, rerolling any 8s and avoiding a duplicate ray (1d8): '))
+                rayID2 = DnDUtil.getInt(input('Roll for the second ray, rerolling any 8s and avoiding a duplicate ray (1d8): '))
             rayIDs.append(rayID1)
             rayIDs.append(rayID2)
     else:
@@ -541,12 +541,12 @@ def sleep():
     else:
         sleepPointCalculation = str(5+2*(SpellLevel-BaseLevel))+'d8'
         if (PlayerTurn):
-            sleepPoints = DnDUtil.getInt(getInput('Roll for sleep points ('+sleepPointCalculation+'): '))
+            sleepPoints = DnDUtil.getInt(input('Roll for sleep points ('+sleepPointCalculation+'): '))
         else:
             sleepPoints = DnDUtil.calculate(sleepPointCalculation)
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -694,7 +694,7 @@ def dsmite():
     
     divineSmiteLevel = -1
     while (divineSmiteLevel < 1):
-        divineSmiteLevel = DnDUtil.getInt(getInput('What level spell slot was used for divine smite? '))
+        divineSmiteLevel = DnDUtil.getInt(input('What level spell slot was used for divine smite? '))
     if (divineSmiteLevel > 4):
         divineSmiteLevel = 4
     numDamageDice = divineSmiteLevel + 1
@@ -898,10 +898,10 @@ def antimagicshellburst():
 
     # only ask for the spell level on the first target since we will use this same damage we rolled on all future targets
     if (not(SavedDamageRolls)):
-        spellLevel = DnDUtil.getInt(getInput('What was the spell level of the absorbed spell? '))
+        spellLevel = DnDUtil.getInt(input('What was the spell level of the absorbed spell? '))
         while (spellLevel < 0 or spellLevel > 9):
             print("Invalid input - spell level must be between 0 and 9!")
-            spellLevel = DnDUtil.getInt(getInput('What was the spell level of the absorbed spell? '))
+            spellLevel = DnDUtil.getInt(input('What was the spell level of the absorbed spell? '))
     else:
         spellLevel = 0
 
@@ -1037,7 +1037,7 @@ def delayedblastfireball():
 
     passedTurns = -1
     while (passedTurns < 0):
-        passedTurns = DnDUtil.getInt(getInput('How many times has '+Actor+'\'s turn ended since this spell was cast? '))
+        passedTurns = DnDUtil.getInt(input('How many times has '+Actor+'\'s turn ended since this spell was cast? '))
     Actions.append(['damage',str(12+SpellLevel-BaseLevel+passedTurns)+'d6+','fire'])
 
 # choose a buff to grant the transmuter and remove any previous buff granted by this ability
@@ -1114,11 +1114,11 @@ def chaosbolt():
     if (PlayerTurn):
         roll1 = 0
         while (roll1 < 1 or roll1 > 8):
-            roll1 = DnDUtil.getInt(getInput("Roll for first chaos bolt damage (1d8): "))
+            roll1 = DnDUtil.getInt(input("Roll for first chaos bolt damage (1d8): "))
         roll2 = 0
         while (roll2 < 1 or roll2 > 8):
-            roll2 = DnDUtil.getInt(getInput("Roll for second chaos bolt damage (1d8): "))
-        roll3 = DnDUtil.getInt(getInput("Roll for third chaos bolt damage ("+str(1+SpellLevel-BaseLevel)+"d6): "))
+            roll2 = DnDUtil.getInt(input("Roll for second chaos bolt damage (1d8): "))
+        roll3 = DnDUtil.getInt(input("Roll for third chaos bolt damage ("+str(1+SpellLevel-BaseLevel)+"d6): "))
     else:
         roll1 = DnDUtil.calculate('1d8')
         roll2 = DnDUtil.calculate('1d8')
@@ -1144,17 +1144,17 @@ def dansemacabre():
     numCorpses = -1
     maxCorpses = 2*(SpellLevel-BaseLevel)+5
     while (numCorpses < 0 or numCorpses > maxCorpses):
-        numCorpses = DnDUtil.getInt(getInput('How many small/medium corpses are in range (max '+str(maxCorpses)+')? '))
+        numCorpses = DnDUtil.getInt(input('How many small/medium corpses are in range (max '+str(maxCorpses)+')? '))
 
     if (numCorpses > 0):
         numSkeletons = -1
         while (numSkeletons < 0 or numSkeletons > numCorpses):
-            numSkeletons = DnDUtil.getInt(getInput('How many of these should be skeletons (as opposed to zombies)? '))
+            numSkeletons = DnDUtil.getInt(input('How many of these should be skeletons (as opposed to zombies)? '))
         numZombies = numCorpses - numSkeletons
         if ('spmod' in ActorData['Misc']):
             spellModString = str(ActorData['Misc']['spmod'])
         else:
-            spellModString = str(DnDUtil.getInt(getInput('What is '+Actor+'\'s spellcasting ability modifier? ')))
+            spellModString = str(DnDUtil.getInt(input('What is '+Actor+'\'s spellcasting ability modifier? ')))
         for i in range(0,numSkeletons):
             Actions.append(['summon','skeleton','1'])
             Actions.append(['buff','atk',spellModString])
@@ -1231,7 +1231,7 @@ def negativeenergyflood():
     if ('undead' in TargetData['Type']):
         print(Target, "will instead gain half the damage as temp hp since it is undead!")
         if (PlayerTurn):
-            tempHP = DnDUtil.getInt(getInput("Roll for "+AbilityName+" damage (5d12): "))
+            tempHP = DnDUtil.getInt(input("Roll for "+AbilityName+" damage (5d12): "))
         else:
             tempHP = DnDUtil.calculate('5d12')
         Actions.append(['temphp',str(DnDUtil.divide((tempHP), (2)))])
@@ -1243,7 +1243,7 @@ def negativeenergyflood():
 def powerwordpain():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(input('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -1261,11 +1261,11 @@ def tenserstransformation():
 
     profBonus = 0
     if (DnDUtil.getAnswer('Is '+Target+' proficient in str saves') == 'n'):
-        profBonus = DnDUtil.getInt(getInput('What is '+Target+'\'s proficiency bonus? '))
+        profBonus = DnDUtil.getInt(input('What is '+Target+'\'s proficiency bonus? '))
         Actions.append(['buff','strsaves',str(profBonus)])
     if (DnDUtil.getAnswer('Is '+Target+' proficient in con saves') == 'n'):
         if (not(profBonus)):
-            profBonus = DnDUtil.getInt(getInput('What is '+Target+'\'s proficiency bonus? '))
+            profBonus = DnDUtil.getInt(input('What is '+Target+'\'s proficiency bonus? '))
         Actions.append(['buff','consaves',str(profBonus)])
     if (DnDUtil.getAnswer('Does '+Target+' have the Extra Attack feature') == 'n'):
         Actions.append(['bonusattack'])
@@ -1795,7 +1795,7 @@ def nathairsmischief():
         if (PlayerTurn):
             roll = 0
             while (roll < 1 or roll > 4):
-                roll = DnDUtil.getInt(getInput('Roll for '+AbilityName+'\'s effect (1d4): '))
+                roll = DnDUtil.getInt(input('Roll for '+AbilityName+'\'s effect (1d4): '))
         else:
             roll = random.randint(1,4)
             print(Actor, "rolls a", roll, "for", AbilityName+'\'s', "effect")

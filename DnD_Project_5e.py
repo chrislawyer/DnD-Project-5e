@@ -2390,7 +2390,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                 if (playerAttack and not(autoBattle)):
                     lightningLauncherDamage = int(critMultiplier*DnDUtil.getInt(input("Roll for lightning launcher damage (1d6): ")))
                 else:
-                    lightningLauncherDamage = int(critMultiplier*DnDutil.calculate('1d6'))
+                    lightningLauncherDamage = int(critMultiplier*DnDUtil.calculate('1d6'))
                     print(target, "takes", lightningLauncherDamage, "extra damage from lightning launcher!")
                 damage += lightningLauncherDamage
 
@@ -2441,7 +2441,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     dfDamage = DnDUtil.getInt(input('Roll for divine fury damage (1d6): '))
                 else:
                     dfDamage = DnDUtil.calculate('1d6')
-                if (not(playerTurn) or not(PLAYERS_ADD_BONUS)):
+                if (not(playerAttack) or not(PLAYERS_ADD_BONUS)):
                     if (actorData['Misc'][dfKey]):
                         dfDmgBonus = DnDUtil.divide((actorData['Misc'][dfKey]), (2))
                     else:
@@ -2710,7 +2710,7 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
             return damageSummary
 
         if (cleave):
-            usedAbilties.append('cleave')
+            usedAbilities.append('cleave')
             maxAtks += 1
             j = 0
         elif (lastAttack and flurryOfBlows and not('flurryOfBlows' in usedAbilities)):

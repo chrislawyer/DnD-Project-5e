@@ -1191,14 +1191,14 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                                     lvlReplacement = SpellUtil.getCantripModifierForActor(Player,PlayerData)
                                 secondaryActionData = SpellUtil.replaceLvl(secondaryActionData,lvlReplacement)
                                 if ('Scaled Actions2' in secondaryAbility):
-                                    secondaryActionData2 = SpellUtil.replaceLvl(deepycopy(secondaryAbility[secondaryActionKey+'2']),lvlReplacement)
-                                    secondaryActionData2 = SpellUtil.replaceSpellMod(secondaryActionData2,actorData)
+                                    secondaryActionData2 = SpellUtil.replaceLvl(deepcopy(secondaryAbility[secondaryActionKey+'2']),lvlReplacement)
+                                    secondaryActionData2 = SpellUtil.replaceSpellMod(secondaryActionData2,PlayerData)
                             elif ('Actions2' in secondaryAbility):
                                 secondaryActionData2 = deepcopy(secondaryAbility['Actions2'])
-                                secondaryActionData2 = SpellUtil.replaceSpellMod(secondaryActionData2,actorData)
+                                secondaryActionData2 = SpellUtil.replaceSpellMod(secondaryActionData2,PlayerData)
 
                             if (saveDC == 0):
-                                secondarySaveDC = actorData['SpellDC']
+                                secondarySaveDC = PlayerData['SpellDC']
                             else:
                                 secondarySaveDC = saveDC
                             

@@ -305,7 +305,7 @@ def loadAbilityData(name,data,useAbility):
                     abilityDict['DC'] = int(prereqs[4])
                     abilityDict['Save Result'] = prereqs[5]
                 else:
-                    DnDUtil.printError("Invalid prerequisite arguments "+data[0]+" in ability "+abilityName)
+                    DnDUtil.printError("Invalid prerequisite arguments "+data[0]+" in ability "+name)
             else:
                 DnDUtil.printError("Invalid prerequisite arguments "+data[0]+" in on-hit ability")
         elif (useAbility):

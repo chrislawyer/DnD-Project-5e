@@ -1,0 +1,14 @@
+# ignore compiled Python files
+*.pyc
+
+# ignore Visual Studio project files
+*.pyproj
+
+# ignore JSON files as they are only used to save encounter states
+*.json
+
+# ignore the txt files containing the most recently generated blacksmith and magic shop
+*.txt
+
+# ignore the file containing old code no longer in use
+Depricated_Code.py

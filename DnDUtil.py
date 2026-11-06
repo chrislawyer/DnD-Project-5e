@@ -12,8 +12,8 @@ def getInt(input):
         try:
             return int(input)
         except ValueError:
-            print "Illegal input", '\''+input+'\'', "- input must be an integer!"
-            input = raw_input("Try Again: ")
+            print("Illegal input", '\''+input+'\'', "- input must be an integer!")
+            input = getInput("Try Again: ")
 
 def mySplit(string,parseChar):
 
@@ -36,7 +36,7 @@ def maxCalculate(command,printOutput=True):
             total += getInt(arguments[0])*getInt(arguments[1])
 
     if (printOutput):
-        print 'MAX('+command+') =', total
+        print('MAX('+command+') =', total)
 
     return total
 
@@ -57,7 +57,7 @@ def calculate(command,printOutput=True):
             total += diceRolls(getInt(arguments[0]),getInt(arguments[1]),output)
             
     if (printOutput):
-        print output[0] + '=', total
+        print(output[0] + '=', total)
 
     return total
 
@@ -79,9 +79,9 @@ def diceRolls(numDice,diceValue,output):
 
 def getAnswer(question):
 
-    answer = raw_input(question+" (y/n)? ")
+    answer = getInput(question+" (y/n)? ")
     while (answer != 'y' and answer != 'n'):
-        answer = raw_input(question+" (y/n)? ")
+        answer = getInput(question+" (y/n)? ")
 
     return answer
 
@@ -93,17 +93,17 @@ def chooseOption(choosePrompt,options,allowNone=False):
     elif (numOptions == 1 and not(allowNone)):
         return 1
 
-    print "--------------------------"
+    print("--------------------------")
     for i in range(0,numOptions):
-        print "Option", str(i+1)+':', options[i]
+        print("Option", str(i+1)+':', options[i])
     if (allowNone):
         numOptions += 1
-        print "Option", str(numOptions)+':', "None"
+        print("Option", str(numOptions)+':', "None")
         
-    print "--------------------------"
+    print("--------------------------")
     choice = 0
     while (choice < 1 or choice > numOptions):
-        choice = raw_input(choosePrompt+': ')
+        choice = getInput(choosePrompt+': ')
         # giving no input while "None" is an option will automatically select the "None" option
         if (allowNone and choice == ''):
             choice = numOptions
@@ -129,7 +129,7 @@ def simplifyCalculation(calculation):
             denominator = int(term[findIndex+1:])
         if (orderedTerms):
             i = 0
-            curDenominator = sys.maxint
+            curDenominator = sys.maxsize
             while (i < len(orderedTerms) and denominator < curDenominator):
                 curDenominator = orderedTerms[i][1]
                 i += 1
@@ -172,16 +172,16 @@ def parseDamageCalculation(damageCalculation):
 def printError(errorString):
 
     try:
-        print colorama.Fore.LIGHTRED_EX + "Error: " + errorString + '!'
+        print(colorama.Fore.LIGHTRED_EX + "Error: " + errorString + '!')
     except NameError:
-        print "Error:", errorString+'!'
+        print("Error:", errorString+'!')
 
 def printWarning(warningString):
 
     try:
-        print colorama.Fore.LIGHTYELLOW_EX + "Warning: " + warningString + '!'
+        print(colorama.Fore.LIGHTYELLOW_EX + "Warning: " + warningString + '!')
     except NameError:
-        print "Warning:", warningString+'!'
+        print("Warning:", warningString+'!')
 
 def getHealText(healAmount):
 

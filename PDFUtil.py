@@ -1,6 +1,5 @@
 import subprocess
 import csv
-
 import DnDUtil
 
 USE_2024_RULES = False
@@ -39,12 +38,12 @@ def openBookmark(searchArgs):
             pageNum = str(int(searchName)+1)
             fileName = getFileName(searchArgs[0])
         else:
-            print "Page number must be followed only by the file name acronym!"
+            print("Page number must be followed only by the file name acronym!")
             return
     else:
-        bookmarkFile = open(BOOKMARK_FILE,'rb')
+        bookmarkFile = open(BOOKMARK_FILE, 'r', encoding='utf-8', newline='')
         csvBookmarkReader = csv.reader(bookmarkFile)
-        header = csvBookmarkReader.next()
+        header = next(csvBookmarkReader)
         numHeaderColumns = len(header)
 
         try:
@@ -74,7 +73,7 @@ def openBookmark(searchArgs):
             argsString = searchName
             for searchArg in searchArgs:
                 argsString += " AND "+searchArg
-            print "Could not find any bookmarks containing", argsString+'!'
+            print("Could not find any bookmarks containing", argsString+'!')
             return
         exactMatches = [result for result in results if result[nameIndex] == searchName]
         if (len(exactMatches) == 1):

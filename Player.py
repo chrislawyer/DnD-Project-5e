@@ -93,16 +93,16 @@ def parseCharacterData(row,header):
     
     if (missingDataKeys):
         DnDUtil.printError("Missing data for character "+name) 
-        print "The following data is missing from the character data file:"
+        print("The following data is missing from the character data file:")
         for dataKey in missingDataKeys:
-            print dataKey
+            print(dataKey)
         return {}
 
     if (retCharacterData['HP'] != '0'):
         hp = DnDUtil.calculate(retCharacterData['HP'])
-        print "-----------------------"
-        print "HP for this form is", hp
-        print "-----------------------"
+        print("-----------------------")
+        print("HP for this form is", hp)
+        print("-----------------------")
     retCharacterData['Move'] = ImportUtil.parseMoveData(retCharacterData['Move'])
     ImportUtil.formatAtkDamageData(retCharacterData,name)
     ImportUtil.formatOnHitAbilitiesData(retCharacterData['OnHitAbilities'])
@@ -114,9 +114,9 @@ def parseCharacterData(row,header):
 
 def getCharacterData(name):
 
-    characterFile = open(CHARACTER_FILE,'rb')
+    characterFile = open(CHARACTER_FILE, 'r', encoding='utf-8', newline='')
     csvCharacterReader = csv.reader(characterFile)
-    header = csvCharacterReader.next()
+    header = next(csvCharacterReader)
 
     for row in csvCharacterReader:
         if (row[0] == name):
@@ -128,12 +128,12 @@ def getCharacterData(name):
 # mostly copied from main script
 def displayMoveSpeed():
 
-    print "Move Speed"
-    print "--------------"
-    print "Ground -", str(PlayerData['Move']['Ground'])+'ft'
+    print("Move Speed")
+    print("--------------")
+    print("Ground -", str(PlayerData['Move']['Ground'])+'ft')
     for moveType in ['Fly','Climb','Swim','Burrow']:
         if (PlayerData['Move'][moveType] > 0):
-            print moveType, "-", str(PlayerData['Move'][moveType])+'ft'
+            print(moveType, "-", str(PlayerData['Move'][moveType])+'ft')
 
 # mostly copied from main script
 def getCritStat(rangeIndex,atkIndex1,atkIndex2,critType):
@@ -198,7 +198,7 @@ def printDamageSummary(damageSummary):
         totalDamage += damageSummary[damageType]
 
     totalDamageString = DnDUtil.getDamageText(totalDamage)
-    print "Target took", totalDamageString, "total damage!", damageString[:-1]+")"
+    print("Target took", totalDamageString, "total damage!", damageString[:-1]+")")
 
 def main(playerData):
 
@@ -216,7 +216,7 @@ def main(playerData):
             Player = player
             PlayerData = playerData[player]
             while (not(takenAction)):
-                input = raw_input(Player+': ')
+                input = getInput(Player+': ')
                 if (not(input)):
                     input = 'skip'
                 command = input.split()
@@ -275,7 +275,7 @@ def main(playerData):
                         rollString = '1d20'
                     else:
                         rollString = command[1]
-                    print DnDUtil.calculate(rollString)
+                    print(DnDUtil.calculate(rollString))
 
                 elif (initCommand == 'd' and numArgs == 2):
                     stat = command[1]
@@ -284,23 +284,23 @@ def main(playerData):
                     else:
                         stat = stat[0].capitalize() + stat[1:]
                         if (stat in PlayerData):
-                            print PlayerData[stat]
+                            print(PlayerData[stat])
                         else:
                             stat = stat.upper()
                             if (stat in PlayerData):
-                                print PlayerData[stat]
+                                print(PlayerData[stat])
                             else:
-                                print "Invalid stat -", command[1]
+                                print("Invalid stat -", command[1])
 
                 elif (initCommand == 'move' and numArgs == 1):
                     displayMoveSpeed()
 
                 elif (initCommand == 'size' and numArgs == 1):
-                    print Player+"'s size is", PlayerData['Size']
+                    print(Player+"'s size is", PlayerData['Size'])
 
                 elif ((initCommand == 'a' or initCommand == 'abilities') and numArgs == 1):
                     for ability in PlayerData['UseAbilities']:
-                        print ability
+                        print(ability)
 
                 elif (initCommand == 'spell' and numArgs == 2):
                     SpellUtil.spellInfo(command[1])
@@ -319,19 +319,19 @@ def main(playerData):
                     # code copied from printEquipmentInfo in main script
                     if (item in weaponData):
                         itemData = weaponData[item]
-                        print item+':', itemData['Class'], "weapon", '('+itemData['Damage'], itemData['Damage Type'], "damage)", "worth", itemData['Value'], "gp"
+                        print(item+':', itemData['Class'], "weapon", '('+itemData['Damage'], itemData['Damage Type'], "damage)", "worth", itemData['Value'], "gp")
                         if (itemData['Traits']):
-                            print "Traits:", itemData['Traits']
+                            print("Traits:", itemData['Traits'])
                     elif (item in armorData):
                         itemData = armorData[item]
-                        print item+':', itemData['Class'], "armor worth", itemData['Value'], "gp"
-                        print "AC:", str(itemData['Base AC'])+itemData['AC Mod']
+                        print(item+':', itemData['Class'], "armor worth", itemData['Value'], "gp")
+                        print("AC:", str(itemData['Base AC'])+itemData['AC Mod'])
                         if (itemData['Str Req'] > 0):
-                            print "Strength Requirement:", itemData['Str Req']
+                            print("Strength Requirement:", itemData['Str Req'])
                         if (itemData['Stealth']):
-                            print "Stealth:", itemData['Stealth']
+                            print("Stealth:", itemData['Stealth'])
                     else:
-                        print "Item not found."
+                        print("Item not found.")
 
                 elif (initCommand == 'hd' and (numArgs == 1 or numArgs == 2)):
                     if (numArgs == 2):
@@ -342,7 +342,7 @@ def main(playerData):
                         hitDieString = "hit die"
                     hitDieCalculation = str(numHitDice)+'d'+str(PlayerData['HD'])+'+'+str(numHitDice*PlayerData['Con'])
                     health = DnDUtil.calculate(hitDieCalculation)
-                    print Player, "uses", numHitDice, hitDieString, "to recover", DnDUtil.getHealText(health), "health"
+                    print(Player, "uses", numHitDice, hitDieString, "to recover", DnDUtil.getHealText(health), "health")
 
                 elif (initCommand == 'u' or initCommand == 'use' and numArgs >= 2):
                     abilityName = SpellUtil.autoCompleteAbility(command[1],PlayerData['UseAbilities'])
@@ -360,7 +360,7 @@ def main(playerData):
 
                         if (baseLevel > 0):
                             while (spellLevel < 1 or spellLevel > 9 or spellLevel < baseLevel):
-                                spellLevel = DnDUtil.getInt(raw_input("Invalid spell level! Try again (base level "+str(baseLevel)+"): "))
+                                spellLevel = DnDUtil.getInt(getInput("Invalid spell level! Try again (base level "+str(baseLevel)+"): "))
                             if (spellLevel > baseLevel and 'Scaled Actions' in ability):
                                 actionKey = 'Scaled Actions'
                         elif (spellLevel == 0 and 'Scaled Actions' in ability):
@@ -395,9 +395,9 @@ def main(playerData):
                         if (hex and ability['Attack']):
                             actionData.append(['damage','1d6','necrotic'])
                             actionData2.append(['damage','1d6','necrotic'])
-                            print abilityName, "will deal 1d6 additional necrotic damage due to hex!"
+                            print(abilityName, "will deal 1d6 additional necrotic damage due to hex!")
                         if (ability['Save']):
-                            print "SAVE:", ability['Save'], "(DC", str(spellDC)+')'
+                            print("SAVE:", ability['Save'], "(DC", str(spellDC)+')')
                             if (ability['Save Result'] == 'half'):
                                 half = True
                     
@@ -411,7 +411,7 @@ def main(playerData):
                             maxHits = 1
                         numCrits = 0
                         numMisses = 0
-                        print "---------------------------------------------------"
+                        print("---------------------------------------------------")
                         for i in range(0,maxHits):
                             if (ability['Attack']):
                                 attackRoll = makeRoll(spellAtk,advantage,disadvantage,guidance,bane,0,extraRollMods)[0]
@@ -419,15 +419,15 @@ def main(playerData):
                                     numMisses += 1
                                 elif (attackRoll == 20 or hexbladesCurse and attackRoll == 19):
                                     numCrits += 1
-                                print "---------------------------------------------------"
+                                print("---------------------------------------------------")
 
                         if (maxHits > 1 and not(ability['Attack'])):
                             numHits = maxHits
                         elif (maxHits > 1):
                             numHits = -1
                             while (numHits < 0 or numHits > maxHits-numMisses):
-                                numHits = DnDUtil.getInt(raw_input("How many times did "+abilityName+" hit the target? (max "+str(maxHits-numMisses)+") "))
-                            print "---------------------------------------------------"
+                                numHits = DnDUtil.getInt(getInput("How many times did "+abilityName+" hit the target? (max "+str(maxHits-numMisses)+") "))
+                            print("---------------------------------------------------")
                         else:
                             numHits = 1-numMisses
 
@@ -445,7 +445,7 @@ def main(playerData):
                             takenAction = True
                             breakLoop = True
                     else:
-                        print "Invalid ability", command[1]
+                        print("Invalid ability", command[1])
 
                 elif (initCommand == 'ss' and numArgs == 2):
                     shapeShift(command[1])
@@ -459,9 +459,9 @@ def main(playerData):
                         takenAction = True
                         breakLoop = True
                         PlayerDataDict[command[1].capitalize()] = newCharacterData
-                        print "Player", command[1].capitalize(), "has been added!"
+                        print("Player", command[1].capitalize(), "has been added!")
                     else:
-                        print "Could not find player", command[1], "in", CHARACTER_FILE+'!'
+                        print("Could not find player", command[1], "in", CHARACTER_FILE+'!')
 
                 elif (initCommand == 'kill' and (numArgs == 1 or numArgs == 2)):
                     if (numArgs == 1):
@@ -472,9 +472,9 @@ def main(playerData):
                         takenAction = True
                         breakLoop = True
                         del PlayerDataDict[target]
-                        print target, "has been removed!"
+                        print(target, "has been removed!")
                     else:
-                        print "Invalid kill target", target
+                        print("Invalid kill target", target)
 
                 elif ((initCommand == 'm' or initCommand == 'r' or initCommand == 'melee' or initCommand == 'ranged' or ((initCommand[0] == 'm' or initCommand[0] == 'r') and len(initCommand) > 1 and initCommand[1:].isdigit()))):
                     takenAction = True
@@ -525,13 +525,13 @@ def main(playerData):
                     else:
                         damage = int(command[1])
                     while (damage < 0):
-                        damageString = raw_input('How much damage was taken? ')
+                        damageString = getInput('How much damage was taken? ')
                         if (damageString):
                             damage = DnDUtil.getInt(damageString)
                         else:
                             damage = 20
-                    concDC = max(10,damage/2)
-                    print "Concentration DC is", concDC
+                    concDC = max(10,DnDUtil.divide((damage), (2)))
+                    print("Concentration DC is", concDC)
                     proficiencyBonus = getProficiencyBonusForCommand('cons')
                     if (bladesong):
                         proficiencyBonus += PlayerData['Int']
@@ -539,9 +539,9 @@ def main(playerData):
                     concRoll = resultList[0]
                     concResult = resultList[1]
                     if (concRoll == 20 or concRoll != 1 and concResult >= concDC):
-                        print Player, DnDUtil.getPassText('passed'), "the concentration check!"
+                        print(Player, DnDUtil.getPassText('passed'), "the concentration check!")
                     else:
-                        print Player, DnDUtil.getFailText('failed'), "the conecentration check"
+                        print(Player, DnDUtil.getFailText('failed'), "the conecentration check")
 
                 elif (initCommand in ['aov','aove','auraofvitality','auraofvitalitye'] and numArgs == 2):
                     if (initCommand[-1] == 'e'):
@@ -561,7 +561,7 @@ def main(playerData):
                     takenAction = True
 
                 else:
-                    print "Invalid Command"
+                    print("Invalid Command")
             # triggered if PlayerDataDict's size changes during iteration (i.e. add/kill commands)
             if (breakLoop):
                 break
@@ -594,34 +594,34 @@ def getProficiencyBonusForCommand(initCommand):
     elif (initCommand in PlayerData['Proficiencies']):
         proficiencyBonus = PlayerData['ProfBonus']
     elif ('joat' in PlayerData['Misc'] and not(initCommand in ['strs','dexs','cons','ints','wiss','chas','deaths'])):
-        proficiencyBonus = PlayerData['ProfBonus']/2
+        proficiencyBonus = DnDUtil.divide((PlayerData['ProfBonus']), (2))
     else:
         proficiencyBonus = 0
     return proficiencyBonus
 
 def displayStats():
 
-    print "Name:", Player
-    print "Level/CR:", PlayerData['CR']
-    print "Size:", PlayerData['Size']
+    print("Name:", Player)
+    print("Level/CR:", PlayerData['CR'])
+    print("Size:", PlayerData['Size'])
     if (PlayerData['HP'] != '0'):
-        print "HP:", PlayerData['HP']
-    print "Hit Die:", PlayerData['HD']
-    print "Move Speed:", PlayerData['Move']
-    print "Proficiency Bonus:", PlayerData['ProfBonus']
-    print "Proficiencies:", PlayerData['Proficiencies']
-    print "Expertise:", PlayerData['Expertise']
-    print "Atk:", PlayerData['Atk']
-    print "Damage:", PlayerData['Damage'], "Damage Bonus:", PlayerData['DmgBonus']
-    print "On-Hit Abilities:", PlayerData['OnHitAbilities']
-    print "Weapon Types:", PlayerData['WeaponTypes']
-    print "Spell Atk:", PlayerData['SpellAtk'], "Spell DC:", PlayerData['SpellDC']
-    print "UseAbilities:"
+        print("HP:", PlayerData['HP'])
+    print("Hit Die:", PlayerData['HD'])
+    print("Move Speed:", PlayerData['Move'])
+    print("Proficiency Bonus:", PlayerData['ProfBonus'])
+    print("Proficiencies:", PlayerData['Proficiencies'])
+    print("Expertise:", PlayerData['Expertise'])
+    print("Atk:", PlayerData['Atk'])
+    print("Damage:", PlayerData['Damage'], "Damage Bonus:", PlayerData['DmgBonus'])
+    print("On-Hit Abilities:", PlayerData['OnHitAbilities'])
+    print("Weapon Types:", PlayerData['WeaponTypes'])
+    print("Spell Atk:", PlayerData['SpellAtk'], "Spell DC:", PlayerData['SpellDC'])
+    print("UseAbilities:")
     for ability in PlayerData['UseAbilities']:
-        print ability, "-", PlayerData['UseAbilities'][ability]
-    print "Str:", PlayerData['Str'], "Dex:", PlayerData['Dex'], "Con:", PlayerData['Con'], "Int:", PlayerData['Int'], "Wis:", PlayerData['Wis'], "Cha:", PlayerData['Cha']
-    print "Advantages:", PlayerData['Advantages'], "Disadvantages:", PlayerData['Disadvantages']
-    print "Misc:", PlayerData['Misc']
+        print(ability, "-", PlayerData['UseAbilities'][ability])
+    print("Str:", PlayerData['Str'], "Dex:", PlayerData['Dex'], "Con:", PlayerData['Con'], "Int:", PlayerData['Int'], "Wis:", PlayerData['Wis'], "Cha:", PlayerData['Cha'])
+    print("Advantages:", PlayerData['Advantages'], "Disadvantages:", PlayerData['Disadvantages'])
+    print("Misc:", PlayerData['Misc'])
 
 def makeAttack(rangeIndex,atkIndex,advantage,disadvantage,guidance,bane,hex,huntersMark,hexbladesCurse,extraRollMods,atkBonus=0,dmgBonus=0):
 
@@ -630,27 +630,27 @@ def makeAttack(rangeIndex,atkIndex,advantage,disadvantage,guidance,bane,hex,hunt
     elif (atkIndex >= len(PlayerData['Atk'][rangeIndex])):
         DnDUtil.printError(Player+" does not have an attack at index "+str(rangeIndex)+str(atkIndex))
     else:
-        print "---------------------------------------------------"
+        print("---------------------------------------------------")
         for i in range(0,len(PlayerData['Atk'][rangeIndex][atkIndex])):
             attackRoll = makeRoll(PlayerData['Atk'][rangeIndex][atkIndex][i]+atkBonus,advantage,disadvantage,guidance,bane,0,extraRollMods)[0]
             if (attackRoll != 1):
                 crit = False
                 critC = getCritStat(rangeIndex,atkIndex,i,0)
                 if (attackRoll >= critC or hexbladesCurse and attackRoll == 19):
-                    print "This attack crits!"
+                    print("This attack crits!")
                     crit = True
                     critMultiplier = getCritStat(rangeIndex,atkIndex,i,1)
                 else:
                     critMultiplier = 1
                 baseWeaponDamage = DnDUtil.calculate(PlayerData['Damage'][rangeIndex][atkIndex][i])
                 if (huntersMark):
-                    print Player, "will deal an additional 1d6 damage from hunter's mark!"
+                    print(Player, "will deal an additional 1d6 damage from hunter's mark!")
                     baseWeaponDamage += DnDUtil.calculate('1d6')
                 if (hex):
-                    print Player, "will deal an additional 1d6 necrotic damage from hex!"
+                    print(Player, "will deal an additional 1d6 necrotic damage from hex!")
                     hexDamage = critMultiplier*DnDUtil.calculate('1d6')
                 if (hexbladesCurse):
-                    print Player, "will deal an additional", PlayerData['ProfBonus'], "damage from hexblade's curse!"
+                    print(Player, "will deal an additional", PlayerData['ProfBonus'], "damage from hexblade's curse!")
                     dmgBonus += PlayerData['ProfBonus']
                     
                 damage = int(critMultiplier*baseWeaponDamage) + PlayerData['DmgBonus'][rangeIndex][atkIndex][i] + dmgBonus
@@ -667,9 +667,9 @@ def makeAttack(rangeIndex,atkIndex,advantage,disadvantage,guidance,bane,hex,hunt
                     magicString = ''
                     mainWeaponType = ''
 
-                print Player, "deals", DnDUtil.getDamageText(damage), magicString+mainWeaponType, "damage"
+                print(Player, "deals", DnDUtil.getDamageText(damage), magicString+mainWeaponType, "damage")
                 if (hex):
-                    print Player, "deals", DnDUtil.getDamageText(hexDamage), "necrotic damage"
+                    print(Player, "deals", DnDUtil.getDamageText(hexDamage), "necrotic damage")
 
                 if (rangeIndex < len(PlayerData['OnHitAbilities']) and atkIndex < len(PlayerData['OnHitAbilities'][rangeIndex])):
                     if (len(PlayerData['OnHitAbilities'][rangeIndex][atkIndex]) == 1):
@@ -708,14 +708,14 @@ def makeAttack(rangeIndex,atkIndex,advantage,disadvantage,guidance,bane,hex,hunt
                             success = False
 
                     if (success):
-                        print "---------------------------------------------------"
+                        print("---------------------------------------------------")
                         half = False
                         if (onHitAbility['Save']):
-                            print "SAVE:", onHitAbility['Save'], "(DC", str(onHitAbility['DC'])+')'
+                            print("SAVE:", onHitAbility['Save'], "(DC", str(onHitAbility['DC'])+')')
                             if (onHitAbility['Save Result'] == 'half'):
                                 half = True
                         useAbility('On Hit Ability',onHitAbility['Duration'],actionData,actionData2,onHitAbility['Save'] != '',half,crit,True,onHitAbility['DC'],-1,-1,advantage,disadvantage,guidance,bane,False,False,False,extraRollMods)
-            print "---------------------------------------------------"
+            print("---------------------------------------------------")
 
 def makeAbilityCheck(abilityUsed,checkType,advantage,disadvantage,guidance,bane,proficiencyBonus,extraRollMods):
 
@@ -768,11 +768,11 @@ def makeRoll(rollBonus,advantage,disadvantage,guidance,bane,proficiencyBonus,ext
             rollString += '('+str(extraRollMod)+' extra)'
         
     if (roll == 20):
-        print "You rolled a", DnDUtil.getPassText("NATURAL 20")+'!', "^_^", '('+str(result)+')', rollString
+        print("You rolled a", DnDUtil.getPassText("NATURAL 20")+'!', "^_^", '('+str(result)+')', rollString)
     elif (roll == 1):
-        print "You rolled a", DnDUtil.getFailText(1), "D:", '('+str(result)+')', rollString
+        print("You rolled a", DnDUtil.getFailText(1), "D:", '('+str(result)+')', rollString)
     else:
-        print "You rolled a", result, "(natural", str(roll)+')', rollString
+        print("You rolled a", result, "(natural", str(roll)+')', rollString)
 
     return [roll, result]
 
@@ -814,7 +814,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
 
                         if ('eb' in PlayerData['Misc'] and 'fire' in damageTypes and 'Wildfirespirit' in PlayerDataDict and firstHit):
                             parsedDamage[0] = DnDUtil.simplifyCalculation(parsedDamage[0]+'+1d8')
-                            print abilityName, "will deal an additional 1d8 damage due to", Player+"'s enhanced bond!"
+                            print(abilityName, "will deal an additional 1d8 damage due to", Player+"'s enhanced bond!")
                 
                         if (parsedDamage[0].isdigit()):
                             baseDamage = int(parsedDamage[0])
@@ -825,7 +825,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         if (crit):
                             damage += baseDamage
                         if (hexbladesCurse):
-                            print "Target takes an additional", PlayerData['ProfBonus'], "damage due to hexblade's curse"
+                            print("Target takes an additional", PlayerData['ProfBonus'], "damage due to hexblade's curse")
                             damage += PlayerData['ProfBonus']
 
                     if (half and i == 1):
@@ -849,20 +849,20 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                             healStringSuffix = ' hp'
                             if ('dol' in PlayerData['Misc'] and spellLevel >= 1):
                                 healBonus = 2 + spellLevel
-                                print abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!"
+                                print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!")
                             if ('eb' in PlayerData['Misc'] and 'Wildfirespirit' in PlayerDataDict):
                                 healBonus = DnDUtil.calculate('1d8')
-                                print abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s enhanced bond!"
+                                print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s enhanced bond!")
                         elif (actionType.find('halfsteal') != -1):
                             healStringPrefix = Player+' heals '
-                            baseHealAmount = damage/2
+                            baseHealAmount = DnDUtil.divide((damage), (2))
                             healStringSuffix = ' hp'
                             if ('dol' in PlayerData['Misc'] and spellLevel >= 1):
                                 healBonus = 2 + spellLevel
-                                print abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!"
+                                print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!")
                             if ('eb' in PlayerData['Misc'] and 'Wildfirespirit' in PlayerDataDict):
                                 healBonus = DnDUtil.calculate('1d8')
-                                print abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s enhanced bond!"
+                                print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s enhanced bond!")
                         elif (actionType.find('soulharvest') != -1):
                             healStringPrefix = Player+' gains '
                             baseHealAmount = damage
@@ -874,22 +874,22 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     if (healString):
                         currentActionsResults.append(healString)
                     if (half and i == 0 and not(actions2)):
-                        passActionsResults.append("Target takes "+DnDUtil.getDamageText(damage/2)+' '+mainDamageType+" damage"+improvedDamageString)
+                        passActionsResults.append("Target takes "+DnDUtil.getDamageText(DnDUtil.divide((damage), (2)))+' '+mainDamageType+" damage"+improvedDamageString)
                         if (healString):
                             passActionsResults.append(healStringPrefix+DnDUtil+healStringSuffix)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'heal'):
                 if (numArgs == 2):
                     if ('dol' in PlayerData['Misc'] and spellLevel >= 1):
                         healBonus = 2 + spellLevel
-                        print abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!"
+                        print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s disciple of life!")
                     else:
                         healBonus = 0
                     if ('eb' in PlayerData['Misc'] and 'Wildfirespirit' in PlayerDataDict):
                         action[1] = DnDUtil.simplifyCalculation(action[1]+'+1d8')
-                        print abilityName, "will heal for an additional 1d8 hp due to", Player+"'s enhanced bond!"
+                        print(abilityName, "will heal for an additional 1d8 hp due to", Player+"'s enhanced bond!")
                         
                     if (action[1].isdigit()):
                         amount = int(action[1])
@@ -900,7 +900,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     if ('bh' in PlayerData['Misc'] and spellLevel >= 1):
                         currentActionsResults.append(Player+" heals for "+DnDUtil.getHealText(2+spellLevel)+" if "+abilityName+" healed another creature")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'temphp'):
                 if (numArgs == 2):
@@ -910,13 +910,13 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         tempHP = DnDUtil.calculate(action[1])
                     currentActionsResults.append("Target gains "+str(tempHP)+" temp hp")
                 else:
-                     print "Invalid number of arguments for action", actionType
+                     print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'kill'):
                 if (numArgs == 1):
                     currentActionsResults.append("Target is instantly killed!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'cc'):
                 if (numArgs == 2 or numArgs == 3):
@@ -940,7 +940,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     
                     currentActionsResults.append("Target will be under the effect of "+type+' '+durationString)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'ccsave' or actionType == 'ccsave3'):
                 if (numArgs == 3 or numArgs == 4):
@@ -989,7 +989,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     else:
                         currentActionsResults.append(Player+" gains "+str(amount)+' '+type+" and Target loses "+str(amount)+' '+type)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'move'):
                 if (numArgs == 2 or numArgs == 3):
@@ -1007,13 +1007,13 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         moveType = action[1].capitalize()
                         currentActionsResults.append("Target's "+moveType+" speed is set to "+action[2])
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'immobilize'):
                 if (numArgs == 1):
                     currentActionsResults.append("Target is immobilized!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'grapple'):
                 if (numArgs == 1 or numArgs == 2):
@@ -1029,7 +1029,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     if ('igrapple' in PlayerData['Misc']):
                         currentActionsResults.append("If the grapple succeeds, Target is restrained!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'attack'):
                 if (numArgs == 3):
@@ -1038,7 +1038,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     makeAttack(rangeIndex,atkIndex,advantage,disadvantage,guidance,bane,hex,huntersMark,hexbladesCurse,extraRollMods)
                     currentActionsResults.append(Player+" makes an attack against target (see above)")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'summon'):
                 if (numArgs == 2 or numArgs == 3):
@@ -1054,19 +1054,19 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                             creatureType = 'input'
 
                     if (creatureType == 'input'):
-                        creatureType = raw_input('Enter a creature to summon: ')
+                        creatureType = getInput('Enter a creature to summon: ')
                         number = 1
 
                     newCharacterData = getCharacterData(creatureType)
                     if (newCharacterData):
                         PlayerDataDict[creatureType.capitalize()] = newCharacterData
-                        print "Player", creatureType.capitalize(), "has been added!"
+                        print("Player", creatureType.capitalize(), "has been added!")
                         resultString = Player+" summons "+str(number)+" "+creatureType+"(s) lasting "+durationString
                         currentActionsResults.append(resultString)
                     else:
-                        print "Could not find player", creatureType, "in", CHARACTER_FILE+'!'
+                        print("Could not find player", creatureType, "in", CHARACTER_FILE+'!')
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'immunity' or actionType == 'resist' or actionType == 'vulnerability' or actionType == 'adv' or actionType == 'dis'):
                 if (numArgs >= 2):
@@ -1075,13 +1075,13 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         resultString = "Target now has "+type+' '+actionType+' '+durationString
                         currentActionsResults.append(resultString)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'mc'):
                 if (numArgs == 1):
                     currentActionsResults.append("Target is mind-controlled!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'ss'):
                 if (numArgs == 2):
@@ -1090,7 +1090,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     else:
                         currentActionsResults.append("Target shapeshifts into a "+action[1])
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'dot'):
                 if (numArgs >= 3):
@@ -1125,7 +1125,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         resultString += " ("+dotSave[0]+" save "+dotSave[2]+" DC "+str(dotSave[1])+")"
                     currentActionsResults.append(resultString)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'wound'):
                 if (numArgs == 2 or numArgs == 3):
@@ -1136,20 +1136,20 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         woundDC = saveDC
                     currentActionsResults.append("Target is wounded, taking "+woundDamage+" damage (this damage stacks with more hits) at the start of each of its turn until it receives magical healing or spends an action to make a DC "+str(saveDC)+" medicine check (undead and constructs are immune to this effect)")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'react'):
                 if (numArgs == 1):
                     resultString = "Target can't take reactions "+durationString
                     currentActionsResults.append(resultString)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'prone'):
                 if (numArgs == 1):
                     currentActionsResults.append("Target is now "+DnDUtil.getStatusText('prone')+'!')
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'misc'):
                 if (numArgs == 3):
@@ -1157,13 +1157,13 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     miscArg = action[2]
                     currentActionsResults.append("Target now has the misc stat "+miscStat+" with argument "+miscArg)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'bonusattack'):
                 if (numArgs == 1):
                     currentActionsResults.append("Target can make an extra attack!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'use' or actionType == 'useon'):
                 if (numArgs == 2):
@@ -1174,7 +1174,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                             resultString = "Trigger "+secondaryAbilityName+" is now active for "+str(secondaryAbility['Trigger Duration'])+" turns!"
                             currentActionsResults.append(resultString)
                         elif (secondaryAbility['Actions'] == [['']]):
-                            print "Ability", secondaryAbilityName, "not found!"
+                            print("Ability", secondaryAbilityName, "not found!")
                         else:
                             if ('Scaled Actions' in secondaryAbility and (spellLevel > secondaryAbility['Base Level'] or secondaryAbility['Base Level'] == 0)):
                                 secondaryActionKey = 'Scaled Actions'
@@ -1203,10 +1203,10 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                                 secondarySaveDC = saveDC
                             
                             if (secondaryAbility['Save'] != ''):
-                                print "SAVE:", secondaryAbility['Save'], "(DC", str(secondarySaveDC)+')'
+                                print("SAVE:", secondaryAbility['Save'], "(DC", str(secondarySaveDC)+')')
                             useAbility(secondaryAbilityName,secondaryAbility['Duration'],secondaryActionData,secondaryActionData2,secondaryAbility['Save'],secondaryAbility['Save Result'] == 'half',crit,firstHit,secondarySaveDC,secondaryAbility['Base Level'],spellLevel,advantage,disadvantage,guidance,bane,hex,huntersMark,hexbladesCurse,extraRollMods)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'onhit'):
                 if (numArgs == 2 or numArgs == 3):
@@ -1220,7 +1220,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         resultString += " lasting for "+str(charges)+ " hit(s)"
                     currentActionsResults.append(resultString)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'msg'):
                 if (numArgs == 2):
@@ -1228,7 +1228,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     msg = msg.replace('actor',Player).replace('target','Target')
                     currentActionsResults.append(msg)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'script'):
                 if (numArgs == 1 or numArgs == 2):
@@ -1265,13 +1265,13 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         # no need to copy savedDamageRolls since it can already be easily modified within the script
                         # no need to copy abilityEffects since it can already be easily modified within the script
                     except KeyError:
-                        print "Unable to run script", scriptAbilityName, "due to KeyError!"
+                        print("Unable to run script", scriptAbilityName, "due to KeyError!")
                     except ValueError:
-                        print "Unable to run script", scriptAbilityName, "due to ValueError!"
+                        print("Unable to run script", scriptAbilityName, "due to ValueError!")
                     except IndexError:
-                        print "Unable to run script", scriptAbilityName, "due to IndexError!"
+                        print("Unable to run script", scriptAbilityName, "due to IndexError!")
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == 'addtarget'):
                 if (numArgs == 1 or numArgs == 2):
@@ -1281,28 +1281,28 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                         numExtraTargets = 1
                     currentActionsResults.append("Add "+str(numExtraTargets)+" additional targets to "+abilityName)
                 else:
-                    print "Invalid number of arguments for action", actionType
+                    print("Invalid number of arguments for action", actionType)
 
             elif (actionType == ''):
                 return
 
             else:
-                print "Invalid action type", actionType
+                print("Invalid action type", actionType)
             j += 1
 
     if (saveType):
         if (failActionsResults):
-            print DnDUtil.getFailText("ON FAIL:"),
+            print(DnDUtil.getFailText("ON FAIL:"), end=' ')
             for result in failActionsResults:
-                print result
+                print(result)
         if (passActionsResults):
-            print DnDUtil.getPassText("ON PASS:"),
+            print(DnDUtil.getPassText("ON PASS:"), end=' ')
             for result in passActionsResults:
-                print result
+                print(result)
     elif (failActionsResults):
         for result in failActionsResults:
-            print result
-    print "---------------------------------------------------"
+            print(result)
+    print("---------------------------------------------------")
     return damageSummary
 
 def getDurationString(duration):
@@ -1362,13 +1362,13 @@ def shapeShift(creatureName):
                     else:
                         creatureData['Misc'][proficiency] = playerProfBonus*profMult
 
-        print Player, "has transformed into a", creatureName+'!'
+        print(Player, "has transformed into a", creatureName+'!')
         del PlayerDataDict[Player]
         Player += ' ('+creatureName+')'
         PlayerData = creatureData
         PlayerDataDict[Player] = PlayerData
     else:
-        print "Creature", creatureName, "not found in character data!"
+        print("Creature", creatureName, "not found in character data!")
 
 def revertForm():
 
@@ -1381,7 +1381,7 @@ def revertForm():
         Player = Player[:formStartIndex-1]
         PlayerData = getCharacterData(Player.lower())
         PlayerDataDict[Player] = PlayerData
-        print Player+"'s", "form has reverted to normal!"
+        print(Player+"'s", "form has reverted to normal!")
     else:
         DnDUtil.printWarning(Player+"'s form does not need to be reverted")
 
@@ -1409,8 +1409,8 @@ def auraOfVitality(hpValues,extended,discipleOfLife):
         for hpValue in hpHistory[i]:
             historyString += str(hpValue)+' -> '
         historyString = historyString[:-4]
-        print historyString
+        print(historyString)
 
-    print "Healed a total of", DnDUtil.getHealText(totalHealing), "hp!"
+    print("Healed a total of", DnDUtil.getHealText(totalHealing), "hp!")
     if (max(hpValues) == 0):
-        print DnDUtil.getHealText("Full healed the party in "+str(healCount)+" heals!")
+        print(DnDUtil.getHealText("Full healed the party in "+str(healCount)+" heals!"))

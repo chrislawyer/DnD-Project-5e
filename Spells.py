@@ -83,7 +83,7 @@ def loadGlobals(abilityArgs):
         return True
     else:
         DnDUtil.printError("Global constant NUM_ABILITY_ARGS does not match the number of ability arguments passed to Spells.useAbility")
-        print "Expected", NUM_ABILITY_ARGS, "but received", len(abilityArgs)
+        print("Expected", NUM_ABILITY_ARGS, "but received", len(abilityArgs))
         return False
 
 def saveGlobals(abilityArgs):
@@ -114,7 +114,7 @@ def saveGlobals(abilityArgs):
         abilityArgs[22] = AbilityEffects
     else:
         DnDUtil.printError("Global constant NUM_ABILITY_ARGS does not match the number of ability aruments being passed out of Spells.useAbility")
-        print "Expected", NUM_ABILITY_ARGS, "but received", len(abilityArgs)
+        print("Expected", NUM_ABILITY_ARGS, "but received", len(abilityArgs))
 
 def useAbility(abilityArgs):
 
@@ -135,7 +135,7 @@ def useAbility(abilityArgs):
 def lightBringer():
 
     if ('undead' in TargetData['Type']):
-        print Actor, "deals bonus radiant damage from Lightbringer since", Target, "is undead!"
+        print(Actor, "deals bonus radiant damage from Lightbringer since", Target, "is undead!")
         Actions.append(['damage','1d6','radiant'])
 
 # set the target's AC to 16 if it is lower than 16
@@ -143,17 +143,17 @@ def barkskin():
     
     diff = 16 - TargetData['AC']
     if (diff > 0):
-        print Target+"'s AC will be buffed by", diff, "to increase it to 16"
+        print(Target+"'s AC will be buffed by", diff, "to increase it to 16")
         Actions.append(['cc','barkskin'])
         Actions.append(['buff','ac',str(diff)])
     else:
-        print Target, "already has an AC of at least 16, so this spell will have no effect"
+        print(Target, "already has an AC of at least 16, so this spell will have no effect")
 
 # give the target disadvantage on attacks for a turn if it is undead 
 def chilltouch():
     
     if ('undead' in TargetData['Type']):
-        print Target, "has disadvantage on attacks against", Actor, "for a turn because it is undead"
+        print(Target, "has disadvantage on attacks against", Actor, "for a turn because it is undead")
         Actions.append(['dis',Actor])
 
 # choose the damage type for the orb then scale the damage if needed
@@ -164,9 +164,9 @@ def chromaticorb():
         options = ['acid','cold','fire','lightning','poison','thunder']
         choice = DnDUtil.chooseOption('Choose a damage type for the orb',options)
         damageType = options[choice-1]
-        print "The orb will deal", damageType, "damage"
+        print("The orb will deal", damageType, "damage")
     else:
-        damageType = SavedDamageRolls.iterkeys().next()
+        damageType = next(iter(SavedDamageRolls.keys()))
 
     Actions.append(['damage',str(3+SpellLevel-BaseLevel)+'d8',damageType])
 
@@ -178,28 +178,28 @@ def colorspray():
     else:
         blindPointCalculation = str(6+2*(SpellLevel-BaseLevel))+'d10'
         if (PlayerTurn):
-            blindPoints = DnDUtil.getInt(raw_input('Roll for blind points ('+blindPointCalculation+'): '))
+            blindPoints = DnDUtil.getInt(getInput('Roll for blind points ('+blindPointCalculation+'): '))
         else:
             blindPoints = DnDUtil.calculate(blindPointCalculation)
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
     if (blindPoints >= hp):
-        print Target, "will be blinded by colorspray"
+        print(Target, "will be blinded by colorspray")
         Actions.append(['cc','blind','actorend'])
         SavedDamageRolls['colorspray'] = blindPoints - hp
     else:
-        print "There are not enough blind points remaining to affect", Target
+        print("There are not enough blind points remaining to affect", Target)
         SavedDamageRolls['colorspray'] = blindPoints
 
 # get the damage type of the weapon used
 def conjurebarrage():
 
     if (SavedDamageRolls):
-        damageType = SavedDamageRolls.iterkeys().next()
+        damageType = next(iter(SavedDamageRolls.keys()))
     else:
         options = ['slashing','piercing','bludgeoning']
         choice = DnDUtil.chooseOption('Choose the damage type of the weapon used',options)
@@ -211,7 +211,7 @@ def conjurebarrage():
 def conjurevolley():
 
     if (SavedDamageRolls):
-        damageType = SavedDamageRolls.iterkeys().next()
+        damageType = next(iter(SavedDamageRolls.keys()))
     else:
         options = ['slashing','piercing','bludgeoning']
         choice = DnDUtil.chooseOption('Choose the damage type of the weapon used',options)
@@ -240,7 +240,7 @@ def contagiont():
             ActorData['Effects'].remove(contagionEffect)
             TargetData['Status'].remove(contagionStatusEffect)
             TargetData['Status'].remove(poisonStatusEffect)
-            print Target, "is no longer poisoned from contagion"
+            print(Target, "is no longer poisoned from contagion")
         else:
             DnDUtil.printWarning("Script contagiont: Expected poison and contagion with 3 fails status effects in "+Target+", but one or both were not found")
             return
@@ -294,7 +294,7 @@ def divineword():
         Actions.append(['msg','target is forced back to its plane of origin!'])
     else:
         if (PlayerTarget):
-            hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+            hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
         else:
             hp = TargetData['HP']
 
@@ -410,27 +410,27 @@ def magearmor():
     if (initValue <= 5):
         newAC = 13 + initValue
     else:
-        dexMod = DnDUtil.getInt(raw_input('What is '+Target+'\'s dex mod? '))
+        dexMod = DnDUtil.getInt(getInput('What is '+Target+'\'s dex mod? '))
         newAC = 13 + dexMod
     
     diff = newAC - TargetData['AC']
     if (diff > 0):
-        print Target+"'s AC will be buffed by", diff, "to increase it to", newAC
+        print(Target+"'s AC will be buffed by", diff, "to increase it to", newAC)
         AbilityDuration = -1
         Actions.append(['buff','ac',str(diff)])
     else:
-        print Target, "already has an AC of at least", newAC, "so this spell will have no effect"
+        print(Target, "already has an AC of at least", newAC, "so this spell will have no effect")
 
 # get the target's hp and kill if its hp is at or below 100
 def powerwordkill():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
     if (hp > 100):
-        print "This spell will have no effect since", Target, "is above 100 hp!"
+        print("This spell will have no effect since", Target, "is above 100 hp!")
     else:
         Actions.append(['kill'])
 
@@ -438,12 +438,12 @@ def powerwordkill():
 def powerwordstun():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
     if (hp > 150):
-        print "This spell will have no effect since", Target, "is above 150 hp!"
+        print("This spell will have no effect since", Target, "is above 150 hp!")
     else:
         Actions.append(['ccsave','stun','end'])
 
@@ -458,63 +458,63 @@ def prismaticspray():
     if (PlayerTurn):
         rayID = 0
         while (rayID < 1 or rayID > 8):
-            rayID = DnDUtil.getInt(raw_input('Roll for which ray hits '+Target+' (1d8): '))
+            rayID = DnDUtil.getInt(getInput('Roll for which ray hits '+Target+' (1d8): '))
         if (rayID != 8):
             rayIDs.append(rayID)
         else:
-            print Target, "will be hit by 2 rays!"
+            print(Target, "will be hit by 2 rays!")
             rayID1 = 0
             rayID2 = 0
             while (rayID1 < 1 or rayID1 > 7):
-                rayID1 = DnDUtil.getInt(raw_input('Roll for the first ray, rerolling any 8s (1d8): '))
+                rayID1 = DnDUtil.getInt(getInput('Roll for the first ray, rerolling any 8s (1d8): '))
             while (rayID2 < 1 or rayID2 > 7 or rayID2 == rayID1):
-                rayID2 = DnDUtil.getInt(raw_input('Roll for the second ray, rerolling any 8s and avoiding a duplicate ray (1d8): '))
+                rayID2 = DnDUtil.getInt(getInput('Roll for the second ray, rerolling any 8s and avoiding a duplicate ray (1d8): '))
             rayIDs.append(rayID1)
             rayIDs.append(rayID2)
     else:
         rayID = random.randint(1,8)
-        print Actor, "rolls a", rayID, "for which ray hits", Target
+        print(Actor, "rolls a", rayID, "for which ray hits", Target)
         if (rayID != 8):
             rayIDs.append(rayID)
         else:
-            print Target, "will be hit by 2 rays!"
+            print(Target, "will be hit by 2 rays!")
             rayID1 = random.randint(1,7)
             rayID2 = random.randint(1,7)
             while (rayID2 == rayID1):
                 rayID2 = random.randint(1,7)
-            print Actor, "rolls a", rayID1, "for the first ray and", rayID2, "for the second ray"
+            print(Actor, "rolls a", rayID1, "for the first ray and", rayID2, "for the second ray")
             rayIDs.append(rayID1)
             rayIDs.append(rayID2)
 
     for rayID in rayIDs:
         if (rayID < 6):
             if (rayID == 1):
-                print "This ray is red"
+                print("This ray is red")
                 damageType = 'fire'
             elif (rayID == 2):
-                print "This ray is orange"
+                print("This ray is orange")
                 damageType = 'acid'
             elif (rayID == 3):
-                print "This ray is yellow"
+                print("This ray is yellow")
                 damageType = 'lightning'
             elif (rayID == 4):
-                print "This ray is green"
+                print("This ray is green")
                 damageType = 'poison'
             else:
-                print "This ray is blue"
+                print("This ray is blue")
                 damageType = 'cold'
             Actions.append(['damage','10d6',damageType])
         elif (rayID == 6):
-            print "This ray is indigo"
+            print("This ray is indigo")
             if (Half):
-                print Target, "resists the ray!"
+                print(Target, "resists the ray!")
             else:
                 SaveType = 'con'
                 Actions.append(['ccsave3','prestrain','end'])
         else:
-            print "This ray is violet"
+            print("This ray is violet")
             if (Half):
-                print Target, "resists the ray!"
+                print(Target, "resists the ray!")
             else:
                 SaveType = 'wis'
                 Actions.append(['ccsave','blind','end','1'])
@@ -541,35 +541,35 @@ def sleep():
     else:
         sleepPointCalculation = str(5+2*(SpellLevel-BaseLevel))+'d8'
         if (PlayerTurn):
-            sleepPoints = DnDUtil.getInt(raw_input('Roll for sleep points ('+sleepPointCalculation+'): '))
+            sleepPoints = DnDUtil.getInt(getInput('Roll for sleep points ('+sleepPointCalculation+'): '))
         else:
             sleepPoints = DnDUtil.calculate(sleepPointCalculation)
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
     if (sleepPoints >= hp):
-        print Target, "will fall asleep for a minute"
+        print(Target, "will fall asleep for a minute")
         Actions.append(['cc','sleep','10'])
         SavedDamageRolls['sleep'] = sleepPoints - hp
     else:
-        print "There are not enough sleep points remaining to affect", Target
+        print("There are not enough sleep points remaining to affect", Target)
         SavedDamageRolls['sleep'] = sleepPoints
 
 # paralyze the target for a turn if they failed the save by 5 or more
 def paralyzingFear():
     
     if (SaveDiff >= 5):
-        print Target, "will also be paralyzed due to failing the save by 5 or more!"
+        print(Target, "will also be paralyzed due to failing the save by 5 or more!")
         Actions.append(['cc','paralysis'])
 
 # also paralyze the target if they failed the save by 5 or more
 def paralyzingPoison():
     
     if (SaveDiff >= 5):
-        print Target, "will be paralyzed due to failing the save by 5 or more!"
+        print(Target, "will be paralyzed due to failing the save by 5 or more!")
         Actions.append(['ccsave','paralysis','end','10'])
 
 # sleep the target equal to the poison duration if they failed the save by 5 or more
@@ -582,14 +582,14 @@ def sleepPoison():
                 poisoned = True
                 break
         if (poisoned):
-            print Target, "will also fall asleep while poisoned due to failing the save by 5 or more!"
+            print(Target, "will also fall asleep while poisoned due to failing the save by 5 or more!")
             Actions.append(['cc','sleep'])
 
 # instantly petrify the target if they failed the save by 5 or more
 def pgaze():
     
     if (SaveDiff >= 5):
-        print Target, "is instantly petrified due to failing the save by 5 or more!"
+        print(Target, "is instantly petrified due to failing the save by 5 or more!")
         Actions.append(['cc','petrification'])
     else:
         Actions.append(['ccsave','prestrain','end'])
@@ -598,7 +598,7 @@ def pgaze():
 def deathgaze():
     
     if (SaveDiff >= 5):
-        print Target, "is reduced to 0 hp due to failing the save by 5 or more!"
+        print(Target, "is reduced to 0 hp due to failing the save by 5 or more!")
         Actions.append(['kill'])
     else:
         Actions.append(['damage','3d10','psychic'])
@@ -607,7 +607,7 @@ def deathgaze():
 def deathray2():
     
     if (SaveDiff >= 5):
-        print Target, "takes max damage due to failing the save by 5 or more!"
+        print(Target, "takes max damage due to failing the save by 5 or more!")
         Actions.append(['damage','64','necrotic'])
     else:
         Actions.append(['damage','8d8','necrotic'])
@@ -616,9 +616,9 @@ def deathray2():
 def shieldCharge():
     
     if (SaveDiff >= 5):
-        print Target, "is knocked prone and takes additional damage due to failing the save by 5 or more!"
+        print(Target, "is knocked prone and takes additional damage due to failing the save by 5 or more!")
         if (TargetData['Prone']):
-            print Target, "takes extra damage since he/she was already prone!"
+            print(Target, "takes extra damage since he/she was already prone!")
             Actions.append(['damage','6d6+8','bludgeoning','nonmagic'])
         else:
             Actions.append(['prone'])
@@ -630,14 +630,14 @@ def shieldCharge():
 def lightningstorm2():
     
     if (SaveDiff >= 5):
-        print Target, "is also stunned due to failing the save by 5 or more!"
+        print(Target, "is also stunned due to failing the save by 5 or more!")
         Actions.append(['cc','stun','targetend'])
 
 # prone the target if they failed the save by 5 or more
 def spewdebris():
     
     if (SaveDiff >= 5):
-        print Target, "is also knocked prone due to failing the save by 5 or more!"
+        print(Target, "is also knocked prone due to failing the save by 5 or more!")
         Actions.append(['prone'])
 
 # deal 8d8 necrotic damage, with plants taking max damage
@@ -646,7 +646,7 @@ def blight():
     damageCalculation = str(8+SpellLevel-BaseLevel)+'d8'
 
     if ('plant' in TargetData['Type']):
-        print Target, "will take max damage since it is a plant!"
+        print(Target, "will take max damage since it is a plant!")
         damage = DnDUtil.maxCalculate(damageCalculation)
         Actions.append(['damage',str(damage),'necrotic'])
     else:
@@ -694,15 +694,15 @@ def dsmite():
     
     divineSmiteLevel = -1
     while (divineSmiteLevel < 1):
-        divineSmiteLevel = DnDUtil.getInt(raw_input('What level spell slot was used for divine smite? '))
+        divineSmiteLevel = DnDUtil.getInt(getInput('What level spell slot was used for divine smite? '))
     if (divineSmiteLevel > 4):
         divineSmiteLevel = 4
     numDamageDice = divineSmiteLevel + 1
     if (DnDUtil.haveCommonItem(TargetData['Type'],['undead','fiend'])):
-        print "Divine smite will deal an extra 1d8 damage since", Target, "is undead/fiend!"
+        print("Divine smite will deal an extra 1d8 damage since", Target, "is undead/fiend!")
         numDamageDice += 1
     if ('idsmite' in ActorData['Misc']):
-        print "Divine smite will deal an extra 1d8 damage from improved divine smite!"
+        print("Divine smite will deal an extra 1d8 damage from improved divine smite!")
         numDamageDice += 1
 
     Actions.append(['damage',str(numDamageDice)+'d8','radiant'])
@@ -762,7 +762,7 @@ def natureswrath():
     else:
         saveChoice = 'dex'
 
-    print Target, "will make a", saveChoice, "save since it has a higher value"
+    print(Target, "will make a", saveChoice, "save since it has a higher value")
     Actions.append(['use',AbilityName+saveChoice])
 
 # if the dex save was failed, re-evaluate to see if this is still the best option since it will now be made with disadvantage
@@ -781,20 +781,20 @@ def natureswrathdex():
         dexSaveValue += 3.3
 
     if (strSaveValue >= dexSaveValue):
-        print Target, "will instead use str saves to escape each turn since dex saves are now at disadvantage"
+        print(Target, "will instead use str saves to escape each turn since dex saves are now at disadvantage")
         SaveType = 'str'
 
 # randomly choose 3 unique rays and use them
 def eyerays():
 
     rayNames = ['charmray','pray','fearray','slowray','enervationray','telekineticray','sleepray','petrificationray','disintegrationray2','deathray']
-    print "The rays are",
+    print("The rays are", end=' ')
     for i in range(0,3):
         randomRay = rayNames.pop(random.randint(0,len(rayNames)-1))
         if (i != 2):
-            print randomRay+',',
+            print(randomRay+',', end=' ')
         else:
-            print randomRay
+            print(randomRay)
         Actions.append(['useon',randomRay])
 
 # randomly choose 1 ray and use it, mostly copied from eyerays script
@@ -802,46 +802,46 @@ def eyeray():
 
     rayNames = ['charmray','pray','fearray','slowray','enervationray','telekineticray','sleepray','petrificationray','disintegrationray2','deathray']
     randomRay = rayNames[random.randint(0,len(rayNames)-1)]
-    print "The ray is", randomRay
+    print("The ray is", randomRay)
     Actions.append(['useon',randomRay])
 
 # randomly choose 3 unique rays and use them
 def gauthEyeRays():
 
     rayNames = ['devourmagicray','enervationray2','pushingray','fireray','pray','sleepray']
-    print "The rays are:",
+    print("The rays are:", end=' ')
     for i in range(0,3):
         randomRay = rayNames.pop(random.randint(0,len(rayNames)-1))
         if (i != 2):
-            print randomRay+',',
+            print(randomRay+',', end=' ')
         else:
-            print randomRay
+            print(randomRay)
         Actions.append(['useon',randomRay])
 
 # randomly choose 2 unique rays and use them
 def gazerEyeRays():
 
     rayNames = ['dazingray','fearray2','frostray','telekineticray2']
-    print "The rays are",
+    print("The rays are", end=' ')
     for i in range(0,2):
         randomRay = rayNames.pop(random.randint(0,len(rayNames)-1))
         if (i == 0):
-            print randomRay, "and",
+            print(randomRay, "and", end=' ')
         else:
-            print randomRay
+            print(randomRay)
         Actions.append(['useon',randomRay])
 
 # randomly choose 3 unique rays
 def mindwitnessEyeRays():
 
     rayNames = ['aversionray','fearray','psychicray','slowray','stunray','telekineticray']
-    print "The rays are:",
+    print("The rays are:", end=' ')
     for i in range(0,3):
         randomRay = rayNames.pop(random.randint(0,len(rayNames)-1))
         if (i != 2):
-            print randomRay+',',
+            print(randomRay+',', end=' ')
         else:
-            print randomRay
+            print(randomRay)
         Actions.append(['useon',randomRay])
 
 # choose which damage type for the weapon
@@ -898,10 +898,10 @@ def antimagicshellburst():
 
     # only ask for the spell level on the first target since we will use this same damage we rolled on all future targets
     if (not(SavedDamageRolls)):
-        spellLevel = DnDUtil.getInt(raw_input('What was the spell level of the absorbed spell? '))
+        spellLevel = DnDUtil.getInt(getInput('What was the spell level of the absorbed spell? '))
         while (spellLevel < 0 or spellLevel > 9):
-            print "Invalid input - spell level must be between 0 and 9!"
-            spellLevel = DnDUtil.getInt(raw_input('What was the spell level of the absorbed spell? '))
+            print("Invalid input - spell level must be between 0 and 9!")
+            spellLevel = DnDUtil.getInt(getInput('What was the spell level of the absorbed spell? '))
     else:
         spellLevel = 0
 
@@ -914,7 +914,7 @@ def guarddrakevariant():
     choice = DnDUtil.chooseOption('Choose the guard drake\'s color',options,True)
     if (choice == len(options)):
         choice = random.randint(1,len(options)-1)
-        print "The chosen color is", options[choice-1]
+        print("The chosen color is", options[choice-1])
 
     if (choice < len(options)):
         color = options[choice-1]
@@ -942,7 +942,7 @@ def kobolddragonshieldvariant():
     choice = DnDUtil.chooseOption('Choose the kobold dragonshield\'s color',options)
     if (choice == len(options)):
         choice = random.randint(1,len(options)-1)
-        print "The chosen color is", options[choice-1]
+        print("The chosen color is", options[choice-1])
 
     color = options[choice-1]
     if (color == 'black'):
@@ -966,7 +966,7 @@ def seaspawnvariant():
         choice = DnDUtil.chooseOption('Choose the sea spawn\'s mutation',options)
     if (choice == len(options)):
         choice = random.randint(1,len(options)-1)
-        print "The chosen mutation is", options[choice-1]
+        print("The chosen mutation is", options[choice-1])
 
     if (choice == 1):
         weaponBaseDamage = '1d4'
@@ -1001,7 +1001,7 @@ def rotGrubSwarmBite():
     found = False
     for statusEffect in TargetData['Status']:
         if (statusEffect[0] == 'dot' and statusEffect[2] == [] and statusEffect[3][-2:] == 'd6' and statusEffect[5] == ['piercing','nonmagic']):
-            print Target, "has been infested by an additional", numRotGrubs, "rot grubs!"
+            print(Target, "has been infested by an additional", numRotGrubs, "rot grubs!")
             statusEffect[3] = str(int(statusEffect[3].split('d')[0])+numRotGrubs) + 'd6'
             found = True
             break
@@ -1020,10 +1020,10 @@ def burrowingworm():
         if (statusEffect[0] == 'dot' and statusEffect[2] == [] and statusEffect[3][-2:] == 'd6' and statusEffect[5] == ['necrotic']):
             dotDamage = int(statusEffect[3].split('d')[0])
             if (dotDamage == 10):
-                print Target, "is already taking the maximum dot damage, so this worm will not deal additional damage!"
+                print(Target, "is already taking the maximum dot damage, so this worm will not deal additional damage!")
             else:
                 statusEffect[3] = str(dotDamage+2) + 'd6'
-                print Target, "has been infested by another burrowing worm, increasing the damage taken each turn!"
+                print(Target, "has been infested by another burrowing worm, increasing the damage taken each turn!")
             found = True
             break
 
@@ -1037,7 +1037,7 @@ def delayedblastfireball():
 
     passedTurns = -1
     while (passedTurns < 0):
-        passedTurns = DnDUtil.getInt(raw_input('How many times has '+Actor+'\'s turn ended since this spell was cast? '))
+        passedTurns = DnDUtil.getInt(getInput('How many times has '+Actor+'\'s turn ended since this spell was cast? '))
     Actions.append(['damage',str(12+SpellLevel-BaseLevel+passedTurns)+'d6+','fire'])
 
 # choose a buff to grant the transmuter and remove any previous buff granted by this ability
@@ -1050,16 +1050,16 @@ def transmutersstone():
                 transmuteEffect = effect[3][0]
                 if (transmuteEffect[1] == 'move' and transmuteEffect[2]['Ground'] == TargetData['Move']['Ground'] - 10):
                     TargetData['Move'] = transmuteEffect[2]
-                    print Target, "no longer has increased movement speed from transmuter's stone"
+                    print(Target, "no longer has increased movement speed from transmuter's stone")
                 elif (transmuteEffect[1] == 'buff' and transmuteEffect[2] == 'consaves' and transmuteEffect[3] == 3):
                     TargetData['ConSave'] -= 3
-                    print Target, "no longer has a +3 to con saves from transmuter's stone"
+                    print(Target, "no longer has a +3 to con saves from transmuter's stone")
                 elif (transmuteEffect[1] == 'resist' and transmuteEffect[2] in ['acid','cold','fire','lightning','thunder']):
                     if (transmuteEffect[2] in TargetData['Resistances']):
                         TargetData['Resistances'].remove(transmuteEffect[2])
                     else:
                         DnDUtil.printWarning("Attempted to remove resistance "+transmuteEffect[2]+" but resistance not found")
-                    print Target, "no longer has", transmuteEffect[2], "resistance from transmuter's stone"
+                    print(Target, "no longer has", transmuteEffect[2], "resistance from transmuter's stone")
                 for statusEffect in TargetData['Status']:
                     if (statusEffect[0] == 'transmutersstone' and statusEffect[1] == Actor):
                         TargetData['Status'].remove(statusEffect)
@@ -1072,27 +1072,27 @@ def transmutersstone():
         choice = random.randint(1,8)
 
     if (choice == 1):
-        print Target, "gains darkvision to 60ft from transmuter's stone"
+        print(Target, "gains darkvision to 60ft from transmuter's stone")
     elif (choice == 2):
-        print Target, "gains 10ft of movement speed from transmuter's stone"
+        print(Target, "gains 10ft of movement speed from transmuter's stone")
         Actions.append(['move','10'])
     elif (choice == 3):
-        print Target, "gains +3 to con saves from transmuter's stone"
+        print(Target, "gains +3 to con saves from transmuter's stone")
         Actions.append(['buff','consaves','3'])
     elif (choice == 4):
-        print Target, "gains acid resist from transmuter's stone"
+        print(Target, "gains acid resist from transmuter's stone")
         Actions.append(['resist','acid'])
     elif (choice == 5):
-        print Target, "gains cold resist from transmuter's stone"
+        print(Target, "gains cold resist from transmuter's stone")
         Actions.append(['resist','cold'])
     elif (choice == 6):
-        print Target, "gains fire resist from transmuter's stone"
+        print(Target, "gains fire resist from transmuter's stone")
         Actions.append(['resist','fire'])
     elif (choice == 7):
-        print Target, "gains lightning resist from transmuter's stone"
+        print(Target, "gains lightning resist from transmuter's stone")
         Actions.append(['resist','lightning'])
     elif (choice == 8):
-        print Target, "gains thunder resist from transmuter's stone"
+        print(Target, "gains thunder resist from transmuter's stone")
         Actions.append(['resist','thunder'])
 
 # give water elementals disadvantage on this ability's save
@@ -1114,11 +1114,11 @@ def chaosbolt():
     if (PlayerTurn):
         roll1 = 0
         while (roll1 < 1 or roll1 > 8):
-            roll1 = DnDUtil.getInt(raw_input("Roll for first chaos bolt damage (1d8): "))
+            roll1 = DnDUtil.getInt(getInput("Roll for first chaos bolt damage (1d8): "))
         roll2 = 0
         while (roll2 < 1 or roll2 > 8):
-            roll2 = DnDUtil.getInt(raw_input("Roll for second chaos bolt damage (1d8): "))
-        roll3 = DnDUtil.getInt(raw_input("Roll for third chaos bolt damage ("+str(1+SpellLevel-BaseLevel)+"d6): "))
+            roll2 = DnDUtil.getInt(getInput("Roll for second chaos bolt damage (1d8): "))
+        roll3 = DnDUtil.getInt(getInput("Roll for third chaos bolt damage ("+str(1+SpellLevel-BaseLevel)+"d6): "))
     else:
         roll1 = DnDUtil.calculate('1d8')
         roll2 = DnDUtil.calculate('1d8')
@@ -1126,7 +1126,7 @@ def chaosbolt():
 
     if (roll1 == roll2):
         damageType = damageTypes[roll1-1]
-        print AbilityName, "can jump to an additional target within 30ft of", Target+'!'
+        print(AbilityName, "can jump to an additional target within 30ft of", Target+'!')
     else:
         options = [damageTypes[roll1-1],damageTypes[roll2-1]]
         choice = DnDUtil.chooseOption('Choose a damage type for '+AbilityName,options)
@@ -1144,17 +1144,17 @@ def dansemacabre():
     numCorpses = -1
     maxCorpses = 2*(SpellLevel-BaseLevel)+5
     while (numCorpses < 0 or numCorpses > maxCorpses):
-        numCorpses = DnDUtil.getInt(raw_input('How many small/medium corpses are in range (max '+str(maxCorpses)+')? '))
+        numCorpses = DnDUtil.getInt(getInput('How many small/medium corpses are in range (max '+str(maxCorpses)+')? '))
 
     if (numCorpses > 0):
         numSkeletons = -1
         while (numSkeletons < 0 or numSkeletons > numCorpses):
-            numSkeletons = DnDUtil.getInt(raw_input('How many of these should be skeletons (as opposed to zombies)? '))
+            numSkeletons = DnDUtil.getInt(getInput('How many of these should be skeletons (as opposed to zombies)? '))
         numZombies = numCorpses - numSkeletons
         if ('spmod' in ActorData['Misc']):
             spellModString = str(ActorData['Misc']['spmod'])
         else:
-            spellModString = str(DnDUtil.getInt(raw_input('What is '+Actor+'\'s spellcasting ability modifier? ')))
+            spellModString = str(DnDUtil.getInt(getInput('What is '+Actor+'\'s spellcasting ability modifier? ')))
         for i in range(0,numSkeletons):
             Actions.append(['summon','skeleton','1'])
             Actions.append(['buff','atk',spellModString])
@@ -1220,7 +1220,7 @@ def mega():
         if (SaveDiff == 0):
             global Half
             Half = True
-            print Target, "will take half damage from", AbilityName
+            print(Target, "will take half damage from", AbilityName)
     elif (SaveDiff > 0):
         Actions.append(['damage','2d6','bludgeoning','nonmagic'])
         Actions.append(['cc','restrain'])
@@ -1229,12 +1229,12 @@ def mega():
 def negativeenergyflood():
 
     if ('undead' in TargetData['Type']):
-        print Target, "will instead gain half the damage as temp hp since it is undead!"
+        print(Target, "will instead gain half the damage as temp hp since it is undead!")
         if (PlayerTurn):
-            tempHP = DnDUtil.getInt(raw_input("Roll for "+AbilityName+" damage (5d12): "))
+            tempHP = DnDUtil.getInt(getInput("Roll for "+AbilityName+" damage (5d12): "))
         else:
             tempHP = DnDUtil.calculate('5d12')
-        Actions.append(['temphp',str(tempHP/2)])
+        Actions.append(['temphp',str(DnDUtil.divide((tempHP), (2)))])
     else:
         Actions.append(['damage','5d12','necrotic'])
         Actions.append(['msg','If target dies from this damage, summon a zombie on actor\'s next turn'])
@@ -1243,7 +1243,7 @@ def negativeenergyflood():
 def powerwordpain():
 
     if (PlayerTarget):
-        hp = DnDUtil.getInt(raw_input('What is '+Target+'\'s current hp? '))
+        hp = DnDUtil.getInt(getInput('What is '+Target+'\'s current hp? '))
     else:
         hp = TargetData['HP']
 
@@ -1254,18 +1254,18 @@ def powerwordpain():
         Actions.append(['msg','None of target\'s move speeds can be higher than 10'])
         Actions.append(['msg','If target attempts to cast a spell, it must succeed on a con save or the spell is wasted!'])
     else:
-        print AbilityName, "will have no effect since", Target, "is above 100 hp!"
+        print(AbilityName, "will have no effect since", Target, "is above 100 hp!")
 
 # give str and con save proficiency and extra attack if needed
 def tenserstransformation():
 
     profBonus = 0
     if (DnDUtil.getAnswer('Is '+Target+' proficient in str saves') == 'n'):
-        profBonus = DnDUtil.getInt(raw_input('What is '+Target+'\'s proficiency bonus? '))
+        profBonus = DnDUtil.getInt(getInput('What is '+Target+'\'s proficiency bonus? '))
         Actions.append(['buff','strsaves',str(profBonus)])
     if (DnDUtil.getAnswer('Is '+Target+' proficient in con saves') == 'n'):
         if (not(profBonus)):
-            profBonus = DnDUtil.getInt(raw_input('What is '+Target+'\'s proficiency bonus? '))
+            profBonus = DnDUtil.getInt(getInput('What is '+Target+'\'s proficiency bonus? '))
         Actions.append(['buff','consaves',str(profBonus)])
     if (DnDUtil.getAnswer('Does '+Target+' have the Extra Attack feature') == 'n'):
         Actions.append(['bonusattack'])
@@ -1412,7 +1412,7 @@ def ironcobrapoison():
 def fomentmadness():
     
     if (SaveDiff >= 5):
-        print Target, "will be confused due to failing the save by 5 or more!"
+        print(Target, "will be confused due to failing the save by 5 or more!")
         Actions.append(['ccsave','confusion','end'])
         Actions.append(['react'])
         Actions.append(['msg','On each of target\'s turns while confused, roll a d10. On 1, move in a random direction. On 2-6, do nothing. On 7-8, make a melee attack against a random creature in range. On 9-10, take turn as normal.'])
@@ -1437,7 +1437,7 @@ def yeenoghuflail():
 def swataway():
 
     if (SaveDiff >= 5):
-        print Target, "will be knocked prone due to failing the save by 5 or more!"
+        print(Target, "will be knocked prone due to failing the save by 5 or more!")
         Actions.append(['prone'])
 
 # choose which effect to use for this hit, also set the DC for the abilities
@@ -1478,7 +1478,7 @@ def orthonentanglementOH():
 def stompingfoot():
 
     if (TargetData['Prone']):
-        print "This attack deals 2d8 additional damage since", Target, "is prone!"
+        print("This attack deals 2d8 additional damage since", Target, "is prone!")
         Actions.append(['damage','2d8','bludgeoning','nonmagic'])
 
 # choose a damage type then deal 2d8 damage of that type
@@ -1499,7 +1499,7 @@ def demoncontrol():
 def waterysphere():
 
     if (TargetData['SizeMod'] >= 2):
-        print Target, "is too large to fit in the sphere!"
+        print(Target, "is too large to fit in the sphere!")
     else:
         Actions.append(['ccsave','restrain','end','10'])
 
@@ -1507,7 +1507,7 @@ def waterysphere():
 def telekinesis():
     
     if (TargetData['SizeMod'] > 2):
-        print Target, "is too large to be affected by telekinesis!"
+        print(Target, "is too large to be affected by telekinesis!")
     else:
         actorResult = 0
         targetResult = 0
@@ -1515,13 +1515,13 @@ def telekinesis():
             actorResult = ActorUtil.makeCheck(Actor,ActorData,PlayerTurn,'spellcasting ability')
             targetResult = ActorUtil.makeCheck(Target,TargetData,PlayerTarget,'str')
             if (actorResult > targetResult):
-                print Actor, DnDUtil.getPassText('wins')+'!'
+                print(Actor, DnDUtil.getPassText('wins')+'!')
                 Actions.append(['cc','restrain','actorend'])
                 Actions.append(['msg','target can be moved up to 30ft in any direction as long as it is still within 60ft of actor!'])
             elif (actorResult < targetResult):
-                print Actor, DnDUtil.getFailText('loses')
+                print(Actor, DnDUtil.getFailText('loses'))
             else:
-                print "It's a tie!"
+                print("It's a tie!")
 
 # deal 2d6 bludgeoning if the target is prone
 def grayrenderOH():
@@ -1608,7 +1608,7 @@ def crimsonrite():
 # alter all extraonhitabilities that were generated from this ability to trigger on the correct attacks
 def crimsonriteend():
 
-    name,atkIndices = SavedDamageRolls.items()[0]
+    name,atkIndices = list(SavedDamageRolls.items())[0]
     if (len(atkIndices) == 1):
         TargetData['ExtraOnHitAbilities'][name]['Trigger Condition'] = atkIndices[0]
     else:
@@ -1660,7 +1660,7 @@ def bladeofdisaster():
     global Crit
     if (Crit):
         Crit = False
-        print AbilityName, "deals an additional 8d12 force damage on a crit!"
+        print(AbilityName, "deals an additional 8d12 force damage on a crit!")
         Actions.append(['damage','12d12','force'])
     else:
         Actions.append(['damage','4d12','force'])
@@ -1672,7 +1672,7 @@ def spiritshroud():
     choice = DnDUtil.chooseOption('Choose a damage type',options)
     damageType = options[choice-1]
     Actions.append(['misc','spiritshroudtype',damageType])
-    Actions.append(['misc','spiritshrouddamage',str(1+(SpellLevel-BaseLevel)/2)+'d8'])
+    Actions.append(['misc','spiritshrouddamage',str(1+DnDUtil.divide((SpellLevel-BaseLevel), (2)))+'d8'])
 
 # choose the spirit to summon and alter its stats based on the caster and spell level
 def summonSpirit(baseSpiritName,options,hpMult):
@@ -1686,7 +1686,7 @@ def summonSpirit(baseSpiritName,options,hpMult):
     Actions.append(['buff','spelldc',str(SaveDC)])
     Actions.append(['buff','atk',str(SpellAtk)])
     Actions.append(['buff','dmg',str(SpellLevel)])
-    for i in range(1,SpellLevel/2):
+    for i in range(1,DnDUtil.divide((SpellLevel), (2))):
         Actions.append(['bonusattack'])
     return choice
 
@@ -1795,10 +1795,10 @@ def nathairsmischief():
         if (PlayerTurn):
             roll = 0
             while (roll < 1 or roll > 4):
-                roll = DnDUtil.getInt(raw_input('Roll for '+AbilityName+'\'s effect (1d4): '))
+                roll = DnDUtil.getInt(getInput('Roll for '+AbilityName+'\'s effect (1d4): '))
         else:
             roll = random.randint(1,4)
-            print Actor, "rolls a", roll, "for", AbilityName+'\'s', "effect"
+            print(Actor, "rolls a", roll, "for", AbilityName+'\'s', "effect")
 
         secondaryAbilityName = AbilityName
         if (roll == 1):
@@ -1820,7 +1820,7 @@ def haloofspores():
         ActorData['Reaction'] = False
         Actions.append(['use','haloofsporest'])
     else:
-        print Actor, "can't react!"
+        print(Actor, "can't react!")
 
 # calculate the damage based on level and double the dice if symbiotic entity is active
 def haloofsporest():

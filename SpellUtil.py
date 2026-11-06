@@ -1,5 +1,4 @@
 import csv
-
 import DnDUtil
 
 ABILITY_FILE = 'Ability Data.csv'
@@ -8,17 +7,17 @@ SPELL_LIST_FILE = 'Spell List Data.csv'
 def inputSpellLevel(spellName,baseLevel):
 
     while True:
-        input = raw_input("Input spell level for "+spellName+" (skip to cast at base level of "+str(baseLevel)+"): ")
+        input = getInput("Input spell level for "+spellName+" (skip to cast at base level of "+str(baseLevel)+"): ")
         if (len(input) == 0):
             return baseLevel
         else:
             spellLevel = DnDUtil.getInt(input)
             if (spellLevel < 1):
-                print "Spells cannot be cast at a level lower than 1! Try again."
+                print("Spells cannot be cast at a level lower than 1! Try again.")
             elif (spellLevel > 9):
-                print "Spells cannot be cast at a level higher than 9! Try again."
+                print("Spells cannot be cast at a level higher than 9! Try again.")
             elif (spellLevel < baseLevel):
-                print "Spells cannot be cast at a level lower than their base level! Try again."
+                print("Spells cannot be cast at a level lower than their base level! Try again.")
             else:
                 return spellLevel
 
@@ -63,7 +62,7 @@ def replaceSpellMod(actions,actorData):
                     promptString = 'What is this actor\'s spellcasting ability modifier? '
                     if (spModString != 'spmod'):
                         promptString += '('+spModString+') '
-                    spellMod = DnDUtil.getInt(raw_input(promptString))
+                    spellMod = DnDUtil.getInt(getInput(promptString))
                 returnAction.append(actionParameter.replace(spModString,str(spellMod)))
             else:
                 returnAction.append(actionParameter)
@@ -105,7 +104,7 @@ def replaceLvl(actions,lvl):
                         replacement = str(lvl*int(actionParameter[findIndex+4]))
                     else:
                         searchString += actionParameter[findIndex+4]
-                        replacement = str(lvl/int(actionParameter[findIndex+4]))
+                        replacement = str(DnDUtil.divide((lvl), (int(actionParameter[findIndex+4]))))
                     actionParameter = actionParameter.replace(searchString,replacement)
             if (replaced):
                 actionParameter = DnDUtil.simplifyCalculation(actionParameter)
@@ -116,9 +115,9 @@ def replaceLvl(actions,lvl):
 
 def spellInfo(spellName):
     
-    abilityFile = open(ABILITY_FILE,'rb')
+    abilityFile = open(ABILITY_FILE, 'r', encoding='utf-8', newline='')
     csvAbilityReader = csv.reader(abilityFile)
-    header = csvAbilityReader.next()
+    header = next(csvAbilityReader)
     
     for row in csvAbilityReader:
         if (row[0] == spellName):
@@ -127,31 +126,31 @@ def spellInfo(spellName):
             for key in header:
                 abilityData[key] = row[header.index(key)]
             try:
-                print "Base Level:", abilityData['Base Level']
-                print "Targets:", abilityData['Targets']
-                print "Range:", abilityData['Range']
-                print "Duration:", abilityData['Duration']
+                print("Base Level:", abilityData['Base Level'])
+                print("Targets:", abilityData['Targets'])
+                print("Range:", abilityData['Range'])
+                print("Duration:", abilityData['Duration'])
                 if (abilityData['Attack']):
-                    print "Attack:", abilityData['Attack']
-                print "Concentration:", abilityData['Concentration?']
-                print "Use Turn:", abilityData['Use Turn?']
-                print "Static Damage:", abilityData['Static Damage?']
+                    print("Attack:", abilityData['Attack'])
+                print("Concentration:", abilityData['Concentration?'])
+                print("Use Turn:", abilityData['Use Turn?'])
+                print("Static Damage:", abilityData['Static Damage?'])
                 if (abilityData['Save']):
-                    print "Save:", abilityData['Save'], abilityData['Save Result']
+                    print("Save:", abilityData['Save'], abilityData['Save Result'])
                 if (abilityData['Target Type Mods']):
-                    print "Target Type Mods:", abilityData['Target Type Mods']
+                    print("Target Type Mods:", abilityData['Target Type Mods'])
                 if (abilityData['Type']):
-                    print "Types:", abilityData['Type']
-                print "Actions:", abilityData['Actions']
+                    print("Types:", abilityData['Type'])
+                print("Actions:", abilityData['Actions'])
                 if (abilityData['Scaled Actions']):
-                    print "Scaled Actions:", abilityData['Scaled Actions']
+                    print("Scaled Actions:", abilityData['Scaled Actions'])
                 if (int(abilityData['Trigger Duration'])):
-                    print "Trigger Duration:", abilityData['Trigger Duration']
-                    print "Target On Cast:", abilityData['Target On Cast?']
-                    print "When To Trigger:", abilityData['When To Trigger']
+                    print("Trigger Duration:", abilityData['Trigger Duration'])
+                    print("Target On Cast:", abilityData['Target On Cast?'])
+                    print("When To Trigger:", abilityData['When To Trigger'])
                 classes = getClassesWithSpell(spellName,int(abilityData['Base Level']))
                 if (classes):
-                    print "Able To Cast:", classes
+                    print("Able To Cast:", classes)
             except KeyError:
                 DnDUtil.printError("Missing data in "+ABILITY_FILE+" for ability "+spellName)
             except ValueError:
@@ -161,17 +160,17 @@ def spellInfo(spellName):
     abilityFile.close()
     classes = getClassesWithSpell(spellName,-999)
     if (classes):
-        print "Able To Cast:", classes
+        print("Able To Cast:", classes)
     else:
-        print "Spell", spellName, "not found."
+        print("Spell", spellName, "not found.")
 
 def getClassesWithSpell(spellName,spellLevel):
 
     classesString = ''
     if (spellLevel >= 0 and spellLevel <= 9 or spellLevel == -999):
-        spellListFile = open(SPELL_LIST_FILE,'rb')
+        spellListFile = open(SPELL_LIST_FILE, 'r', encoding='utf-8', newline='')
         csvSpellListReader = csv.reader(spellListFile)
-        csvSpellListReader.next()
+        next(csvSpellListReader)
         baseClasses = []
         for row in csvSpellListReader:
             if (not('(' in row[0])):
@@ -201,7 +200,7 @@ def getClassesWithSpell(spellName,spellLevel):
                     while (spellLevel == -999):
                         if (spellName in DnDUtil.mySplit(row[i],',')):
                             spellLevel = i-1
-                            print "Spell Level:", spellLevel
+                            print("Spell Level:", spellLevel)
                         i += 1
         spellListFile.close()
         if (classesString):
@@ -212,9 +211,9 @@ def getClassesWithSpell(spellName,spellLevel):
 def printSpellList(classList,spellLevel):
 
     if (spellLevel >= -1 and spellLevel <= 9):
-        spellListFile = open(SPELL_LIST_FILE,'rb')
+        spellListFile = open(SPELL_LIST_FILE, 'r', encoding='utf-8', newline='')
         csvSpellListReader = csv.reader(spellListFile)
-        csvSpellListReader.next()
+        next(csvSpellListReader)
         if (len(classList) == 1):
             for row in csvSpellListReader:
                 classString = row[0].replace(' ','')
@@ -222,7 +221,7 @@ def printSpellList(classList,spellLevel):
                     printSpellListForRow(row,spellLevel)
                     spellListFile.close()
                     return
-            print "Class", classList[0], "not found!"
+            print("Class", classList[0], "not found!")
         elif (len(classList) == 2):
             matchingClasses = []
             for row in csvSpellListReader:
@@ -243,12 +242,12 @@ def printSpellList(classList,spellLevel):
                 if (choice <= len(matchingClasses)):
                     printSpellListForRow(matchingClasses[choice-1],spellLevel)
             else:
-                print "Class", classList[0], "with subclass", classList[1], "not found!"
+                print("Class", classList[0], "with subclass", classList[1], "not found!")
         else:
-            print "A class can't have more than 1 subclass!"
+            print("A class can't have more than 1 subclass!")
         spellListFile.close()
     else:
-        print spellLevel, "is not a valid spell level!"
+        print(spellLevel, "is not a valid spell level!")
 
 def printSpellListForRow(row,spellLevel):
 
@@ -256,7 +255,7 @@ def printSpellListForRow(row,spellLevel):
         i = 1
         while (i < 11):
             if (row[i]):
-                print row[0].capitalize(), str(i-1)+':', row[i]
+                print(row[0].capitalize(), str(i-1)+':', row[i])
             i += 1
     else:
-        print row[0].capitalize(), str(spellLevel)+':', row[spellLevel+1]
+        print(row[0].capitalize(), str(spellLevel)+':', row[spellLevel+1])

@@ -45,7 +45,7 @@ def formatAtkDamageData(data,name):
     
     if (numRangeAtkSets != numRangeDamageSets):
         DnDUtil.printError("Ranged data was given for either atk bonus or damage, but not the other for "+name)
-        print "Atk Range Sets:", numRangeAtkSets, "Damage:", numRangeDamageSets
+        print("Atk Range Sets:", numRangeAtkSets, "Damage:", numRangeDamageSets)
         if (numRangeAtkSets > numRangeDamageSets):
             for i in range(0,numRangeAtkSets-numRangeDamageSets):
                 data['Damage'].append([['0']])
@@ -59,7 +59,7 @@ def formatAtkDamageData(data,name):
 
         if (numAtkSets != numDamageSets):
             DnDUtil.printError("The number of damage sets for "+name+" does not match up with the number of attack sets")
-            print "Attack Sets:", numAtkSets, "Damage Sets:", numDamageSets
+            print("Attack Sets:", numAtkSets, "Damage Sets:", numDamageSets)
             if (numAtkSets > numDamageSets):
                 for j in range(0,numAtkSets-numDamageSets):
                     data['Damage'][i].append(['0'])
@@ -86,7 +86,7 @@ def formatAtkDamageData(data,name):
                     dmgBonusData[i][j].append(dmgBonus)
             elif (numAtks != numDamages):
                 DnDUtil.printError("Damage data does not match up with Atk data for "+name)
-                print "Atk:", numAtks, "Damage:", numDamages
+                print("Atk:", numAtks, "Damage:", numDamages)
                 for k in range(0,numAtks):
                     if (k < numDamages):
                         parsedDamage = DnDUtil.parseDamageCalculation(data['Damage'][i][j][k])
@@ -151,7 +151,7 @@ def formatWeaponTypesData(weaponTypesData,atkData,name):
 
         if (numRangeAtkSets != numRangeWeaponTypeSets):
             DnDUtil.printError("Ranged data was given for either atk bonus or weapon types, but not the other for "+name)
-            print "Atk Range Sets:", numRangeAtkSets, "Weapon Type Range Sets:", numRangeWeaponTypeSets
+            print("Atk Range Sets:", numRangeAtkSets, "Weapon Type Range Sets:", numRangeWeaponTypeSets)
             if (numRangeAtkSets > numRangeWeaponTypeSets):
                 for i in range(0,numRangeAtkSets-numRangeWeaponTypeSets):
                     weaponTypesData.append([[[]]])
@@ -165,7 +165,7 @@ def formatWeaponTypesData(weaponTypesData,atkData,name):
 
             if (numAtkSets != numWeaponTypeAtkSets):
                 DnDUtil.printError("The number of weapon type attack sets for "+name+" does not match up with the number of attack sets")
-                print "Attack Sets:", numAtkSets, "Weapon Type Attack Sets:", numWeaponTypeAtkSets
+                print("Attack Sets:", numAtkSets, "Weapon Type Attack Sets:", numWeaponTypeAtkSets)
                 if (numAtkSets > numWeaponTypeAtkSets):
                     for j in range(0,numAtkSets-numWeaponTypeAtkSets):
                         weaponTypesData[i].append([[]])
@@ -181,7 +181,7 @@ def formatWeaponTypesData(weaponTypesData,atkData,name):
                 if (numAtks != numWeaponTypeSets):
                     if (numWeaponTypeSets != 1):
                         DnDUtil.printError("The number of weapon type sets for "+name+" does not match up with the number of attacks")
-                        print "Attacks:", numAtks, "Weapon Type Sets:", numWeaponTypeSets
+                        print("Attacks:", numAtks, "Weapon Type Sets:", numWeaponTypeSets)
                     if (numAtks < numWeaponTypeSets):
                         for k in range(0,numWeaponTypeSets-numAtks):
                             weaponTypesData[i][j].pop()
@@ -227,9 +227,9 @@ def getInitAbilityData():
 
 def loadAbilityData(name,data,useAbility):
 
-    abilityFile = open(ABILITY_FILE,'rb')
+    abilityFile = open(ABILITY_FILE, 'r', encoding='utf-8', newline='')
     csvAbilityReader = csv.reader(abilityFile)
-    header = csvAbilityReader.next()
+    header = next(csvAbilityReader)
 
     dataLength = len(data)
 
@@ -247,7 +247,7 @@ def loadAbilityData(name,data,useAbility):
         abilityDict = {'Trigger Condition': '', 'Save': '', 'DC': 0, 'Save Result': 'negates', 'Concentration?': False, 'Charges': -1, 'Duration': 0}
 
     abilityDict['Actions'] = []
-    actions = data[dataLength/2].split(';')
+    actions = data[DnDUtil.divide((dataLength), (2))].split(';')
     for action in actions:
         abilityDict['Actions'].append(action.split(','))
     if (dataLength == 3):
@@ -404,7 +404,7 @@ def parseAbilityData(row,header,data):
             # handle the action data
             elif (dataKey == 'Actions'):
                 abilityData['Actions'] = []
-                actions = data[dataLength/2].split(';')
+                actions = data[DnDUtil.divide((dataLength), (2))].split(';')
                 actions2 = []
                 if (actions == ['']):
                     actionSet = row[i].split(':')
@@ -538,9 +538,9 @@ def getInitWeaponData():
 
 def loadWeaponData(level=0):
 
-    weaponFile = open(WEAPON_FILE,'rb')
+    weaponFile = open(WEAPON_FILE, 'r', encoding='utf-8', newline='')
     csvWeaponReader = csv.reader(weaponFile)
-    header = csvWeaponReader.next()
+    header = next(csvWeaponReader)
     weaponData = {}
     for row in csvWeaponReader:
         parsedWeaponData = parseWeaponData(row,copy(header))
@@ -613,9 +613,9 @@ def getInitArmorData():
 
 def loadArmorData(level=0):
 
-    armorFile = open(ARMOR_FILE,'rb')
+    armorFile = open(ARMOR_FILE, 'r', encoding='utf-8', newline='')
     csvArmorReader = csv.reader(armorFile)
-    header = csvArmorReader.next()
+    header = next(csvArmorReader)
     armorData = {}
     for row in csvArmorReader:
         parsedArmorData = parseArmorData(row,copy(header))

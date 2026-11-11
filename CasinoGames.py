@@ -453,9 +453,9 @@ def playTableGame(maxBettingRounds,initFunc,perRoundFunc,getBestHandFunc):
             print("Final pot is", pot)
             for actor in currentHandTurnOrder:
                 if (actor in tableData['PlayerData']):
-                    print(actor, "wins", DnDUtil.getPassText(DnDUtil.divide((pot), (len(currentHandTurnOrder)))), "gold!")
+                    print(actor, "wins", DnDUtil.getPassText(pot // len(currentHandTurnOrder)), "gold!")
                 else:
-                    print(actor, "wins", DnDUtil.divide((pot), (len(currentHandTurnOrder))), "gold!")
+                    print(actor, "wins", pot // len(currentHandTurnOrder), "gold!")
             print("----------------------------------------")
 
             # increment first bet index for the next game so a new player starts the betting

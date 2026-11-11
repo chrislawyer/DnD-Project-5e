@@ -1234,7 +1234,7 @@ def negativeenergyflood():
             tempHP = DnDUtil.getInt(input("Roll for "+AbilityName+" damage (5d12): "))
         else:
             tempHP = DnDUtil.calculate('5d12')
-        Actions.append(['temphp',str(DnDUtil.divide((tempHP), (2)))])
+        Actions.append(['temphp',str(tempHP // 2)])
     else:
         Actions.append(['damage','5d12','necrotic'])
         Actions.append(['msg','If target dies from this damage, summon a zombie on actor\'s next turn'])
@@ -1672,7 +1672,7 @@ def spiritshroud():
     choice = DnDUtil.chooseOption('Choose a damage type',options)
     damageType = options[choice-1]
     Actions.append(['misc','spiritshroudtype',damageType])
-    Actions.append(['misc','spiritshrouddamage',str(1+DnDUtil.divide((SpellLevel-BaseLevel), (2)))+'d8'])
+    Actions.append(['misc','spiritshrouddamage',str(1+(SpellLevel-BaseLevel) // 2)+'d8'])
 
 # choose the spirit to summon and alter its stats based on the caster and spell level
 def summonSpirit(baseSpiritName,options,hpMult):
@@ -1686,7 +1686,7 @@ def summonSpirit(baseSpiritName,options,hpMult):
     Actions.append(['buff','spelldc',str(SaveDC)])
     Actions.append(['buff','atk',str(SpellAtk)])
     Actions.append(['buff','dmg',str(SpellLevel)])
-    for i in range(1,DnDUtil.divide((SpellLevel), (2))):
+    for i in range(1,SpellLevel // 2):
         Actions.append(['bonusattack'])
     return choice
 

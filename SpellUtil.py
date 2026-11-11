@@ -104,7 +104,7 @@ def replaceLvl(actions,lvl):
                         replacement = str(lvl*int(actionParameter[findIndex+4]))
                     else:
                         searchString += actionParameter[findIndex+4]
-                        replacement = str(DnDUtil.divide((lvl), (int(actionParameter[findIndex+4]))))
+                        replacement = str(lvl // int(actionParameter[findIndex+4]))
                     actionParameter = actionParameter.replace(searchString,replacement)
             if (replaced):
                 actionParameter = DnDUtil.simplifyCalculation(actionParameter)

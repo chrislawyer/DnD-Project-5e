@@ -241,7 +241,7 @@ def loadPlayerData():
                 numPlayers += 1
 
     if (numPlayers):
-        avgLevel = int(DnDUtil.divide((totalLevels), (numPlayers)))
+        avgLevel = int(totalLevels / numPlayers)
     playerFile.close()
 
 def parsePlayerData(row,header):
@@ -1076,7 +1076,7 @@ def getItem(data,classTable):
     filteredLootTable = []
     for item in data:
         if (data[item]['Class'] == itemClass):
-            levelDiff = int(abs(2*(DnDUtil.divide((data[item]['Max Level']+data[item]['Min Level']), (2.0)) - avgLevel)))
+            levelDiff = int(abs(2*((data[item]['Max Level']+data[item]['Min Level']) / 2 - avgLevel)))
             if (levelDiff == 0):
                 levelDiff = 1
             filteredLootTable.append([item,levelDiff])
@@ -1094,7 +1094,7 @@ def getItem(data,classTable):
     lcm = lcmm(*breakPoints)
     totalBreakPoints = 0
     for i in range(0,len(breakPoints)):
-        breakPoints[i] = DnDUtil.divide((lcm), (breakPoints[i]))
+        breakPoints[i] = lcm // breakPoints[i]
         totalBreakPoints += breakPoints[i]
     roll = random.randint(1,totalBreakPoints)
     prevBreakPoint = 0
@@ -1152,18 +1152,18 @@ def randomItem(itemRules,itemClass='',prevRules=None):
                     enchantLevel = 1
                 # 20% chance to get a level 2 enchant at 5th level
                 elif (avgLevel == 5):
-                    enchantLevel = DnDUtil.divide((random.randint(1,5)), (5)) + 1
+                    enchantLevel = (random.randint(1,5) // 5) + 1
                 else:
                     # the chance out of 10 that we roll the lower enchantment level
-                    lowEnchantChance = -2*avgLevel+(10+10*(DnDUtil.divide((avgLevel-1), (5))))
+                    lowEnchantChance = -2*avgLevel+(10+10*((avgLevel-1) // 5))
                     # ensure a minimum 10% chance to get the lower enchantment level
                     if (lowEnchantChance == 0):
                         lowEnchantChance = 1
                     roll = random.randint(1,10)
                     if (roll <= lowEnchantChance):
-                        enchantLevel = DnDUtil.divide((avgLevel-1), (5))
+                        enchantLevel = (avgLevel-1) // 5
                     else:
-                        enchantLevel = DnDUtil.divide((avgLevel+4), (5))
+                        enchantLevel = (avgLevel+4) // 5
                 rule += str(enchantLevel)
             elif (any(rule.find(Class) == 0 for Class in ['spellT','potionT','gemT','artT','magicitemT'])):
                 oldRule = rule
@@ -1590,7 +1590,7 @@ def gcd(a,b):
 
 def lcm(a,b):
 
-    return DnDUtil.divide((a*b), (gcd(a,b)))
+    return (a*b) // gcd(a,b)
 
 def lcmm(*args):
      
@@ -1846,7 +1846,7 @@ def displayHP():
     sortedCreatures.sort()
     for creature in sortedCreatures:
         print(creature+':', end=' ')
-        percentHP = int(DnDUtil.divide((float(encounter[creature]['HP'])), (encounter[creature]['MaxHP'])) * 100)
+        percentHP = int((encounter[creature]['HP'] / encounter[creature]['MaxHP']) * 100)
         if (percentHP == 100):
             print(DnDUtil.getHealText(percentHP)+'%', end=' ')
         elif (percentHP >= 25):
@@ -2443,9 +2443,9 @@ def attack(actor,actorData,defaultTarget,attackType,rangeIndex,atkIndex,roll=-1,
                     dfDamage = DnDUtil.calculate('1d6')
                 if (not(playerAttack) or not(PLAYERS_ADD_BONUS)):
                     if (actorData['Misc'][dfKey]):
-                        dfDmgBonus = DnDUtil.divide((actorData['Misc'][dfKey]), (2))
+                        dfDmgBonus = actorData['Misc'][dfKey] // 2
                     else:
-                        dfDmgBonus = DnDUtil.divide((actorData['CR']), (2))
+                        dfDmgBonus = actorData['CR'] // 2
                 else:
                     dfDmgBonus = 0
 
@@ -2877,7 +2877,7 @@ def checkConcentration(actor,actorData,damage):
         if (damage <= 20):
             saveDC = 10
         else:
-            saveDC = DnDUtil.divide((damage), (2))
+            saveDC = damage // 2
 
         print(actor, "must make a concentration check DC", saveDC, "to maintain a spell")
 
@@ -3298,7 +3298,7 @@ def useAbility(playerTurn,abilityName,abilityTypes,abilityDuration,actions,playe
                         print(abilityName, "will heal for an additional", healBonus, "hp due to", actor+"'s disciple of life!")
                     else:
                         healBonus = 0
-                    healAmount = heal(actor,actorData,DnDUtil.divide((damage), (2))+healBonus)
+                    healAmount = heal(actor,actorData,damage // 2 + healBonus)
                     updateDamageSummary(returnDamageSummary,actor,-healAmount)
                 elif (actionType.find('soulharvest') != -1):
                     if (setTempHP(actor,actorData,damage)):
@@ -4340,11 +4340,11 @@ def shove(actor,actorData,playerActor,target,targetData,playerTarget):
             if (autoBattle):
                 option = 1
             else:
-                option = DnDUtil.chooseOption('Choose an effect for shoving',['Knock '+target+' prone','Shove '+target+' up to '+str(5+DnDUtil.divide((actorResult-targetResult), (5))*5)+' feet'])
+                option = DnDUtil.chooseOption('Choose an effect for shoving',['Knock '+target+' prone','Shove '+target+' up to '+str(5+5*((actorResult-targetResult) // 5))+' feet'])
             if (option == 1):
                 knockProne(target,targetData)
             else:
-                print(target, "is pushed back up to", 5+DnDUtil.divide((actorResult-targetResult), (5))*5, "feet")
+                print(target, "is pushed back up to", 5+5*((actorResult-targetResult) // 5), "feet")
         elif (actorResult < targetResult):
             print(target, "wins. Shove attempt", DnDUtil.getFailText('unsuccessful'))
         else:
@@ -6178,7 +6178,7 @@ def makeItem(baseItem,itemClass,box=False):
     itemDisplay = itemInfo[0]
     # if this item ended up with a modification, discount its total value by 15-25% since the enchantment and base item are random
     if (item != baseItem):
-        value = int(itemInfo[1]*(1-DnDUtil.divide((random.randint(15,25)), (100.0))))
+        value = int(itemInfo[1]*(1-(random.randint(15,25) / 100)))
     else:
         value = itemInfo[1]
     if (box):
@@ -6788,7 +6788,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
                                         takenAction = True
 
                     if ('survivor' in actorData['Misc']):
-                        if (playerTurn or not(playerTurn) and actorData['HP'] < DnDUtil.divide((actorData['MaxHP']), (2))):
+                        if (playerTurn or not(playerTurn) and actorData['HP'] < actorData['MaxHP'] // 2):
                             heal(actor,actorData,actorData['Misc']['survivor'])
                             if (playerTurn):
                                 print(actor, "only gains this health if below half hp!")
@@ -8642,7 +8642,7 @@ def createEncounter(encounterFileName='',creatureDict=None,battleRoyale=False):
     print("This encounter has been completed")
 
     if (numPlayers > 0):
-        awardedExp = DnDUtil.divide((totalExp), (float(numPlayers)))
+        awardedExp = totalExp / numPlayers
         print("Suggested Exp:", awardedExp)
 
     print("Suggested Gold:", totalGold)
@@ -9803,7 +9803,7 @@ while True:
                 bonus2 = 2
             else:
                 bonus2 = 0
-            bonus3 = DnDUtil.divide((avgLevel-1), (5))
+            bonus3 = (avgLevel-1) // 5
             result = roll + bonus1 + bonus2 + bonus3
             if (result >= 20):
                 roll = random.randint(1,20)
@@ -9819,9 +9819,9 @@ while True:
             difficultyIndex = getDifficultyIndex(False)
             maxCR = getMaxCRForDifficultyIndex(difficultyIndex)
             if (maxCR >= 4):
-                minCR = DnDUtil.divide((maxCR), (4))
+                minCR = maxCR // 4
             else:
-                minCR = DnDUtil.divide((maxCR), (4.0))
+                minCR = maxCR / 4
 
             environmentList = ['environments',rawInput[1],'any']
             if (DnDUtil.getAnswer('Include creatures from other planes') == 'y'):
@@ -9899,7 +9899,7 @@ while True:
                 levelThresholds = getExpThresholdsForPlayer(level)
                 for i in range(0,len(levelThresholds)):
                     partyExpThresholds[i] += levelThresholds[i]
-            avgLevel = int(DnDUtil.divide((totalLevels), (numPlayers)))
+            avgLevel = int(totalLevels / numPlayers)
             loadEquipmentData()
             print("NumPlayers is now", numPlayers)
             print("AvgLevel is now", avgLevel)

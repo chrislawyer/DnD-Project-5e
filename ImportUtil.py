@@ -247,7 +247,7 @@ def loadAbilityData(name,data,useAbility):
         abilityDict = {'Trigger Condition': '', 'Save': '', 'DC': 0, 'Save Result': 'negates', 'Concentration?': False, 'Charges': -1, 'Duration': 0}
 
     abilityDict['Actions'] = []
-    actions = data[DnDUtil.divide((dataLength), (2))].split(';')
+    actions = data[dataLength // 2].split(';')
     for action in actions:
         abilityDict['Actions'].append(action.split(','))
     if (dataLength == 3):
@@ -404,7 +404,7 @@ def parseAbilityData(row,header,data):
             # handle the action data
             elif (dataKey == 'Actions'):
                 abilityData['Actions'] = []
-                actions = data[DnDUtil.divide((dataLength), (2))].split(';')
+                actions = data[dataLength // 2].split(';')
                 actions2 = []
                 if (actions == ['']):
                     actionSet = row[i].split(':')

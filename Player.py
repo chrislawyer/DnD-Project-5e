@@ -530,7 +530,7 @@ def main(playerData):
                             damage = DnDUtil.getInt(damageString)
                         else:
                             damage = 20
-                    concDC = max(10,DnDUtil.divide((damage), (2)))
+                    concDC = max(10,damage // 2)
                     print("Concentration DC is", concDC)
                     proficiencyBonus = getProficiencyBonusForCommand('cons')
                     if (bladesong):
@@ -594,7 +594,7 @@ def getProficiencyBonusForCommand(initCommand):
     elif (initCommand in PlayerData['Proficiencies']):
         proficiencyBonus = PlayerData['ProfBonus']
     elif ('joat' in PlayerData['Misc'] and not(initCommand in ['strs','dexs','cons','ints','wiss','chas','deaths'])):
-        proficiencyBonus = DnDUtil.divide((PlayerData['ProfBonus']), (2))
+        proficiencyBonus = PlayerData['ProfBonus'] // 2
     else:
         proficiencyBonus = 0
     return proficiencyBonus
@@ -855,7 +855,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                                 print(abilityName, "will heal for an additional", healBonus, "hp due to", Player+"'s enhanced bond!")
                         elif (actionType.find('halfsteal') != -1):
                             healStringPrefix = Player+' heals '
-                            baseHealAmount = DnDUtil.divide((damage), (2))
+                            baseHealAmount = damage // 2
                             healStringSuffix = ' hp'
                             if ('dol' in PlayerData['Misc'] and spellLevel >= 1):
                                 healBonus = 2 + spellLevel
@@ -874,7 +874,7 @@ def useAbility(abilityName,abilityDuration,actions,actions2,saveType,half,crit,f
                     if (healString):
                         currentActionsResults.append(healString)
                     if (half and i == 0 and not(actions2)):
-                        passActionsResults.append("Target takes "+DnDUtil.getDamageText(DnDUtil.divide((damage), (2)))+' '+mainDamageType+" damage"+improvedDamageString)
+                        passActionsResults.append("Target takes "+DnDUtil.getDamageText(damage // 2)+' '+mainDamageType+" damage"+improvedDamageString)
                         if (healString):
                             passActionsResults.append(healStringPrefix+DnDUtil+healStringSuffix)
                 else:

@@ -9321,7 +9321,7 @@ def help(str,combat):
         print("Example 2: sl rogue,arcanetrickster 1 would print all first level spells available to an arcane trickster rogue")
         print("Note: This command can also be used outside of combat")
     elif (str == 'o' or str == 'open'):
-        print("open - opens to the correct pdf page of the string given, inclduing things such as creatures, classes, races, and spells, using additional optional arguments to narrow the search")
+        print("open - opens to the correct pdf page of the string given, including things such as creatures, classes, races, and spells, using additional optional arguments to narrow the search")
         print("Usage: o/open [string](,[searchArg1],[searchArgs2],...)")
         print("Example: We want to reference the spell resurrection. We would type 'open resurrection' and the player's handbook would open to the page containing the resurrection spell.")
         print("Example 2: We want to reference the druid class, but not the creature named druid. We could either type 'open druid,class' to specify the class OR 'open druid,phb' to specify that we want the druid from the player's handbook")

@@ -6,3 +6,33 @@ This is a personal passion project created by me in 2012 for my D&D sessions to 
 
 ## Main Features
 
+- run combat [Details](#running-combat)
+- save between sessions
+- all data stored in csv files
+- generate random encounters
+- generate random loot
+- player functions
+- bookmarks
+- random misc tables
+- casino games
+- documentation
+
+### Running Combat
+
+### Saving Encounters
+
+### Data Files
+
+### Generating a Random Encounter
+
+### Random Loot Generation
+
+### Using the App as a Player
+
+### Opening a Bookmark
+
+### Rolling on Custom Random Tables
+
+### Casino Games
+
+### Documentation

@@ -868,7 +868,7 @@ def help(gameName):
         print("This is a simple dice-rolling game.")
         print("The player places a bet then rolls 2d6.")
         print("If the result is 7 or 12, the player wins.")
-        print("Otherwise, the player loses unless he doubles the bet to roll another d6 to try and reach 7 or 12.")
+        print("Otherwise, the player loses unless he/she doubles the bet to roll another d6 to try and reach 7 or 12.")
         print("The payout for winning is 2:1")
     elif (gameName == 'dh'):
         print("This is a dice-rolling table game involving 3 rounds of betting.")

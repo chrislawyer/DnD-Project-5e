@@ -61,6 +61,11 @@ Below is documentation for every available command in the app along with a descr
 
 These commands can be used both inside and outside of combat.
 
+#### help
+Gives a short description of a command followed by usage information or lists all commands\
+Usage: h/help ([command])\
+Note: variables are enclosed in square breackets i.e. [command] and optional arguments are given in parenthesis i.e. ([command])
+
 #### spell
 Displays information on the given spell, pulled from the ability data table\
 Usage: spell [spell name]
@@ -401,11 +406,6 @@ Example: `delmisc zombie1,zombie2 uf` would remove zombie1 and zombie2's undead 
 #### done
 Instantly ends the encounter\
 Usage: done
-
-#### help
-Gives a short description of a command followed by usage information or lists all commands\
-Usage: h/help ([command])\
-Note: variables are enclosed in square breackets i.e. [command] and optional arguments are given in parenthesis i.e. ([command])
 
 ### Non-Combat Commands
 

@@ -62,9 +62,7 @@ Below is documentation for every available command in the app along with a descr
 #### jump
 
 jump - Jumps to the given actor temporarily, then returns to the previous actor
-
 Usage: j/jump [actor]
-
 Note: If you want this jump to consume the actor's reaction, use react instead
 
 #### react

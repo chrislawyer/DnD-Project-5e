@@ -470,7 +470,7 @@ Usage: weather
 
 #### setlvls
 Overrides the average level of the party, number of players in the party, and exp thresholds of the party, affecting the loot drops, items available in shops, and generated encounters\
-Usage: setlvls [level1](,[level2],...)\
+Usage: setlvls \[level1](,[level2],...)\
 Example: `setlvls 2,2,3` would set up a party consisting of two level 2s and one level 3
 
 #### find

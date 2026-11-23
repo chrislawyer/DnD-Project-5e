@@ -72,13 +72,13 @@ Usage: spell [spell name]
 
 #### spelllist
 Displays the list of spells that a given class can learn\
-Usage: sl/spl/spelllist [class](,[subclass]) ([spell level])\
+Usage: sl/spl/spelllist \[class](,[subclass]) ([spell level])\
 Example 1: `sl druid` would print all spells available to druids\
 Example 2: `sl rogue,arcanetrickster 1` would print all first level spells available to an arcane trickster rogue
 
 #### open
 Opens to the correct pdf page of the string given, including things such as creatures, classes, races, and spells, using additional optional arguments to narrow the search\
-Usage: o/open [string](,[searchArg1],[searchArgs2],...)\
+Usage: o/open \[string](,[searchArg1],[searchArgs2],...)\
 Example: We want to reference the spell resurrection. We would type `open resurrection` and the player's handbook would open to the page containing the resurrection spell.\
 Example 2: We want to reference the druid class, but not the creature named druid. We could either type `open druid,class` to specify we specifically want the druid class OR `open druid,phb` to specify that we want the druid from the player's handbook\
 Note: This command requires some pdf reader, such as Acrobat Reader DC, to be installed\
@@ -87,7 +87,7 @@ Note 3: If used during an encounter on a creature's turn, simply entering 'open'
 
 #### roll
 Simulates rolling dice and prints the total result\
-Usage: roll ([number of rolls]d[type of die](+[number of rolls]d[type of die]...))\
+Usage: roll ([number of rolls]d\[type of die](+[number of rolls]d[type of die]...))\
 Note: the roll command will also accept whole integers as input\
 Note 2: if no dice are given, it will roll 1d20\
 Example: `roll 2d4+3` will roll a d4 twice, then add 3 and print the total
@@ -160,7 +160,7 @@ Note 3: This command can also be used outside of combat to set up buffs before c
 
 #### scroll
 Uses the given ability from abilityData on the specified targets, assigning the Spell DC as appropriate for a spell scroll of that level\
-Usage: scroll [ability] [target](,[target2]...) ([dc bonus])\
+Usage: scroll [ability] \[target](,[target2]...) ([dc bonus])\
 Note: self, allies, enemies, and all are all valid targets
 
 #### trigger
@@ -240,7 +240,7 @@ Enemy Usage: attack [enemy] [target]
 
 #### damage
 Deals damage to a creature or creatures out of turn order, used for hp adjustments and misc cases where damage should be dealt\
-Usage: dmg/damage [creature](,[creature2]...) [amount] ([type],[type2]...)\
+Usage: dmg/damage \[creature](,[creature2]...) [amount] ([type],[type2]...)\
 Note: the types of the damage dealt can be specified at the end to apply immunities, vulnerabilities, and resistances
 
 #### grapple
@@ -272,11 +272,11 @@ Usage: rage
 
 #### dispel
 Displays all active effects on a target and gives the option to remove any of them\
-Usage: dispel [target](,[target2]...)
+Usage: dispel \[target](,[target2]...)
 
 #### turn
 Used to Turn Undead on the given targets\
-Usage: turn [target](,[target2]...)
+Usage: turn \[target](,[target2]...)
 
 #### adv
 Gives the target advantage on the specified check\
@@ -324,12 +324,12 @@ Note: this command has no effect on an actor that is not prone
 
 #### heal
 Heals a creature out of turn order, used for spells, potions, and misc cases\
-Usage: heal [creature](,[creature2]...) [amount]\
+Usage: heal \[creature](,[creature2]...) [amount]\
 Note: on an enemy's turn, heal will accept an equation such as 1d8+3 as the amount argument
 
 #### kill
 Instantly kills a creature or player, removing it from the encounter\
-Usage: kill [target](,[target2]...)
+Usage: kill \[target](,[target2]...)
 
 #### add
 Adds allies or enemies to the encounter\
@@ -360,47 +360,47 @@ Note: This will give temporary hit point regradless or whether the creature prev
 
 #### str
 Makes a strength save for every target given, but the targets must be all players or all enemies\
-Player Usage: str [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: str [target](,[target2]...)
+Player Usage: str \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: str \[target](,[target2]...)
 
 #### dex
 Makes a dexterity save for every target given, but the targets must be all players or all enemies\
-Player Usage: dex [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: dex [target](,[target2]...)
+Player Usage: dex \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: dex \[target](,[target2]...)
 
 #### con
 Makes a constitution save for every target given, but the targets must be all players or all enemies\
-Player Usage: con [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: con [target](,[target2]...)
+Player Usage: con \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: con \[target](,[target2]...)
 
 #### int
 Makes an intelligence save for every target given, but the targets must be all players or all enemies\
-Player Usage: int [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: int [target](,[target2]...)
+Player Usage: int \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: int \[target](,[target2]...)
 
 #### wis
 Makes a wisdom save for every target given, but the targets must be all players or all enemies\
-Player Usage: wis [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: wis [target](,[target2]...)
+Player Usage: wis \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: wis \[target](,[target2]...)
 
 #### cha
 Makes a charisma save for every target given, but the targets must be all players or all enemies\
-Player Usage: cha [target](,[target2]...) [roll](,[roll2]...)\
-Enemy Usage: cha [target](,[target2]...)
+Player Usage: cha \[target](,[target2]...) \[roll](,[roll2]...)\
+Enemy Usage: cha \[target](,[target2]...)
 
 #### addmisc
 Adds a miscellaneous stat with the given argument to the given target (or targets)\
-Usage: addmisc [target](,[target2]...) [stat] ([argument])\
+Usage: addmisc \[target](,[target2]...) [stat] ([argument])\
 Example: `addmisc orc1,orc2,skeleton1 parry 2` would give orc1, orc2, and skeleton1 the parry ability, grating +2 AC when used
 
 #### editmisc
 Edits a miscellaneous stat, replacing its argument with the given argument on the given target (or targets)\
-Usage: editmisc [target](,[target2]...) [stat] [argument]\
+Usage: editmisc \[target](,[target2]...) [stat] [argument]\
 Example: `editmisc veteran1,veteran2 parry 4` would change captain1 and captain2's parry arguments to 4 (assuming they had the parry ability)
 
 #### delmisc
 Deletes a miscellaneous stat from the given target (or targets)\
-Usage: delmisc [target](,[target2]..) [stat]\
+Usage: delmisc \[target](,[target2]..) [stat]\
 Example: `delmisc zombie1,zombie2 uf` would remove zombie1 and zombie2's undead fortitude ability
 
 #### done

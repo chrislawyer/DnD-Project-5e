@@ -412,7 +412,7 @@ Usage: done
 These commands can only be used outside of a combat encounter.
 
 #### test
-Quickly loads a test encounter from the test encounter file\
+Loads the test encounter from the test encounter file\
 Usage: test
 
 #### player
@@ -421,21 +421,21 @@ Usage: player ([player name1],[player name2],...)\
 Note: if no players are given, it will prompt the user to enter character names
 
 #### casino
-Initiates casino mode, allowing the dm to access the casino games\
+Initiates casino mode, allowing access the casino games\
 Usage: casino
 
 #### load
 Loads an encounter or battle royale from the encounter file\
 Usage: load encounter/battleroyale\
-Note: this command is particularly useful for recovering an encounter that was lost due to a crash
+Note: this command is useful for recovering an encounter that was lost due to ending the session or an unexpected crash
 
 #### create
-Creates an encounter, a blacksmith, or magicshop\
-Usage: create [thing] (size)\
+Creates an encounter, a blacksmith, or magic shop\
+Usage: create encounter/blacksmith/magicshop ([size])\
 Note: blacksmith and magic shop take an extra argument - size; the valid inputs for size are small, medium, and large
 
 #### battleroyale
-Creates a battle royale encounter in which players may attack each other and there are no enemy creatures\
+Creates a battle royale encounter, which means there are no enemy creatures and the players are expecting to fight amongst themselves\
 Usage: br/battleroyale
 
 #### random
@@ -445,10 +445,10 @@ Usage: random [class]
 #### encounter
 Generates a list of potential encounters for the given environment using either a random or user-given difficulty\
 Usage: e/encounter [environment]\
-Note: urban is also a valid environment, with its own rules for generating an encounter
+Note: urban is also a valid environment, with its own special rules for generating an encounter
 
 #### auto
-Automatically genrates an encounter using the given creatures and a random or given difficulty\
+Automatically generates an encounter using the given creatures and a random or given difficulty\
 Usage: auto \[creature1](,[creature2]...)\
 Note: you will be able to choose out of a list of valid encounters
 
@@ -461,34 +461,34 @@ Prints detailed information about an armor or weapon\
 Usage: info [weapon/armor]
 
 #### hit
-Used with box to generate a random item\
+Used with 'box' to generate a random item with better odds of receiving higher-tier items and items with enchantments\
 Usage: hit box
 
 #### weather
-Generates a random weather condition based on the table in the DM guide\
+Generates a random weather condition based on the table in the Dungeon Master's Guide\
 Usage: weather
 
 #### setlvls
 Overrides the average level of the party, number of players in the party, and exp thresholds of the party, affecting the loot drops, items available in shops, and generated encounters\
 Usage: setlvls [level1](,[level2],...)\
-Example: setlvls 2,2,3 would set up a party consisting of two level 2s and one level 3
+Example: `setlvls 2,2,3` would set up a party consisting of two level 2s and one level 3
 
 #### find
 Displays all creatures that meet the given parameters\
 Usage: find/search [parameter1],[value1] ([parameter2],[value2])...\
-Example 1: find cr,4 would print all creatures with a cr of 4\
-Example 2: find ac,>20 would print all creatures with an ac of at least 20\
-Example 3: find cr,2,3 environment,hills,plains would print all creatures found in hills or plains that have a cr of 2 or 3\
-Example 4: find environment,forest cr,>3 type,beast,fey would print all beasts or fey creatures found in the forest that have at least 3 cr
+Example 1: `find cr,4` would print all creatures with a cr of 4\
+Example 2: `find ac,>20` would print all creatures with an ac of at least 20\
+Example 3: `find cr,2,3 environment,hills,plains` would print all creatures found in hills or plains that have a cr of 2 or 3\
+Example 4: `find environment,forest cr,>3 type,beast,fey` would print all beasts or fey creatures found in the forest that have at least 3 cr
 
 #### addparty
-Adds a new party member to the player file from the creature file and updates the program with the new party member's data\
+Adds a new party member to the player file from the creature file and updates the app with the new party member's data\
 Usage: addparty/addp [creature]
 
 #### format
 Launches the format help section to give information about how to format player and creature data\
 Usage: format ([field])\
-Note: the optional field argument will have the program display information about the specific field given
+Note: the optional field argument will have the app display information about the specific field given
 
 #### display
 Displays one or all of a given player's stats\
@@ -502,8 +502,6 @@ Uses the player's specified ability on the specified targets\
 Usage: u/use [ability] ([target],[target2]...)\
 Note: targets are only optional for abilities that create a trigger\
 Note 2: This command can also be used inside of combat (TODO: link to combat version)
-
-
 
 ### Player-Exclusive Commands
 

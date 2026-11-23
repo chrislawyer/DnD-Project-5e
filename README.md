@@ -55,17 +55,49 @@ Detailed descriptions of the games can be found in the help documentation, or by
 
 ## Documentation
 
-Below is documentation for every available command in the app along with a description and example of how to use it. Each of these descriptions is also available within the app using the 'help' command followed by the name of the command.
+Below is documentation for every available command in the app along with a description and example of how to use it. Each of these descriptions is also available within the app using the 'help' command followed by the name of the command. Most commands have a shorthand to make typing them faster which, is denoted by a '/' in the usage line. For example, the "dropconcentration" command can also be executed by typing simply `dc`. Any word in the usage description enclosed in square brackets is a variable and any text enclosed in parenthesis is optional.
 
-### Combat Commands
+### Universal Commands
+
+These commands can be used both inside and outside of combat.
+
+#### spell
+Displays information on the given spell, pulled from the ability data table\
+Usage: spell [spell name]
+
+#### spelllist
+Displays the list of spells that a given class can learn\
+Usage: sl/spl/spelllist [class](,[subclass]) ([spell level])\
+Example 1: `sl druid` would print all spells available to druids\
+Example 2: `sl rogue,arcanetrickster 1` would print all first level spells available to an arcane trickster rogue
+
+#### open
+Opens to the correct pdf page of the string given, including things such as creatures, classes, races, and spells, using additional optional arguments to narrow the search\
+Usage: o/open [string](,[searchArg1],[searchArgs2],...)\
+Example: We want to reference the spell resurrection. We would type `open resurrection` and the player's handbook would open to the page containing the resurrection spell.\
+Example 2: We want to reference the druid class, but not the creature named druid. We could either type `open druid,class` to specify we specifically want the druid class OR `open druid,phb` to specify that we want the druid from the player's handbook\
+Note: This command requires some pdf reader, such as Acrobat Reader DC, to be installed\
+Note 2: Additional bookmarks can be set using the 'Bookmark Data' file\
+Note 3: If used during an encounter on a creature's turn, simply entering 'open' will try to open the bookmark for the current creature
+
+#### roll
+Simulates rolling dice and prints the total result\
+Usage: roll ([number of rolls]d[type of die](+[number of rolls]d[type of die]...))\
+Note: the roll command will also accept whole integers as input\
+Note 2: if no dice are given, it will roll 1d20\
+Example: `roll 2d4+3` will roll a d4 twice, then add 3 and print the total
+
+### Combat-Only Commands
+
+These commands can only be used inside of a combat encounter.
 
 #### jump
-Jumps to the given actor temporarily, then returns to the previous actor\
+Jumps to the given actor's turn temporarily, then returns to the previous actor when the turn is over\
 Usage: j/jump [actor]\
 Note: If you want this jump to consume the actor's reaction, use react instead
 
 #### react
-Jumps to the given actor temporarily, using that actor's reaction, then returns to the previous actor\
+Jumps to the given actor's turn temporarily, using that actor's reaction, then returns to the previous actor when the turn is over\
 Usage: react [actor]\
 Note: If you don't want this jump to consume the actor's reaction, use jump instead
 
@@ -79,43 +111,21 @@ Usage: skip\
 Note: Empty input will also result in skip
 
 #### display
-Displays different things based on the argument given\
+Displays different information based on the argument given\
 display hp - prints hp values of all creatures in the encounter\
-display order - prints the initiative order starting at the beginning\
+display order - prints the initiative order, starting at the top\
 display trigger - prints the stats of all active trigger abiities\
-display stats - prints all stats of either the actor or the given target argument\
-display [stat] - prints the specific stat given of either the actor or the given target\
+display stats - prints all stats of either the current actor or the given target argument\
+display [stat] - prints the specific stat given of either the current actor or the given target\
 Usage: d/display hp/order/trigger/stats/[stat] ([target])\
-Note: This command can also be used outside of an encounter to check player stats
+Note: This command can also be used outside of an encounter to check player stats (TODO: link to noncombat version)
 
 #### move
 Displays the movespeed of the current actor or given actor\
 Usage: move ([target])
 
-#### spell
-Displays information on the given spell, pulled from the ability data table\
-Usage: spell [spell name]\
-Note: This command can also be used outside of an encounter
-
-#### spelllist
-Displays the list of spells that a given class can learn\
-Usage: sl/spl/spelllist [class](,[subclass]) ([spell level])\
-Example 1: sl druid would print all spells available to druids\
-Example 2: sl rogue,arcanetrickster 1 would print all first level spells available to an arcane trickster rogue\
-Note: This command can also be used outside of combat
-
-#### open
-Opens to the correct pdf page of the string given, including things such as creatures, classes, races, and spells, using additional optional arguments to narrow the search\
-Usage: o/open [string](,[searchArg1],[searchArgs2],...)\
-Example: We want to reference the spell resurrection. We would type 'open resurrection' and the player's handbook would open to the page containing the resurrection spell.\
-Example 2: We want to reference the druid class, but not the creature named druid. We could either type 'open druid,class' to specify the class OR 'open druid,phb' to specify that we want the druid from the player's handbook\
-Note: This command can also be used outside of an encounter\
-Note 2: This command requires some pdf reader, such as Acrobat Reader DC, to be installed\
-Note 3: Additional bookmarks can be set using the 'Bookmark Data' file\
-Note 4: If used during an encounter on a creature's turn, simply entering 'open' will try to open the bookmark for the current creature
-
 #### back
-Returns to the previous actor and restores all statuses\
+Returns to the previous actor's turn and restores all statuses\
 Usage: b/back
 
 #### melee
@@ -131,20 +141,20 @@ Enemy Usage: r([attack index])/ranged [target] (+/-[bonus])\
 Note: The attack index is used to indicate which ranged attack action should be performed if multiple are given (0 is the default index)
 
 #### fob
-Simulates flurry of blows\
+Executes the monk's Flurry of Blows ability by adding an extra off-hand attack\
 Player Usage: fb([attack index])/fob [target] [roll]\
 Enemy Usage: fb([attack index])/fob [target]\
 Note: The attack index is used to indicate which melee attack action should be performed if multiple are given (0 is the default index)
 
 #### use
-Uses the specified ability given in the creature data table on the specified targets\
+Uses the specified ability given in the creature or player data table on the specified targets\
 Usage: u/use [ability] ([target],[target2]...)\
 Note: targets are only optional for abilities that create a trigger\
 Note 2: self, allies, enemies, and all are all valid targets\
-Note 3: This command can also be used outside of combat
+Note 3: This command can also be used outside of combat to set up buffs before combat begins (TODO: link to noncombat version)
 
 #### scroll
-Uses the given ability from abilityData on the specified targets\
+Uses the given ability from abilityData on the specified targets, assigning the Spell DC as appropriate for a spell scroll of that level\
 Usage: scroll [ability] [target](,[target2]...) ([dc bonus])\
 Note: self, allies, enemies, and all are all valid targets
 
@@ -152,13 +162,13 @@ Note: self, allies, enemies, and all are all valid targets
 Triggers a stored ability designated as a trigger ability on the current actor or a target actor\
 Usage: t/trigger [name] ([target])\
 Note: in order for trigger to work, the trigger ability must have already been used by another character\
-Example: druid2 has the use ability fshield. fshield is a trigger spell that we would use when anyone attacks druid2 with fshield active.\
-First, we use fshield (giving an invalid target so as not to damage any characters) on druid2's turn to cast the spell, then when anyone attacks druid2 while fshield is on, we type 'trigger fshield' to apply the fshield's damage to the attacker\
-Note 2: if we wanted to cast a trigger spell that can trigger immediately, such as fwall, proper targets would be given on the initial cast.\
+Example: druid2 has the use ability moonbeam. moonbeam is a trigger spell that we would activate whenever a creature enters the spell's area for the first time on a turn or starts its turn there, as per the description of the spell.\
+First, we type `u moonbeam` (giving no target since it does not activate when cast) on druid2's turn to cast the spell, then, when any creature triggers the spell by walking into it on their turn or starting their turn in its area, we type `t moonbeam` to activate the spell on them, which forces them to make a con save or take 2d10 radiant damage, half on a success.\
+Note 2: If we wanted to cast a trigger spell that can trigger immediately, such as spiritualwepaon, a target would be given on the initial cast.\
 Note 3: 'self', 'allies', 'enemies', and 'all' are valid target names.
 
 #### flank
-Executes a melee attack from a flanking position\
+Executes a melee attack from a flanking position, giving advantage on all attacks assuming the creature is not immune to being flanked\
 Player Usage: flank([attack index]) [target] [roll]\
 Enemy Usage: flank([attack index]) [target]\
 Note: The attack index is used to indicate which melee attack action should be performed if multiple are given (0 is the default index)
@@ -198,7 +208,8 @@ Executes a sneak attack on the target\
 Player Usage: sa([attack index])/sneakattack [target] [roll]\
 Enemy Usage: sa([attack index])/sneakattack [target]\
 Note: The attack index is used to indicate which melee attack action should be performed if multiple are given (0 is the default index)\
-Note 2: in order to sneak attack with a ranged attack, use sar or sneakattackr instead
+Note 2: Only the first attack that hits will trigger the sneak attack damage as expected\
+Note 3: in order to sneak attack with a ranged attack, use sar or sneakattackr instead
 
 #### greatweaponmaster
 Performs a great weapon master attack, giving the attacker -5 to hit and +10 to damage\
@@ -218,27 +229,19 @@ Player Usage: aoo [attacker] [roll]\
 Enemy Usage: aoo [attacker]
 
 #### attack
-When all else fails, allows someone to make an attack out of turn order, might be used to check values or rare cases of AoOs\
+Excutes an attack from one character to another out of turn order, might be used to check values or in rare cases of AoOs\
 Player Usage: attack [player] [target] [roll]\
 Enemy Usage: attack [enemy] [target]
 
 #### damage
-Deals damage to a creature or creatures out of turn order, used for hp adjustments and misc cases\
+Deals damage to a creature or creatures out of turn order, used for hp adjustments and misc cases where damage should be dealt\
 Usage: dmg/damage [creature](,[creature2]...) [amount] ([type],[type2]...)\
 Note: the types of the damage dealt can be specified at the end to apply immunities, vulnerabilities, and resistances
 
-#### roll
-Simulates rolling dice and prints the total result\
-Usage: roll ([number of rolls]d[type of die](+[number of rolls]d[type of die]...))\
-Note: the roll command will also accept whole integers as input\
-Note 2: this command can also be used outside of combat\
-Note 3: if no dice are given, it will roll 1d20\
-Example: roll 2d4+3 will roll a d4 twice, then add 3 and print the total
-
 #### grapple
-Used for making grapple check with the target\
+Used for making a grapple check with the target\
 Usage: g/grapple [target]\
-Note: this command can be used to start a grapple, make grapple checks, and escape a grapple
+Note: this command can be used to start a grapple, make grapple checks, or escape a grapple
 
 #### escape
 Used to escape a grapple\
@@ -246,12 +249,12 @@ Usage: esc/escape\
 Note: if the current actor is grappled by more than one enemy, you will be asked to choose which grapple to escape
 
 #### aid
-Executes the help combat maneuver, giving the target ally advantage on his/her next attack against a target enemy in your melee range\
+Executes the help combat maneuver, giving the target ally advantage on his/her next attack against a target enemy in their melee range\
 Usage: aid [ally] [enemy]\
-Note: the program actually gives advantage on the next attack regardless of the target. Try to remind the player to attack the target he/she has advantage on
+Note: the app actually gives advantage on the next attack regardless of the target. Try to remind the player to attack the target he/she has advantage on
 
 #### dodge
-Executes the dodge combat maneuver, giving the user advantage on dexterity saving throws and enemies disadvantages on their attacks made against the user for a turn\
+Executes the dodge combat maneuver, giving the user advantage on dexterity saving throws and enemies disadvantage on their attacks made against the user for a turn\
 Usage: dodge
 
 #### shove
@@ -259,11 +262,11 @@ Executes the shove combat maneuver, allowing the actor to prone an enemy or push
 Usage: shove [target]
 
 #### rage
-Simulates the barbarian's rage ability\
+Executes the barbarian's rage ability by giving them a damage bonus to their melee weapon attacks and resistance to bludgeoning, piercing, and slashing damage\
 Usage: rage
 
 #### dispel
-Gives the DM the option to remove any effects on the target\
+Displays all active effects on a target and gives the option to remove any of them\
 Usage: dispel [target](,[target2]...)
 
 #### turn
@@ -273,12 +276,12 @@ Usage: turn [target](,[target2]...)
 #### adv
 Gives the target advantage on the specified check\
 Usage: adv [target] [check type] ([duration])\
-Example: adv player1 con 3 would give player1 advantage on constitution checks for 3 turns
+Example: `adv player1 con 3` would give player1 advantage on constitution checks for 3 turns
 
 #### dis
 Gives the target disadvantage on the specified check\
 Usage: dis [target] [check type] ([duration])\
-Example: dis orc2 chasaves 5 would give orc2 disadvantage on charisma saving throws for 5 turns
+Example: `dis orc2 chasaves 5` would give orc2 disadvantage on charisma saving throws for 5 turns
 
 #### dropconcentration
 Dispels all effects that the given actor is currently concentrating on\
@@ -290,19 +293,19 @@ Gives a buff that lasts a specified number of rounds or until the end of the enc
 Usage: buff [target] [stat] [amount] ([duration])\
 Note: debuffs can be given by inputting a negative value for amount\
 Note: the duration variable should be given in number of turns\
-Note: the valid [stat] arguments are currently ac, str, dex, atk, dmg, hp, saves, strsave, dexsave, consave, intsave, wissave, chasave, and size
+Note: the valid stat arguments are currently ac, str, dex, atk, dmg, hp, saves, strsave, dexsave, consave, intsave, wissave, chasave, and size
 
 #### dot
 Applies a DoT to the target\
 Player Usage: dot [target] [damage] actor/target ([save type] [save DC] negates/half) ([damageType1],[damageType2]...) ([duration])\
 Note: a calculation can be provided for the damage or duration\
-Note: the fourth parameter indicates whether the DoT deals damage at the start of the DoT owner's turn (actor) or the DoT target's turn (target)
+Note 2: the fourth parameter indicates whether the DoT deals damage at the start of the DoT owner's turn (actor) or the DoT target's turn (target)
 
 #### cc
 Places a status effect on the target for a number of turns, and reminds the DM on that player's turn\
 Usage: cc [target] [effect] ([duration])\
 Note: if no duration is given, the effect will last until it is manually cleared\
-Note: actorstart/actorend/targetstart/targetend are all valid durations meaning that at the start or end of the actor or target's next turn, the cc will expire
+Note 2: actorstart/actorend/targetstart/targetend are all valid durations meaning that at the start or end of the actor or target's next turn, the cc will expire
 
 #### prone
 Prones the given actor\
@@ -310,7 +313,7 @@ Usage: prone ([target])\
 Note: the action can be undone using the stand command
 
 #### stand
-Stands the given actor, removing the prone effect\
+Makes the given actor stand up, removing the prone effect\
 Usage: stand ([target])\
 Note: this command has no effect on an actor that is not prone
 
@@ -326,23 +329,23 @@ Usage: kill [target](,[target2]...)
 #### add
 Adds allies or enemies to the encounter\
 Usage: add/adda/adde [creature] [number]\
-Note: use adda to add allies and adde to add enemies
+Note: use 'adda' to add allies and 'adde' to add enemies
 
 #### mindcontrol
-Simulates a mindcontrol, turning a player into a creature and a creature into an enemy\
+Simulates a mindcontrol, turning a player into a creature or a creature into a player\
 Usage: mc/mindcontrol [target] ([duration])
 
 #### shapeshift
-Simulates a shapeshift by replacing a creature's current data  with that of another creature type\
+Simulates a shapeshift by replacing the creature's current data  with that of another creature type\
 Usage: ss/shapeshift [creature] ([duration])
 
 #### abilities
-Prints the abilities cell of the given creature from the creature data table or print all use abilities of a player\
+Prints the "Abilities Info" cell of the given creature from the creature data table or print all use abilities of a player\
 Usage: a/abilities ([target])\
 Note: if no target is given, it will attempt to display the abilities of the current actor
 
 #### sethp
-Sets a creature's hp to the given value, useful for recovering from crashes and errors\
+Sets a creature's hp to the given value\
 Usage: sethp [creature] [new hp]
 
 #### addtemphp
@@ -366,7 +369,7 @@ Player Usage: con [target](,[target2]...) [roll](,[roll2]...)\
 Enemy Usage: con [target](,[target2]...)
 
 #### int
-Makes a intelligence save for every target given, but the targets must be all players or all enemies\
+Makes an intelligence save for every target given, but the targets must be all players or all enemies\
 Player Usage: int [target](,[target2]...) [roll](,[roll2]...)\
 Enemy Usage: int [target](,[target2]...)
 
@@ -383,17 +386,17 @@ Enemy Usage: cha [target](,[target2]...)
 #### addmisc
 Adds a miscellaneous stat with the given argument to the given target (or targets)\
 Usage: addmisc [target](,[target2]...) [stat] ([argument])\
-Example: addmisc orc1,orc2,skeleton1 parry 2 would give orc1, orc2, and skeleton1 the parry ability, grating +2 AC when used
+Example: `addmisc orc1,orc2,skeleton1 parry 2` would give orc1, orc2, and skeleton1 the parry ability, grating +2 AC when used
 
 #### editmisc
 Edits a miscellaneous stat, replacing its argument with the given argument on the given target (or targets)\
 Usage: editmisc [target](,[target2]...) [stat] [argument]\
-Example: editmisc veteran1,veteran2 parry 4 would change captain1 and captain2's parry arguments to 4 (assuming they had the parry ability)
+Example: `editmisc veteran1,veteran2 parry 4` would change captain1 and captain2's parry arguments to 4 (assuming they had the parry ability)
 
 #### delmisc
 Deletes a miscellaneous stat from the given target (or targets)\
 Usage: delmisc [target](,[target2]..) [stat]\
-Example: delmisc zombie1,zombie2 uf would remove zombie1 and zombie2's undead fortitude ability
+Example: `delmisc zombie1,zombie2 uf` would remove zombie1 and zombie2's undead fortitude ability
 
 #### done
 Instantly ends the encounter\
@@ -402,9 +405,26 @@ Usage: done
 #### help
 Gives a short description of a command followed by usage information or lists all commands\
 Usage: h/help ([command])\
-Note: variables are enclosed in braces i.e. [command] and optional arguments are given in parenthesis i.e. ([command])
+Note: variables are enclosed in square breackets i.e. [command] and optional arguments are given in parenthesis i.e. ([command])
 
 ### Non-Combat Commands
+
+These commands can only be used outside of a combat encounter.
+
+#### display
+Displays one or all of a given player's stats\
+display stats - prints all stats of the given player\
+display [stat] - prints the specific stat given of the given player\
+Usage: d/display stats/[stat] [player]\
+Note: This command can also be used inside of an encounter to check various encounter information (TODO: link to combat version)
+
+#### use
+Uses the player's specified ability on the specified targets\
+Usage: u/use [ability] ([target],[target2]...)\
+Note: targets are only optional for abilities that create a trigger\
+Note 2: This command can also be used inside of combat (TODO: link to combat version)
+
+
 
 ### Player-Exclusive Commands
 
